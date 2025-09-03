@@ -1,4 +1,4 @@
-# Tarea 1 - Flutter
+# Tarea 1 - Elementos de Interfaz de Usuario
 
 ## Descripción de la app
 Esta aplicación es un proyecto desarrollado en Flutter que sirve como base para la Tarea 1 de la materia de Desarrollo de Aplicaciones Móviles. Permite explorar conceptos fundamentales de elementos de interfaz de usuario en Android.
