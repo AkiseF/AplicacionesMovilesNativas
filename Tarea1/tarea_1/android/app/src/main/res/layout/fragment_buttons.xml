@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Botones (Button, ImageButton)"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_marginBottom="16dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Los botones permiten al usuario realizar acciones específicas al hacer clic en ellos. Son fundamentales para la interacción con la aplicación."
+                android:textSize="16sp"
+                android:layout_marginBottom="24dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Button normal"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <Button
+                android:id="@+id/button_normal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Botón Normal"
+                android:layout_marginBottom="16dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Button con estilo"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <Button
+                android:id="@+id/button_colored"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Botón con Color"
+                android:backgroundTint="#673AB7"
+                android:layout_marginBottom="16dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ImageButton"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <ImageButton
+                android:id="@+id/image_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_camera"
+                android:contentDescription="Botón de Cámara"
+                android:layout_gravity="center_horizontal"
+                android:padding="12dp"
+                android:layout_marginBottom="24dp" />
+
+            <TextView
+                android:id="@+id/textview_clicks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Has hecho clic 0 veces"
+                android:textSize="18sp"
+                android:gravity="center"
+                android:padding="16dp"
+                android:background="#F5F5F5"
+                android:layout_marginBottom="24dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Prueba todos los botones para ver cómo funcionan. Cada botón mostrará un mensaje y aumentará el contador de clics."
+                android:textSize="16sp"
+                android:layout_marginBottom="80dp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:src="@android:drawable/ic_input_add"
+        android:contentDescription="Botón de Acción Flotante" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
