@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Practica 1 - Elementos de UI</string>
+    <string name="counter_text">Has presionado el botón esta cantidad de veces:</string>
+    <string name="increment_button_description">Incrementar</string>
+</resources>
