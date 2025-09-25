@@ -279,9 +279,6 @@ lib/
 
 </div>
 
-### Vídeo de demostración
-![Video](evidencias/video_evidencia.gif)
-
 ### 🎬 Demostración Completa en Video
 
 <div align="center">
@@ -297,3 +294,12 @@ lib/
 - **Material Design 3** - Sistema de diseño visual
 - **VS Code** - Editor de desarrollo recomendado
 
+#### 📋 Listas Dinámicas
+
+| Lista Principal | Interacciones |
+|:---------------:|:-------------:|
+| <img src="evidencias/image_8.png" alt="Lists Pantalla" width="300"> | <img src="evidencias/image_9.png" alt="Lists Interacción" width="300"> |
+
+*RecyclerView con elementos interactivos y diseño atractivo*
+
+---
