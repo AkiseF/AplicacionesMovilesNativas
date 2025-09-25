@@ -240,12 +240,16 @@ lib/
 - Pantalla de Inicio
 <img src="evidencias/image_1.png" alt="Menu de Navegación" width="350">
 
+*Pantalla principal con tarjetas de navegación hacia cada sección*
+
 ---
 
 - Campos de texto 
 | Pantalla de TextFields | Interacción en Vivo |
 |:----------------------:|:-------------------:|
 | <img src="evidencias/image_2.png" alt="TextField Pantalla" width="300"> | <img src="evidencias/image_3.png" alt="TextField Interacción" width="300"> |
+
+*Demostración de diferentes tipos de campos de entrada con validación en tiempo real*
 
 ---
 
@@ -254,12 +258,16 @@ lib/
 |:-------------------:|:------------------:|
 | <img src="evidencias/image_4.png" alt="Buttons Pantalla" width="300"> | <img src="evidencias/image_5.png" alt="Buttons Interacción" width="300"> |
 
+*Variedad de botones con contador de interacciones y feedback visual*
+
 ---
 
 - Elementos de selección 
 | Configuraciones | Estados Activos |
 |:---------------:|:---------------:|
 | <img src="evidencias/image_6.png" alt="Selection Pantalla" width="300"> | <img src="evidencias/image_7.png" alt="Selection Estados" width="300"> |
+
+*CheckBox, RadioButton y Switch con configuraciones de sistema*
 
 ---
 
@@ -268,12 +276,16 @@ lib/
 |:---------------:|:-------------:|
 | <img src="evidencias/image_8.png" alt="Lists Pantalla" width="300"> | <img src="evidencias/image_9.png" alt="Lists Interacción" width="300"> |
 
+*RecyclerView con elementos interactivos y diseño atractivo*
+
 ---
 
 - Elementos informativos y progreso
 | ProgressBar | Carrusel de Iconos | Información Completa |
 |:-----------:|:------------------:|:--------------------:|
 | <img src="evidencias/image_10.png" alt="Progress" width="250"> | <img src="evidencias/image_11.png" alt="Carrusel" width="250"> | <img src="evidencias/image_12.png" alt="Info Completa" width="250"> |
+
+*ProgressBar animado, ImageView con carrusel y TextView informativos*
 
 ---
 
@@ -293,13 +305,3 @@ lib/
 - **Dart** - Lenguaje de programación
 - **Material Design 3** - Sistema de diseño visual
 - **VS Code** - Editor de desarrollo recomendado
-
-#### 📋 Listas Dinámicas
-
-| Lista Principal | Interacciones |
-|:---------------:|:-------------:|
-| <img src="evidencias/image_8.png" alt="Lists Pantalla" width="300"> | <img src="evidencias/image_9.png" alt="Lists Interacción" width="300"> |
-
-*RecyclerView con elementos interactivos y diseño atractivo*
-
----
