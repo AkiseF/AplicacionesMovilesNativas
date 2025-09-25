@@ -239,9 +239,8 @@ lib/
 ![Menu de Navegación](evidencias/image_1.png)
 
 - Campos de texto 
-| Base | Prueba | 
-|:----:|:------:|
-| ![TextField](evidencias/image_2.png) | ![TextField](evidencias/image_3.png) |
+![TextField](evidencias/image_2.png)
+![TextField](evidencias/image_3.png)
 
 - Demostración de botones
 ![Buttons](evidencias/image_4.png)
@@ -261,14 +260,7 @@ lib/
 ![ElementsProgressBar](evidencias/image_12.png)
 
 ### Vídeo de demostración
-![ElementsProgressBar](evidencias/video_evidencia.mp4)
-
-<div align="center">
-    <video width="300" controls>
-        <source src="evidencias/video_evidencia.mp4" type="video/mp4">
-    </video>
-</div>
-
+![Video](evidencias/video_evidencia.gif)
 
 ## 🛠️ Tecnologías Utilizadas
 
