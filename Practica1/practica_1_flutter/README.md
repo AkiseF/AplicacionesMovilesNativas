@@ -239,12 +239,9 @@ lib/
 ![Menu de Navegación](evidencias/image_1.png)
 
 - Campos de texto 
-<div align="center">
-  <img src="evidencias/image_2.png" alt="Pantalla Principal" width="150">
-  <img src="evidencias/image_3.png" alt="Botones" width="150">
-</div>
-![TextField](evidencias/image_2.png)
-![TextField](evidencias/image_3.png)
+| Base | Prueba | 
+|:----:|:------:|
+| ![TextField](evidencias/image_2.png) | ![TextField](evidencias/image_3.png) |
 
 - Demostración de botones
 ![Buttons](evidencias/image_4.png)
