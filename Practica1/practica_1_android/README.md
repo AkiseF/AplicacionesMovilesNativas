@@ -324,7 +324,7 @@ practica_1_android/
 #### Elementos informativos y progreso
 | ProgressBar | Carrusel de Imágenes | Información Completa |
 |:-----------:|:--------------------:|:--------------------:|
-| <img src="evidencias/image_10.png" alt="Progress" width="250"> | <img src="evidencias/image_11.png" alt="Carrusel" width="250"> | <img src="evidencias/image_12.png" alt="Info Completa" width="250"> |
+| <img src="evidencias/image_10.png" alt="Progress" width="250"> | <img src="evidencias/image_11.png" alt="Carrusel" width="250"> |
 
 *ProgressBar animado, ImageView con ViewPager2 y TextView informativos*
 
@@ -350,29 +350,3 @@ practica_1_android/
 - **RecyclerView** - Listas eficientes y optimizadas
 - **ViewBinding** - Binding seguro de vistas
 - **ConstraintLayout** - Layout flexible y responsivo
-
-## 🔄 Comparación con Flutter
-
-Esta implementación nativa en Android ofrece:
-
-### ✅ Ventajas del Desarrollo Nativo
-- **Performance Óptimo**: Rendimiento nativo sin capas de abstracción
-- **Integración Completa**: Acceso total a APIs nativas de Android
-- **Material Design Auténtico**: Componentes oficiales de Google
-- **Herramientas Especializadas**: Android Studio con debugging avanzado
-- **Ecosystem Maduro**: Vasta documentación y comunidad Android
-
-### 🎯 Funcionalidades Equivalentes
-- **5 Secciones Temáticas**: Misma organización que la versión Flutter
-- **Navegación Intuitiva**: Bottom Navigation vs. Navigation Cards
-- **Interactividad Completa**: Todos los componentes con feedback visual
-- **Material Design**: Consistencia visual entre ambas versiones
-- **Responsive Design**: Adaptación a diferentes tamaños de pantalla
-
-### 🏗️ Diferencias Arquitecturales
-- **Flutter**: Widgets y Estado reactivo
-- **Android**: Activities/Fragments y Ciclo de vida nativo
-- **Flutter**: Single codebase multiplataforma
-- **Android**: Optimización específica para Android
-
-La funcionalidad es equivalente entre ambas versiones, manteniendo la misma experiencia de usuario pero aprovechando las fortalezas específicas de cada plataforma.
