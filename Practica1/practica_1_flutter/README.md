@@ -234,33 +234,61 @@ lib/
 
 ## 🎨 Capturas de Pantalla
 
-### Pantallas Principales:
-- Pantalla de inicio con navegación
-![Menu de Navegación](evidencias/image_1.png)
+<div align="center">
+
+### Pantallas Principales
+- Pantalla de Inicio
+<img src="evidencias/image_1.png" alt="Menu de Navegación" width="350">
+
+---
 
 - Campos de texto 
-![TextField](evidencias/image_2.png)
-![TextField](evidencias/image_3.png)
+| Pantalla de TextFields | Interacción en Vivo |
+|:----------------------:|:-------------------:|
+| <img src="evidencias/image_2.png" alt="TextField Pantalla" width="300"> | <img src="evidencias/image_3.png" alt="TextField Interacción" width="300"> |
+
+---
 
 - Demostración de botones
-![Buttons](evidencias/image_4.png)
-![Buttons](evidencias/image_5.png)
+| Pantalla de Botones | Contadores Activos |
+|:-------------------:|:------------------:|
+| <img src="evidencias/image_4.png" alt="Buttons Pantalla" width="300"> | <img src="evidencias/image_5.png" alt="Buttons Interacción" width="300"> |
+
+---
 
 - Elementos de selección 
-![Selection](evidencias/image_6.png)
-![Selection](evidencias/image_7.png)
+| Configuraciones | Estados Activos |
+|:---------------:|:---------------:|
+| <img src="evidencias/image_6.png" alt="Selection Pantalla" width="300"> | <img src="evidencias/image_7.png" alt="Selection Estados" width="300"> |
+
+---
 
 - Lista interactiva 
-![Lists](evidencias/image_8.png)
-![Lists](evidencias/image_9.png)
+| Lista Principal | Interacciones |
+|:---------------:|:-------------:|
+| <img src="evidencias/image_8.png" alt="Lists Pantalla" width="300"> | <img src="evidencias/image_9.png" alt="Lists Interacción" width="300"> |
+
+---
 
 - Elementos informativos y progreso
-![ElementsProgressBar](evidencias/image_10.png)
-![ElementsProgressBar](evidencias/image_11.png)
-![ElementsProgressBar](evidencias/image_12.png)
+| ProgressBar | Carrusel de Iconos | Información Completa |
+|:-----------:|:------------------:|:--------------------:|
+| <img src="evidencias/image_10.png" alt="Progress" width="250"> | <img src="evidencias/image_11.png" alt="Carrusel" width="250"> | <img src="evidencias/image_12.png" alt="Info Completa" width="250"> |
+
+---
+
+</div>
 
 ### Vídeo de demostración
 ![Video](evidencias/video_evidencia.gif)
+
+### 🎬 Demostración Completa en Video
+
+<div align="center">
+    <img src="evidencias/video_evidencia.gif" alt="Video Demostración" width="300">
+    <br>
+    <em>Flujo completo de la aplicación mostrando todas las funcionalidades</em>
+</div>
 
 ## 🛠️ Tecnologías Utilizadas
 
@@ -269,12 +297,3 @@ lib/
 - **Material Design 3** - Sistema de diseño visual
 - **VS Code** - Editor de desarrollo recomendado
 
-#### 📋 Listas Dinámicas
-
-| Lista Principal | Interacciones |
-|:---------------:|:-------------:|
-| <img src="evidencias/image_8.png" alt="Lists Pantalla" width="300"> | <img src="evidencias/image_9.png" alt="Lists Interacción" width="300"> |
-
-*RecyclerView con elementos interactivos y diseño atractivo*
-
----
