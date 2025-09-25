@@ -237,14 +237,15 @@ lib/
 <div align="center">
 
 ### Pantallas Principales
-- Pantalla de Inicio
+
+#### Pantalla de Inicio
 <img src="evidencias/image_1.png" alt="Menu de Navegación" width="350">
 
 *Pantalla principal con tarjetas de navegación hacia cada sección*
 
 ---
 
-- Campos de texto 
+#### Campos de texto 
 | Pantalla de TextFields | Interacción en Vivo |
 |:----------------------:|:-------------------:|
 | <img src="evidencias/image_2.png" alt="TextField Pantalla" width="300"> | <img src="evidencias/image_3.png" alt="TextField Interacción" width="300"> |
@@ -253,7 +254,7 @@ lib/
 
 ---
 
-- Demostración de botones
+#### Demostración de botones
 | Pantalla de Botones | Contadores Activos |
 |:-------------------:|:------------------:|
 | <img src="evidencias/image_4.png" alt="Buttons Pantalla" width="300"> | <img src="evidencias/image_5.png" alt="Buttons Interacción" width="300"> |
@@ -262,7 +263,7 @@ lib/
 
 ---
 
-- Elementos de selección 
+#### Elementos de selección 
 | Configuraciones | Estados Activos |
 |:---------------:|:---------------:|
 | <img src="evidencias/image_6.png" alt="Selection Pantalla" width="300"> | <img src="evidencias/image_7.png" alt="Selection Estados" width="300"> |
@@ -271,7 +272,7 @@ lib/
 
 ---
 
-- Lista interactiva 
+#### Lista interactiva 
 | Lista Principal | Interacciones |
 |:---------------:|:-------------:|
 | <img src="evidencias/image_8.png" alt="Lists Pantalla" width="300"> | <img src="evidencias/image_9.png" alt="Lists Interacción" width="300"> |
@@ -280,7 +281,7 @@ lib/
 
 ---
 
-- Elementos informativos y progreso
+#### Elementos informativos y progreso
 | ProgressBar | Carrusel de Iconos | Información Completa |
 |:-----------:|:------------------:|:--------------------:|
 | <img src="evidencias/image_10.png" alt="Progress" width="250"> | <img src="evidencias/image_11.png" alt="Carrusel" width="250"> | <img src="evidencias/image_12.png" alt="Info Completa" width="250"> |
