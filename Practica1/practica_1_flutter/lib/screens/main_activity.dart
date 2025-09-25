@@ -4,6 +4,7 @@ import 'buttons_screen.dart';
 import 'selection_elements_screen.dart';
 import 'lists_screen.dart';
 import 'information_elements_screen.dart';
+import '../widgets/widgets.dart';
 
 /// Esta clase es el equivalente directo a un Activity de Android
 /// Representa una pantalla completa con su propio estado y ciclo de vida
@@ -88,34 +89,9 @@ class _MainActivityState extends State<MainActivity> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           // Sección de estado - muestra información dinámica
-          Card(
-            color: Colors.blue[50],
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  const Icon(Icons.info, size: 48, color: Colors.blue),
-                  const SizedBox(height: 8),
-                  const Text(
-                    'Estado de la Actividad',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    _selectedSection,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 14),
-                  ),
-                  if (_isLoading) ...[
-                    const SizedBox(height: 16),
-                    const CircularProgressIndicator(),
-                  ],
-                ],
-              ),
-            ),
+          StatusDisplay(
+            status: _selectedSection,
+            isLoading: _isLoading,
           ),
           
           const SizedBox(height: 24),
@@ -132,102 +108,41 @@ class _MainActivityState extends State<MainActivity> {
           const SizedBox(height: 24),
           
           // Cards de navegación - equivalentes a botones que inician Activities
-          _buildActivityButton(
+          NavigationCard(
             title: 'Campos de Texto',
             subtitle: 'EditText equivalents',
             icon: Icons.edit,
-            onPressed: () => _navigateToTextFields(context),
+            onTap: () => _navigateToTextFields(context),
           ),
           
-          _buildActivityButton(
+          NavigationCard(
             title: 'Botones',
-            subtitle: 'Button y ImageButton equivalents', 
+            subtitle: 'Button y ImageButton equivalents',
             icon: Icons.smart_button,
-            onPressed: () => _navigateToButtons(context),
+            onTap: () => _navigateToButtons(context),
           ),
           
-          _buildActivityButton(
+          NavigationCard(
             title: 'Elementos de Selección',
             subtitle: 'CheckBox, RadioButton, Switch',
             icon: Icons.check_circle,
-            onPressed: () => _navigateToSelection(context),
+            onTap: () => _navigateToSelection(context),
           ),
           
-          _buildActivityButton(
+          NavigationCard(
             title: 'Listas',
             subtitle: 'RecyclerView equivalent',
             icon: Icons.list_alt,
-            onPressed: () => _navigateToLists(context),
+            onTap: () => _navigateToLists(context),
           ),
           
-          _buildActivityButton(
+          NavigationCard(
             title: 'Información',
             subtitle: 'TextView, ImageView, ProgressBar',
             icon: Icons.info_outline,
-            onPressed: () => _navigateToInformation(context),
+            onTap: () => _navigateToInformation(context),
           ),
         ],
-      ),
-    );
-  }
-  
-  Widget _buildActivityButton({
-    required String title,
-    required String subtitle,
-    required IconData icon,
-    required VoidCallback onPressed,
-  }) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      child: Card(
-        elevation: 4,
-        child: InkWell(
-          onTap: onPressed,
-          borderRadius: BorderRadius.circular(8),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              children: [
-                CircleAvatar(
-                  backgroundColor: Colors.blue[100],
-                  radius: 24,
-                  child: Icon(
-                    icon,
-                    color: Colors.blue[800],
-                    size: 24,
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        title,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        subtitle,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey[600],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Icon(
-                  Icons.arrow_forward_ios,
-                  color: Colors.grey[400],
-                  size: 16,
-                ),
-              ],
-            ),
-          ),
-        ),
       ),
     );
   }

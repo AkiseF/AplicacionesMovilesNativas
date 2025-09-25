@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widgets/widgets.dart';
 
 class TextFieldsScreen extends StatefulWidget {
   const TextFieldsScreen({super.key});
@@ -18,10 +19,6 @@ class _TextFieldsScreenState extends State<TextFieldsScreen> {
   @override
   void initState() {
     super.initState();
-    _normalController.addListener(_updateResult);
-    _passwordController.addListener(_updateResult);
-    _multilineController.addListener(_updateResult);
-    _numberController.addListener(_updateResult);
   }
 
   void _updateResult() {
@@ -67,83 +64,41 @@ class _TextFieldsScreenState extends State<TextFieldsScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Campos de Texto (TextField)',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-              textAlign: TextAlign.center,
+            FormFieldGroup(
+              title: 'Campos de Texto (TextField)',
+              description: 'Los campos de texto permiten al usuario ingresar y editar texto. Son esenciales para formularios y cualquier interacción que requiera entrada de datos.',
+              fields: [
+                CustomFormField(
+                  controller: _normalController,
+                  label: 'Campo de texto normal',
+                  onChanged: (_) => _updateResult(),
+                ),
+                CustomFormField(
+                  controller: _passwordController,
+                  label: 'Campo de contraseña',
+                  type: FormFieldType.password,
+                  onChanged: (_) => _updateResult(),
+                ),
+                CustomFormField(
+                  controller: _multilineController,
+                  label: 'Campo multilínea',
+                  type: FormFieldType.multiline,
+                  onChanged: (_) => _updateResult(),
+                ),
+                CustomFormField(
+                  controller: _numberController,
+                  label: 'Campo numérico',
+                  type: FormFieldType.number,
+                  onChanged: (_) => _updateResult(),
+                ),
+              ],
             ),
-            const SizedBox(height: 16),
             
-            const Text(
-              'Los campos de texto permiten al usuario ingresar y editar texto. Son esenciales para formularios y cualquier interacción que requiera entrada de datos.',
-              style: TextStyle(fontSize: 16),
-            ),
             const SizedBox(height: 24),
             
-            TextField(
-              controller: _normalController,
-              decoration: const InputDecoration(
-                labelText: 'Campo de texto normal',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 16),
-            
-            TextField(
-              controller: _passwordController,
-              obscureText: true,
-              decoration: const InputDecoration(
-                labelText: 'Campo de contraseña',
-                border: OutlineInputBorder(),
-                suffixIcon: Icon(Icons.visibility_off),
-              ),
-            ),
-            const SizedBox(height: 16),
-            
-            TextField(
-              controller: _multilineController,
-              maxLines: 3,
-              decoration: const InputDecoration(
-                labelText: 'Campo multilínea',
-                border: OutlineInputBorder(),
-                alignLabelWithHint: true,
-              ),
-            ),
-            const SizedBox(height: 16),
-            
-            TextField(
-              controller: _numberController,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                labelText: 'Campo numérico',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 24),
-            
-            const Text(
-              'Resultado:',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 8),
-            
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.grey[100],
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Text(
-                _resultText,
-                style: const TextStyle(fontSize: 16),
-              ),
+            ResultDisplay(
+              title: 'Resultado:',
+              content: _resultText,
             ),
           ],
         ),

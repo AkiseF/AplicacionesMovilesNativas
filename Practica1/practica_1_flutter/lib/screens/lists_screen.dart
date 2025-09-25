@@ -1,12 +1,5 @@
 import 'package:flutter/material.dart';
-
-class ListItem {
-  final int id;
-  final String title;
-  final String description;
-
-  ListItem({required this.id, required this.title, required this.description});
-}
+import '../widgets/widgets.dart';
 
 class ListsScreen extends StatefulWidget {
   const ListsScreen({super.key});
@@ -46,58 +39,11 @@ class _ListsScreenState extends State<ListsScreen> {
         backgroundColor: Colors.blue,
         foregroundColor: Colors.white,
       ),
-      body: Column(
-        children: [
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(16.0),
-            child: const Column(
-              children: [
-                Text(
-                  'Listas (ListView)',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: 8),
-                Text(
-                  'Las listas permiten mostrar una colección de elementos de forma organizada y desplazable.',
-                  style: TextStyle(fontSize: 16),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: _items.length,
-              itemBuilder: (context, index) {
-                final item = _items[index];
-                return Card(
-                  margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: Colors.blue,
-                      child: Text(
-                        '${item.id}',
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                    ),
-                    title: Text(
-                      item.title,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text(item.description),
-                    trailing: const Icon(Icons.arrow_forward_ios),
-                    onTap: () => _onItemTap(item),
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
+      body: CustomListView(
+        items: _items,
+        title: 'Listas (ListView)',
+        description: 'Las listas permiten mostrar una colección de elementos de forma organizada y desplazable.',
+        onItemTap: _onItemTap,
       ),
     );
   }

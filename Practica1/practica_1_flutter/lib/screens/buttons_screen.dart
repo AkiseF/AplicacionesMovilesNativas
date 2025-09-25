@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widgets/widgets.dart';
 
 class ButtonsScreen extends StatefulWidget {
   const ButtonsScreen({super.key});
@@ -53,57 +54,40 @@ class _ButtonsScreenState extends State<ButtonsScreen> {
             ),
             const SizedBox(height: 32),
             
-            ElevatedButton(
+            CustomButton(
+              text: 'Botón Normal',
               onPressed: () => _incrementCounter('botón normal'),
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-              ),
-              child: const Text('Botón Normal'),
             ),
             const SizedBox(height: 16),
             
-            ElevatedButton(
+            CustomButton(
+              text: 'Botón de Color',
+              backgroundColor: Colors.orange,
+              foregroundColor: Colors.white,
               onPressed: () => _incrementCounter('botón de color'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.orange,
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(vertical: 16),
-              ),
-              child: const Text('Botón de Color'),
             ),
             const SizedBox(height: 16),
             
-            Container(
-              alignment: Alignment.center,
-              child: IconButton(
-                onPressed: () => _incrementCounter('botón de imagen'),
-                icon: const Icon(Icons.star),
-                iconSize: 48,
-                style: IconButton.styleFrom(
-                  backgroundColor: Colors.blue[100],
-                  padding: const EdgeInsets.all(16),
-                ),
-              ),
+            CustomButton(
+              type: ButtonType.icon,
+              icon: Icons.star,
+              onPressed: () => _incrementCounter('botón de imagen'),
             ),
             const SizedBox(height: 32),
             
-            Text(
-              'Has hecho clic $_clickCount veces',
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-              textAlign: TextAlign.center,
+            CounterDisplay(
+              label: 'Has hecho clic',
+              count: _clickCount,
             ),
             
             const Spacer(),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: CustomButton(
+        type: ButtonType.floating,
+        icon: Icons.add,
         onPressed: () => _incrementCounter('botón flotante'),
-        backgroundColor: Colors.blue,
-        child: const Icon(Icons.add, color: Colors.white),
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widgets/widgets.dart';
 
 class SelectionElementsScreen extends StatefulWidget {
   const SelectionElementsScreen({super.key});
@@ -75,134 +76,104 @@ class _SelectionElementsScreenState extends State<SelectionElementsScreen> {
             ),
             const SizedBox(height: 24),
             
-            const Text(
-              'Conectividad:',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            
-            CheckboxListTile(
-              title: const Text('WiFi'),
-              value: _wifiEnabled,
-              onChanged: (value) {
-                setState(() {
-                  _wifiEnabled = value ?? false;
-                });
-              },
-            ),
-            
-            CheckboxListTile(
-              title: const Text('Bluetooth'),
-              value: _bluetoothEnabled,
-              onChanged: (value) {
-                setState(() {
-                  _bluetoothEnabled = value ?? false;
-                });
-              },
-            ),
-            
-            CheckboxListTile(
-              title: const Text('Datos móviles'),
-              value: _dataEnabled,
-              onChanged: (value) {
-                setState(() {
-                  _dataEnabled = value ?? false;
-                });
-              },
-            ),
-            
-            const SizedBox(height: 16),
-            const Text(
-              'Tema de la aplicación:',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            
-            Column(
+            SettingsSection(
+              title: 'Conectividad:',
               children: [
-                RadioListTile<String>(
-                  title: const Text('Claro'),
-                  value: 'light',
-                  groupValue: _selectedTheme,
+                SettingsCheckboxTile(
+                  title: 'WiFi',
+                  value: _wifiEnabled,
                   onChanged: (value) {
                     setState(() {
-                      _selectedTheme = value!;
+                      _wifiEnabled = value;
                     });
                   },
                 ),
-                
-                RadioListTile<String>(
-                  title: const Text('Oscuro'),
-                  value: 'dark',
-                  groupValue: _selectedTheme,
+                SettingsCheckboxTile(
+                  title: 'Bluetooth',
+                  value: _bluetoothEnabled,
                   onChanged: (value) {
                     setState(() {
-                      _selectedTheme = value!;
+                      _bluetoothEnabled = value;
                     });
                   },
                 ),
-                
-                RadioListTile<String>(
-                  title: const Text('Automático'),
-                  value: 'auto',
-                  groupValue: _selectedTheme,
+                SettingsCheckboxTile(
+                  title: 'Datos móviles',
+                  value: _dataEnabled,
                   onChanged: (value) {
                     setState(() {
-                      _selectedTheme = value!;
+                      _dataEnabled = value;
                     });
                   },
                 ),
               ],
             ),
             
-            const SizedBox(height: 16),
-            const Text(
-              'Otras configuraciones:',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            SettingsSection(
+              title: 'Tema de la aplicación:',
+              children: [
+                SettingsRadioTile<String>(
+                  title: 'Claro',
+                  value: 'light',
+                  groupValue: _selectedTheme,
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedTheme = value;
+                    });
+                  },
+                ),
+                SettingsRadioTile<String>(
+                  title: 'Oscuro',
+                  value: 'dark',
+                  groupValue: _selectedTheme,
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedTheme = value;
+                    });
+                  },
+                ),
+                SettingsRadioTile<String>(
+                  title: 'Automático',
+                  value: 'auto',
+                  groupValue: _selectedTheme,
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedTheme = value;
+                    });
+                  },
+                ),
+              ],
             ),
+            
+            SettingsSection(
+              title: 'Otras configuraciones:',
+              children: [
+                SettingsSwitchTile(
+                  title: 'Notificaciones',
+                  value: _notificationsEnabled,
+                  onChanged: (value) {
+                    setState(() {
+                      _notificationsEnabled = value;
+                    });
+                  },
+                ),
+                SettingsSwitchTile(
+                  title: 'Ubicación',
+                  value: _locationEnabled,
+                  onChanged: (value) {
+                    setState(() {
+                      _locationEnabled = value;
+                    });
+                  },
+                ),
+              ],
+            ),
+            
             const SizedBox(height: 8),
             
-            SwitchListTile(
-              title: const Text('Notificaciones'),
-              value: _notificationsEnabled,
-              onChanged: (value) {
-                setState(() {
-                  _notificationsEnabled = value;
-                });
-              },
-            ),
-            
-            SwitchListTile(
-              title: const Text('Ubicación'),
-              value: _locationEnabled,
-              onChanged: (value) {
-                setState(() {
-                  _locationEnabled = value;
-                });
-              },
-            ),
-            
-            const SizedBox(height: 24),
-            const Text(
-              'Resultado:',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 8),
-            
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.grey[100],
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Text(
-                _resultText,
-                style: const TextStyle(fontSize: 14),
-              ),
+            ResultDisplay(
+              title: 'Resultado:',
+              content: _resultText,
             ),
           ],
         ),
