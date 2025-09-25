@@ -1,47 +1,42 @@
-# Práctica 1 - Elementos de Interfaz de Usuario
+# Práctica 1 - Instalación y Funcionamiento de los Entornos Móviles
 
-## Descripción de la app
-Esta aplicación es un proyecto desarrollado en Flutter que implementa la funcionalidad básica de la Tarea 1 convertida desde su versión original. La aplicación demuestra conceptos fundamentales de elementos de interfaz de usuario en Flutter.
+## Objetivo
+Fortalecer las habilidades de desarrollo móvil a través de la exploración e implementación de entornos de navegación, la gestión de actividades múltiples y la personalización de interfaces de usuario en aplicaciones nativas de Android.
 
-## Funcionalidades
-- Contador interactivo con botón de incremento
-- Interfaz de usuario responsive y moderna
-- Implementación de Material Design con Flutter
-- Texto localizado en español
+## Ejercicio 1
+Se nos solicita instalar y configurar las siguientes herramientas esenciales en nuestro sistema operativo (Windows) para el desarrollo de proyectos de Android:
+- Android Studio
+- Java Development Kit (JDK)/Amazon Coretto
+- Maven
+- Git 
+- GitHub
+- Docker
+- Node.js
+- Flutter en VS Code
 
-## Instrucciones de uso
-1. Instala Flutter en tu máquina siguiendo la documentación oficial: [Flutter - Get Started](https://docs.flutter.dev/get-started/install)
-2. Clona o descarga este repositorio en tu computadora.
-3. Abre una terminal en la carpeta `practica_1`.
-4. Ejecuta `flutter pub get` para instalar las dependencias necesarias.
-5. Para correr la app en un emulador o dispositivo físico, usa el comando:
-	```sh
-	flutter run
-	```
-6. Para compilar la app para una plataforma específica, utiliza:
-	```sh
-	flutter build <plataforma>
-	```
-	Reemplaza `<plataforma>` por `android`, `ios`, `web`, `windows`, `macos` o `linux` según corresponda.
-7. Interactúa con la aplicación presionando el botón flotante para incrementar el contador.
+Como evidencia de esta actividad se presenta la captura del IDE (Android Studio) mostrando el emulador con la aplicación default que genera Android Studio de forma predeterminada.
+![alt text](image.png)
 
-## Estructura del proyecto
-```
-practica_1/
-├── lib/
-│   └── main.dart          # Código principal de la aplicación
-├── android/               # Configuración para Android
-├── ios/                   # Configuración para iOS
-├── web/                   # Configuración para Web
-├── windows/               # Configuración para Windows
-├── macos/                 # Configuración para macOS
-├── linux/                 # Configuración para Linux
-└── pubspec.yaml          # Dependencias y configuración del proyecto
-```
+## Ejercicio 2
+1. Para esta segunda actividad debemos crear una aplicación Android que demuestre el uso de Activities y Fragments para explicar diferentes elementos de interfaz de usuario como lo son:
+- TextFields (EditText)
+- Botones (Button, ImageButton)
+- Elementos de selección (CheckBox, RadioButton, Switch)
+- Listas (RecyclerView, ListView)
+- Elementos de información (TextView, ImageView, ProgressBar)
+Cada clase de elementos pertenecerá a un Fragment, dichos Fragments estarán dentro de un Activity.
+2. Además se incluirá un menú de navegación para navegar entre cada fragment. Cada Fragment será accesible desde un menú principal. 
+3. El contenido de cada Fragment será el siguiente:
+- 📝 Un título descriptivo del elemento de UI.
+- 🎨 Ejemplos visuales del elemento funcionando.
+- 💡 Una explicación breve de para qué sirve (máximo 2-3 líneas).
+- ⚡ Una demostración interactiva donde el usuario pueda probar el elemento.
+4. Se deberá crear una versión de la aplicación en Kotlin (Android Nativo) y otra versión en Dart (Flutter).
 
-## Tecnologías utilizadas
-- **Flutter 3.x**: Framework principal de desarrollo
-- **Dart**: Lenguaje de programación
-- **Material Design**: Sistema de diseño de Google
-
-Para más detalles, consulta la documentación incluida en el proyecto.
+## Desafíos y Hallazgos
+La creación de los proyectos tuvo sus complicaciones, siendo que:
+1. Crear un proyecto en Flutter implica un mejor orden, pero es necesario llevar una mejor gestión de los directorios.
+2. Dart necesita menos líneas de código que Kotlin.
+3. No se pudo llevar una misma GUI para ambos proyectos, por lo que la versión de Kotlin tiene todos los elementos que solicita la práctica a diferencia de la versión de Dart.
+4. Los Activities en Android Nativo necesitan ser declarados en AndroidManifest.xml a comparación de Flutter (Dart), en el que no es necesario.
+5. La equivalencia de Activities y Fragments de Kotlin son las Screens y Widgets de Dart.
