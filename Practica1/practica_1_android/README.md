@@ -322,8 +322,8 @@ practica_1_android/
 ---
 
 #### Elementos informativos y progreso
-| ProgressBar | Carrusel de Imágenes | Información Completa |
-|:-----------:|:--------------------:|:--------------------:|
+| ProgressBar | Carrusel de Imágenes |
+|:-----------:|:--------------------:|
 | <img src="evidencias/image_10.png" alt="Progress" width="250"> | <img src="evidencias/image_11.png" alt="Carrusel" width="250"> |
 
 *ProgressBar animado, ImageView con ViewPager2 y TextView informativos*
