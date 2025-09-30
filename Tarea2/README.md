@@ -92,17 +92,19 @@ Navigator.push(
 ### Nivel 3
 | Neoscona oaxacensis | Polistes carnifex | Fruto maduro | Fruto sin madurar | 
 |:----------------------:|:-------------------:|:-------------------:|:-------------------:|
-| <img src="tarea_2/assets/images/capturas_ejecucion/Screenshot_20250929-172539.png" alt="TextField Fragment" width="200"> | <img src="tarea_2/assets/images/capturas_ejecucion/Screenshot_20250929-172613.png" alt="TextField Interacción" width="200"> | <img src="tarea_2/assets/images/capturas_ejecucion/Screenshot_20250929-172548.png" alt="TextField Interacción" width="200"> | <img src="tarea_2/assets/images/capturas_ejecucion/Screenshot_20250929-172554.png" alt="TextField Interacción" width="200"> |
+| <img src="tarea_2/assets/images/capturas_ejecucion/Screenshot_20250929-172539.png" alt="TextField Fragment" width="250"> | <img src="tarea_2/assets/images/capturas_ejecucion/Screenshot_20250929-172613.png" alt="TextField Interacción" width="250"> | <img src="tarea_2/assets/images/capturas_ejecucion/Screenshot_20250929-172548.png" alt="TextField Interacción" width="250"> | <img src="tarea_2/assets/images/capturas_ejecucion/Screenshot_20250929-172554.png" alt="TextField Interacción" width="250"> |
 
 ---
 
 </div>
 
-**Características:**
-- Imagen de detalle con zoom del garambullo
-- Botón de retorno con diseño consistente
-- Navegación por stack (push/pop)
-- Información contextual específica
+## 🎬 Demostración en Video
+
+<div align="center">
+    <img src="tarea_2/assets/images/capturas_ejecucion/video_demostracion.mp4" alt="Video Demostración" width="300">
+    <br>
+    <em>Flujo completo de la aplicación mostrando su comportamiento</em>
+</div>
 
 ## Retos y Soluciones
 
