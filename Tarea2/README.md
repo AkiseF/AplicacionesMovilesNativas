@@ -101,7 +101,7 @@ Navigator.push(
 ## 🎬 Demostración en Video
 
 <div align="center">
-    <img src="tarea_2/assets/images/capturas_ejecucion/video_demostracion.mp4" alt="Video Demostración" width="300">
+    <img src="tarea_2/assets/images/capturas_ejecucion/video_demostracion.gif" alt="Video Demostración" width="300">
     <br>
     <em>Flujo completo de la aplicación mostrando su comportamiento</em>
 </div>
