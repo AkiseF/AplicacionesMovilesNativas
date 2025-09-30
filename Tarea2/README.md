@@ -94,8 +94,6 @@ Navigator.push(
 |:----------------------:|:-------------------:|:-------------------:|:-------------------:|
 | <img src="tarea_2/assets/images/capturas_ejecucion/Screenshot_20250929-172539.png" alt="TextField Fragment" width="250"> | <img src="tarea_2/assets/images/capturas_ejecucion/Screenshot_20250929-172613.png" alt="TextField Interacción" width="250"> | <img src="tarea_2/assets/images/capturas_ejecucion/Screenshot_20250929-172548.png" alt="TextField Interacción" width="250"> | <img src="tarea_2/assets/images/capturas_ejecucion/Screenshot_20250929-172554.png" alt="TextField Interacción" width="250"> |
 
----
-
 </div>
 
 ## 🎬 Demostración en Video
