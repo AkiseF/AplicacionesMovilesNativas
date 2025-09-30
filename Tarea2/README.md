@@ -71,34 +71,32 @@ Navigator.push(
 - **Stack**: Mantiene historial de navegación
 - **Retorno**: Botón back automático en nueva pantalla
 
-## Capturas de Pantalla
+## 🎨 Capturas de Pantalla
 
-### Nivel 1: Pantalla Principal (MainScreen)
-*Pantalla de bienvenida con imagen personalizada y navegación por gestos*
+<div align="center">
 
-![Pantalla Principal](screenshots/main_screen.png)
+### Nivel 1
+| Pantalla principal | Pantalla secundaria |
+|:----------------------:|:-------------------:|
+| <img src="tarea_2/assets/images/capturas_ejecucion/Screenshot_20250929-172537.png" alt="TextField Fragment" width="300"> | <img src="tarea_2/assets/images/capturas_ejecucion/Screenshot_20250929-172600.png" alt="TextField Interacción" width="300"> |
 
-**Características:**
-- Imagen de bienvenida personalizada
-- Instrucciones de navegación
-- Indicador de páginas en la parte inferior
-- Overlay gradual para mejor legibilidad
+---
 
-### Nivel 2: Pantalla Secundaria (AlterScreen) 
-*Pantalla educativa con elemento interactivo*
+### Nivel 2
+| Frutos del garambullo | Base del garambullo |
+|:----------------------:|:-------------------:|
+| <img src="tarea_2/assets/images/capturas_ejecucion/Screenshot_20250929-172543.png.png" alt="TextField Fragment" width="300"> | <img src="tarea_2/assets/images/capturas_ejecucion/Screenshot_20250929-172605.png" alt="TextField Interacción" width="300"> |
 
-![Pantalla Secundaria](screenshots/alter_screen.png)
+--- 
 
-**Características:**
-- Círculo interactivo posicionado por coordenadas
-- Mensaje educativo sobre el garambullo
-- Transición suave desde pantalla principal
-- Elemento visual claro para interacción
+### Nivel 3
+| Neoscona oaxacensis | Polistes carnifex | Fruto maduro | Fruto sin madurar | 
+|:----------------------:|:-------------------:|
+| <img src="tarea_2/assets/images/capturas_ejecucion/Screenshot_20250929-172539.png" alt="TextField Fragment" width="300"> | <img src="tarea_2/assets/images/capturas_ejecucion/Screenshot_20250929-172613.png" alt="TextField Interacción" width="300"> | <img src="tarea_2/assets/images/capturas_ejecucion/Screenshot_20250929-172548.png" alt="TextField Interacción" width="300"> | <img src="tarea_2/assets/images/capturas_ejecucion/Screenshot_20250929-172554.png" alt="TextField Interacción" width="300"> |
 
-### Nivel 3: Pantalla de Detalle (SubAlterScreen)
-*Vista ampliada con imagen de zoom*
+---
 
-![Pantalla de Detalle](screenshots/sub_alter_screen.png)
+</div>
 
 **Características:**
 - Imagen de detalle con zoom del garambullo
