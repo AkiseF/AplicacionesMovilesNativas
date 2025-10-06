@@ -141,25 +141,25 @@ subAlterBorderColor: Color.fromARGB(255, 140, 89, 203)
 
 <div align="center">
 
-### Nivel 1
-| Pantalla principal | Pantalla secundaria |
-|:----------------------:|:-------------------:|
-| <img src="tarea_2/assets/images/capturas_ejecucion/Screenshot_20250929-172537.png" alt="TextField Fragment" width="300"> | <img src="tarea_2/assets/images/capturas_ejecucion/Screenshot_20250929-172600.png" alt="TextField Interacción" width="300"> |
+### Modo claro
+  | | | | |
+  |:---:|:---:|:---:|:---:|
+  | <img src="practica_2/assets/images/capturas_ejecucion/modo_claro/IMG-20251006-WA0019.jpg" alt="Captura 1" width="200"> | <img src="practica_2/assets/images/capturas_ejecucion/modo_claro/IMG-20251006-WA0020.jpg" alt="Captura 2" width="200"> | <img src="practica_2/assets/images/capturas_ejecucion/modo_claro/IMG-20251006-WA0023.jpg" alt="Captura 3" width="200"> | <img src="practica_2/assets/images/capturas_ejecucion/modo_claro/IMG-20251006-WA0024.jpg" alt="Captura 4" width="200"> |
+  | <img src="practica_2/assets/images/capturas_ejecucion/modo_claro/IMG-20251006-WA0025.jpg" alt="Captura 5" width="200"> | <img src="practica_2/assets/images/capturas_ejecucion/modo_claro/IMG-20251006-WA0026.jpg" alt="Captura 6" width="200"> | <img src="practica_2/assets/images/capturas_ejecucion/modo_claro/IMG-20251006-WA0027.jpg" alt="Captura 7" width="200"> | <img src="practica_2/assets/images/capturas_ejecucion/modo_claro/IMG-20251006-WA0028.jpg" alt="Captura 8" width="200"> |
+  | <img src="practica_2/assets/images/capturas_ejecucion/modo_claro/IMG-20251006-WA0029.jpg" alt="Captura 9" width="200"> | <img src="practica_2/assets/images/capturas_ejecucion/modo_claro/IMG-20251006-WA0030.jpg" alt="Captura 10" width="200"> | <img src="practica_2/assets/images/capturas_ejecucion/modo_claro/IMG-20251006-WA0031.jpg" alt="Captura 11" width="200"> | <img src="practica_2/assets/images/capturas_ejecucion/modo_claro/IMG-20251006-WA0032.jpg" alt="Captura 12" width="200"> |
+  | <img src="practica_2/assets/images/capturas_ejecucion/modo_claro/IMG-20251006-WA0033.jpg" alt="Captura 13" width="200"> | <img src="practica_2/assets/images/capturas_ejecucion/modo_claro/IMG-20251006-WA0034.jpg" alt="Captura 14" width="200"> | <img src="practica_2/assets/images/capturas_ejecucion/modo_claro/IMG-20251006-WA0035.jpg" alt="Captura 15" width="200"> | <img src="practica_2/assets/images/capturas_ejecucion/modo_claro/IMG-20251006-WA0036.jpg" alt="Captura 16" width="200"> |
 
 ---
 
-### Nivel 2
-| Frutos del garambullo | Base del garambullo |
-|:----------------------:|:-------------------:|
-| <img src="tarea_2/assets/images/capturas_ejecucion/Screenshot_20250929-172543.png" alt="TextField Fragment" width="300"> | <img src="tarea_2/assets/images/capturas_ejecucion/Screenshot_20250929-172605.png" alt="TextField Interacción" width="300"> |
+### Modo oscuro
+  | | | | |
+  |:---:|:---:|:---:|:---:|
+  | <img src="practica_2/assets/images/capturas_ejecucion/modo_oscuro/IMG-20251006-WA0008.jpg" alt="Captura 1" width="200"> | <img src="practica_2/assets/images/capturas_ejecucion/modo_oscuro/IMG-20251006-WA0011.jpg" alt="Captura 2" width="200"> | <img src="practica_2/assets/images/capturas_ejecucion/modo_oscuro/IMG-20251006-WA0012.jpg" alt="Captura 3" width="200"> | <img src="practica_2/assets/images/capturas_ejecucion/modo_oscuro/IMG-20251006-WA0013.jpg" alt="Captura 4" width="200"> |
+  | <img src="practica_2/assets/images/capturas_ejecucion/modo_oscuro/IMG-20251006-WA0014.jpg" alt="Captura 5" width="200"> | <img src="practica_2/assets/images/capturas_ejecucion/modo_oscuro/IMG-20251006-WA0015.jpg" alt="Captura 6" width="200"> | <img src="practica_2/assets/images/capturas_ejecucion/modo_oscuro/IMG-20251006-WA0016.jpg" alt="Captura 7" width="200"> | <img src="practica_2/assets/images/capturas_ejecucion/modo_oscuro/IMG-20251006-WA0017.jpg" alt="Captura 8" width="200"> |
+  | <img src="practica_2/assets/images/capturas_ejecucion/modo_oscuro/IMG-20251006-WA0018.jpg" alt="Captura 9" width="200"> | <img src="practica_2/assets/images/capturas_ejecucion/modo_oscuro/IMG-20251006-WA0021.jpg" alt="Captura 10" width="200"> | <img src="practica_2/assets/images/capturas_ejecucion/modo_oscuro/IMG-20251006-WA0022.jpg" alt="Captura 11" width="200"> | <img src="practica_2/assets/images/capturas_ejecucion/modo_oscuro/IMG-20251006-WA0037.jpg" alt="Captura 12" width="200"> |
+  | <img src="practica_2/assets/images/capturas_ejecucion/modo_oscuro/IMG-20251006-WA0038.jpg" alt="Captura 13" width="200"> | <img src="practica_2/assets/images/capturas_ejecucion/modo_oscuro/IMG-20251006-WA0039.jpg" alt="Captura 14" width="200"> | <img src="practica_2/assets/images/capturas_ejecucion/modo_oscuro/IMG-20251006-WA0040.jpg" alt="Captura 15" width="200"> | <img src="practica_2/assets/images/capturas_ejecucion/modo_oscuro/IMG-20251006-WA0041.jpg" alt="Captura 16" width="200"> |
 
 --- 
-
-### Nivel 3
-| Neoscona oaxacensis | Polistes carnifex | Fruto maduro | Fruto sin madurar | 
-|:----------------------:|:-------------------:|:-------------------:|:-------------------:|
-| <img src="tarea_2/assets/images/capturas_ejecucion/Screenshot_20250929-172539.png" alt="TextField Fragment" width="250"> | <img src="tarea_2/assets/images/capturas_ejecucion/Screenshot_20250929-172613.png" alt="TextField Interacción" width="250"> | <img src="tarea_2/assets/images/capturas_ejecucion/Screenshot_20250929-172548.png" alt="TextField Interacción" width="250"> | <img src="tarea_2/assets/images/capturas_ejecucion/Screenshot_20250929-172554.png" alt="TextField Interacción" width="250"> |
-
 </div>
 
 ## 🎬 Demostración en Video
