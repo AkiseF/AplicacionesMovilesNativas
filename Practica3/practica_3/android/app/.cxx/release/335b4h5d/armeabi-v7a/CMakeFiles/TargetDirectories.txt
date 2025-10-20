@@ -1,0 +1,2 @@
+C:/Users/silve/OneDrive/Escritorio/Sem 26_1/Moviles/AplicacionesMovilesNativas/Practica3/practica_3/android/app/.cxx/release/335b4h5d/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Users/silve/OneDrive/Escritorio/Sem 26_1/Moviles/AplicacionesMovilesNativas/Practica3/practica_3/android/app/.cxx/release/335b4h5d/armeabi-v7a/CMakeFiles/rebuild_cache.dir
