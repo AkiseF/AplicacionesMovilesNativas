@@ -47,8 +47,20 @@ class FileRepositoryImpl implements FileRepository {
   }
 
   @override
-  Future<List<FileEntity>> searchFiles(String query, {String? directory}) async {
-    final fileModels = await _localDataSource.searchFiles(query, directory: directory);
+  Future<List<FileEntity>> searchFiles(
+    String directoryPath,
+    String query, {
+    FileType? fileType,
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
+    final fileModels = await _localDataSource.searchFiles(
+      directoryPath,
+      query,
+      fileType: fileType,
+      startDate: startDate,
+      endDate: endDate,
+    );
     return fileModels.map((model) => model.toEntity()).toList();
   }
 

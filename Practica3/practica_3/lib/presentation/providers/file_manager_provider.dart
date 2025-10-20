@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import '../../domain/entities/file_entity.dart';
+import '../../domain/entities/favorite_entity.dart';
+import '../../domain/entities/recent_file_entity.dart';
 import '../../domain/repositories/file_repository.dart';
 import '../../domain/usecases/list_directory_use_case.dart';
 import '../../domain/usecases/create_directory_use_case.dart';
 import '../../domain/usecases/search_files_use_case.dart';
+import '../../domain/usecases/manage_favorites_use_case.dart';
+import '../../domain/usecases/manage_recent_files_use_case.dart';
+import '../../domain/usecases/file_operations_use_case.dart';
 import '../../core/constants/app_constants.dart';
 import '../../core/utils/permission_utils.dart';
 
@@ -14,6 +19,9 @@ class FileManagerProvider extends ChangeNotifier {
   final CreateDirectoryUseCase _createDirectoryUseCase;
   final SearchFilesUseCase _searchFilesUseCase;
   final FileRepository _fileRepository;
+  final ManageFavoritesUseCase _manageFavoritesUseCase;
+  final ManageRecentFilesUseCase _manageRecentFilesUseCase;
+  final FileOperationsUseCase _fileOperationsUseCase;
 
   // Estado
   List<FileEntity> _files = [];
@@ -31,6 +39,10 @@ class FileManagerProvider extends ChangeNotifier {
   bool _isSearching = false;
   List<FileEntity> _searchResults = [];
 
+  // Favoritos y recientes
+  List<FavoriteEntity> _favorites = [];
+  List<RecentFileEntity> _recentFiles = [];
+
   // Getters
   List<FileEntity> get files => _files;
   String get currentPath => _currentPath;
@@ -44,12 +56,17 @@ class FileManagerProvider extends ChangeNotifier {
   String get searchQuery => _searchQuery;
   bool get isSearching => _isSearching;
   List<FileEntity> get searchResults => _searchResults;
+  List<FavoriteEntity> get favorites => _favorites;
+  List<RecentFileEntity> get recentFiles => _recentFiles;
 
   FileManagerProvider(
     this._listDirectoryUseCase,
     this._createDirectoryUseCase,
     this._searchFilesUseCase,
     this._fileRepository,
+    this._manageFavoritesUseCase,
+    this._manageRecentFilesUseCase,
+    this._fileOperationsUseCase,
   ) {
     _initializeFileManager();
   }
@@ -238,5 +255,155 @@ class FileManagerProvider extends ChangeNotifier {
       return _searchResults;
     }
     return _files;
+  }
+
+  // Métodos para favoritos
+  Future<void> loadFavorites() async {
+    try {
+      _favorites = await _manageFavoritesUseCase.getAllFavorites();
+      notifyListeners();
+    } catch (e) {
+      _error = 'Error cargando favoritos: $e';
+      notifyListeners();
+    }
+  }
+
+  Future<void> addToFavorites(String filePath, String fileName, bool isDirectory) async {
+    try {
+      await _manageFavoritesUseCase.addToFavorites(filePath, fileName, isDirectory);
+      await loadFavorites();
+    } catch (e) {
+      _error = 'Error agregando a favoritos: $e';
+      notifyListeners();
+    }
+  }
+
+  Future<void> removeFromFavorites(String filePath) async {
+    try {
+      await _manageFavoritesUseCase.removeFromFavorites(filePath);
+      await loadFavorites();
+    } catch (e) {
+      _error = 'Error quitando de favoritos: $e';
+      notifyListeners();
+    }
+  }
+
+  Future<void> clearAllFavorites() async {
+    try {
+      await _manageFavoritesUseCase.clearAllFavorites();
+      await loadFavorites();
+    } catch (e) {
+      _error = 'Error limpiando favoritos: $e';
+      notifyListeners();
+    }
+  }
+
+  bool isFavorite(String filePath) {
+    return _favorites.any((fav) => fav.filePath == filePath);
+  }
+
+  // Métodos para archivos recientes
+  Future<void> loadRecentFiles() async {
+    try {
+      _recentFiles = await _manageRecentFilesUseCase.getRecentFiles();
+      notifyListeners();
+    } catch (e) {
+      _error = 'Error cargando archivos recientes: $e';
+      notifyListeners();
+    }
+  }
+
+  Future<void> addToRecentFiles(String filePath, String fileName, String fileType, bool isDirectory) async {
+    try {
+      await _manageRecentFilesUseCase.addRecentFile(filePath, fileName, fileType, isDirectory);
+      await loadRecentFiles();
+    } catch (e) {
+      _error = 'Error agregando archivo reciente: $e';
+      notifyListeners();
+    }
+  }
+
+  Future<void> removeFromRecentFiles(String filePath) async {
+    try {
+      await _manageRecentFilesUseCase.removeRecentFile(filePath);
+      await loadRecentFiles();
+    } catch (e) {
+      _error = 'Error quitando archivo reciente: $e';
+      notifyListeners();
+    }
+  }
+
+  Future<void> clearAllRecentFiles() async {
+    try {
+      await _manageRecentFilesUseCase.clearRecentFiles();
+      await loadRecentFiles();
+    } catch (e) {
+      _error = 'Error limpiando archivos recientes: $e';
+      notifyListeners();
+    }
+  }
+
+  // Métodos para operaciones de archivo
+  Future<bool> copyFile(String sourcePath, String destinationPath) async {
+    try {
+      final success = await _fileOperationsUseCase.copyFile(sourcePath, destinationPath);
+      if (success) {
+        await refresh();
+      }
+      return success;
+    } catch (e) {
+      _error = 'Error copiando archivo: $e';
+      notifyListeners();
+      return false;
+    }
+  }
+
+  Future<bool> moveFile(String sourcePath, String destinationPath) async {
+    try {
+      final success = await _fileOperationsUseCase.moveFile(sourcePath, destinationPath);
+      if (success) {
+        await refresh();
+      }
+      return success;
+    } catch (e) {
+      _error = 'Error moviendo archivo: $e';
+      notifyListeners();
+      return false;
+    }
+  }
+
+  Future<void> shareFile(String filePath) async {
+    try {
+      await _fileOperationsUseCase.shareFile(filePath);
+    } catch (e) {
+      _error = 'Error compartiendo archivo: $e';
+      notifyListeners();
+    }
+  }
+
+  Future<String> getFileInfo(String filePath) async {
+    try {
+      return await _fileOperationsUseCase.getFileInfo(filePath);
+    } catch (e) {
+      _error = 'Error obteniendo información del archivo: $e';
+      notifyListeners();
+      return '';
+    }
+  }
+
+  /// Abre archivo con aplicación externa
+  Future<bool> openFileWithExternalApp(String filePath) async {
+    try {
+      return await _fileOperationsUseCase.openFile(filePath);
+    } catch (e) {
+      _error = 'Error abriendo archivo: $e';
+      notifyListeners();
+      return false;
+    }
+  }
+
+  /// Verifica si un archivo puede abrirse en la app
+  bool canOpenInApp(String filePath) {
+    return _fileOperationsUseCase.canOpenInApp(filePath);
   }
 }

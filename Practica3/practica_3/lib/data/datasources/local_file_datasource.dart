@@ -4,6 +4,7 @@ import 'package:path/path.dart' as path_utils;
 import 'package:path_provider/path_provider.dart';
 import '../models/file_model.dart';
 import '../../domain/entities/file_entity.dart';
+import '../../core/constants/app_constants.dart';
 
 /// Datasource local para operaciones con archivos del sistema
 class LocalFileDataSource {
@@ -180,39 +181,68 @@ class LocalFileDataSource {
     }
   }
   
-  /// Buscar archivos por nombre
-  Future<List<FileModel>> searchFiles(String query, {String? directory}) async {
+  /// Buscar archivos por nombre, tipo o fecha
+  Future<List<FileModel>> searchFiles(
+    String directoryPath,
+    String query, {
+    FileType? fileType,
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
     try {
-      final searchDir = directory ?? (await getExternalStorageDirectory())?.path ?? '/storage/emulated/0';
-      final dir = Directory(searchDir);
+      final directory = Directory(directoryPath);
+      final allFiles = <FileModel>[];
       
-      if (!await dir.exists()) {
-        return [];
-      }
-      
-      final results = <FileModel>[];
-      final queryLower = query.toLowerCase();
-      
-      await for (final entity in dir.list(recursive: true, followLinks: false)) {
+      await for (final entity in directory.list(recursive: true)) {
         try {
-          final name = path_utils.basename(entity.path).toLowerCase();
-          if (name.contains(queryLower)) {
-            final fileEntity = FileEntity.fromFileSystemEntity(entity);
-            results.add(FileModel.fromEntity(fileEntity));
-          }
+          // Crear FileEntity
+          final fileEntity = FileEntity.fromFileSystemEntity(entity);
           
-          // Limitar resultados para evitar sobrecarga
-          if (results.length >= 100) break;
+          // Aplicar filtros
+          if (_matchesSearchCriteria(fileEntity, query, fileType, startDate, endDate)) {
+            allFiles.add(FileModel.fromEntity(fileEntity));
+          }
         } catch (e) {
-          // Continuar si hay error con un archivo específico
+          // Saltar archivos inaccesibles
           continue;
         }
       }
       
-      return results;
+      return allFiles;
     } catch (e) {
       throw Exception('Error en búsqueda: $e');
     }
+  }
+  
+  /// Verifica si un archivo coincide con los criterios de búsqueda
+  bool _matchesSearchCriteria(
+    FileEntity file,
+    String query,
+    FileType? fileType,
+    DateTime? startDate,
+    DateTime? endDate,
+  ) {
+    // Filtro por nombre
+    if (query.isNotEmpty && !file.name.toLowerCase().contains(query.toLowerCase())) {
+      return false;
+    }
+    
+    // Filtro por tipo
+    if (fileType != null && file.type != fileType) {
+      return false;
+    }
+    
+    // Filtro por fecha de inicio
+    if (startDate != null && file.lastModified.isBefore(startDate)) {
+      return false;
+    }
+    
+    // Filtro por fecha de fin
+    if (endDate != null && file.lastModified.isAfter(endDate)) {
+      return false;
+    }
+    
+    return true;
   }
   
   /// Verificar si un archivo existe

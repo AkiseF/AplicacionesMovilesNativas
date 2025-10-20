@@ -25,8 +25,14 @@ abstract class FileRepository {
   /// Eliminar archivo o directorio
   Future<bool> deleteFile(String path);
   
-  /// Buscar archivos por nombre
-  Future<List<FileEntity>> searchFiles(String query, {String? directory});
+  /// Buscar archivos por nombre, tipo o fecha
+  Future<List<FileEntity>> searchFiles(
+    String directoryPath,
+    String query, {
+    FileType? fileType,
+    DateTime? startDate,
+    DateTime? endDate,
+  });
   
   /// Obtener el contenido de un archivo de texto
   Future<String?> readTextFile(String path);

@@ -5,6 +5,9 @@ import '../providers/theme_provider.dart';
 import '../widgets/file_list_widget.dart';
 import '../widgets/search_bar_widget.dart';
 import '../widgets/breadcrumb_widget.dart';
+import 'text_viewer_page.dart';
+import 'image_viewer_page.dart';
+import 'favorites_recent_page.dart';
 import '../../core/constants/app_constants.dart';
 
 /// Página principal del gestor de archivos
@@ -144,6 +147,9 @@ class _HomePageState extends State<HomePage> {
                 icon: const Icon(Icons.more_vert),
                 onSelected: (value) {
                   switch (value) {
+                    case 'favorites':
+                      _navigateToFavoritesAndRecent(context, fileProvider);
+                      break;
                     case 'hidden':
                       fileProvider.toggleHiddenFiles();
                       break;
@@ -162,6 +168,17 @@ class _HomePageState extends State<HomePage> {
                   }
                 },
                 itemBuilder: (context) => [
+                  const PopupMenuItem(
+                    value: 'favorites',
+                    child: Row(
+                      children: [
+                        Icon(Icons.favorite),
+                        SizedBox(width: 8),
+                        Text('Favoritos y Recientes'),
+                      ],
+                    ),
+                  ),
+                  const PopupMenuDivider(),
                   PopupMenuItem(
                     value: 'hidden',
                     child: Row(
@@ -285,15 +302,87 @@ class _HomePageState extends State<HomePage> {
   }
 
   /// Manejar presión de archivo
-  void _handleFilePress(BuildContext context, file, FileManagerProvider provider) {
+  void _handleFilePress(BuildContext context, file, FileManagerProvider provider) async {
     if (file.isDirectory) {
       provider.navigateToPath(file.path);
     } else {
-      // TODO: Implementar apertura de archivo
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Abrir archivo: ${file.name}')),
+      // Agregar a archivos recientes
+      await provider.addToRecentFiles(
+        file.path, 
+        file.name, 
+        file.extension ?? '', 
+        false
       );
+
+      // Navegar según el tipo de archivo
+      if (_isTextFile(file)) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => TextViewerPage(
+              filePath: file.path,
+              fileName: file.name,
+            ),
+          ),
+        );
+      } else if (_isImageFile(file)) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ImageViewerPage(
+              imagePath: file.path,
+              fileName: file.name,
+            ),
+          ),
+        );
+      } else {
+        // Para otros tipos de archivo, intentar abrir con app externa
+        final success = await provider.openFileWithExternalApp(file.path);
+        if (!success) {
+          // Si no se puede abrir, mostrar información
+          final fileInfo = await provider.getFileInfo(file.path);
+          _showFileInfoDialog(context, file, fileInfo);
+        }
+      }
     }
+  }
+
+  bool _isTextFile(file) {
+    const textExtensions = ['.txt', '.md', '.json', '.xml', '.html', '.css', '.js', '.dart'];
+    final extension = file.extension?.toLowerCase() ?? '';
+    return textExtensions.contains(extension);
+  }
+
+  bool _isImageFile(file) {
+    const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp'];
+    final extension = file.extension?.toLowerCase() ?? '';
+    return imageExtensions.contains(extension);
+  }
+
+  void _showFileInfoDialog(BuildContext context, file, String fileInfo) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(file.name),
+        content: SingleChildScrollView(
+          child: Text(fileInfo),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cerrar'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              Provider.of<FileManagerProvider>(context, listen: false)
+                  .shareFile(file.path);
+            },
+            child: const Text('Compartir'),
+          ),
+        ],
+      ),
+    );
   }
 
   /// Mostrar opciones de archivo
@@ -303,6 +392,40 @@ class _HomePageState extends State<HomePage> {
       builder: (context) => Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          ListTile(
+            leading: Icon(
+              provider.isFavorite(file.path) ? Icons.favorite : Icons.favorite_border,
+              color: provider.isFavorite(file.path) ? Colors.red : null,
+            ),
+            title: Text(
+              provider.isFavorite(file.path) ? 'Quitar de favoritos' : 'Agregar a favoritos',
+            ),
+            onTap: () {
+              Navigator.pop(context);
+              if (provider.isFavorite(file.path)) {
+                provider.removeFromFavorites(file.path);
+              } else {
+                provider.addToFavorites(file.path, file.name, file.isDirectory);
+              }
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.share),
+            title: const Text('Compartir'),
+            onTap: () {
+              Navigator.pop(context);
+              provider.shareFile(file.path);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.info),
+            title: const Text('Información'),
+            onTap: () async {
+              Navigator.pop(context);
+              final fileInfo = await provider.getFileInfo(file.path);
+              _showFileInfoDialog(context, file, fileInfo);
+            },
+          ),
           ListTile(
             leading: const Icon(Icons.edit),
             title: const Text('Renombrar'),
@@ -418,6 +541,35 @@ class _HomePageState extends State<HomePage> {
             child: const Text('Eliminar'),
           ),
         ],
+      ),
+    );
+  }
+
+  /// Navegar a favoritos y recientes
+  void _navigateToFavoritesAndRecent(BuildContext context, FileManagerProvider provider) async {
+    // Cargar datos antes de navegar
+    await provider.loadFavorites();
+    await provider.loadRecentFiles();
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => FavoritesAndRecentPage(
+          favorites: provider.favorites,
+          recentFiles: provider.recentFiles,
+          onNavigateToFile: (filePath) {
+            Navigator.pop(context);
+            // Navegar al directorio del archivo y seleccionarlo
+            final directory = filePath.substring(0, filePath.lastIndexOf('/'));
+            provider.navigateToPath(directory);
+          },
+          onRemoveFavorite: (filePath) {
+            provider.removeFromFavorites(filePath);
+          },
+          onRemoveRecent: (filePath) {
+            provider.removeFromRecentFiles(filePath);
+          },
+        ),
       ),
     );
   }

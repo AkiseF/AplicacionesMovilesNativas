@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../domain/entities/file_entity.dart';
 import '../../core/constants/app_constants.dart';
+import 'thumbnail_widget.dart';
 
 /// Widget para mostrar la lista de archivos
 class FileListWidget extends StatelessWidget {
@@ -94,14 +95,9 @@ class _FileListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: CircleAvatar(
-        backgroundColor: file.isDirectory 
-          ? Theme.of(context).colorScheme.primaryContainer
-          : Theme.of(context).colorScheme.secondaryContainer,
-        child: Text(
-          file.icon,
-          style: const TextStyle(fontSize: 20),
-        ),
+      leading: ThumbnailWidget(
+        file: file,
+        size: 40,
       ),
       title: Text(
         file.name,
@@ -157,21 +153,9 @@ class _FileGridTile extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // Icono del archivo
-            Container(
-              width: 48,
-              height: 48,
-              decoration: BoxDecoration(
-                color: file.isDirectory 
-                  ? Theme.of(context).colorScheme.primaryContainer
-                  : Theme.of(context).colorScheme.secondaryContainer,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Center(
-                child: Text(
-                  file.icon,
-                  style: const TextStyle(fontSize: 24),
-                ),
-              ),
+            ThumbnailWidget(
+              file: file,
+              size: 48,
             ),
             
             const SizedBox(height: 8),
