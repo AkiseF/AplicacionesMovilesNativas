@@ -1,0 +1,1843 @@
+{
+  "status": 200,
+  "body": [
+    {
+      "id": 1,
+      "name": "Eren Yeager",
+      "age": 19,
+      "status": "Deceased",
+      "height": "170 cm",
+      "weight": "63 kg",
+      "hairColor": "Black",
+      "eyeColor": "Green",
+      "birthplace": "Shiganshina District",
+      "skills": [
+        "Titan transformation",
+        "Hand-to-hand combat",
+        "Omni-directional mobility gear proficiency"
+      ],
+      "titanForm": "Attack Titan, Founding Titan",
+      "notableBattles": [
+        "Battle of Trost",
+        "Raid on Liberio",
+        "Battle of Shiganshina"
+      ],
+      "loveInterests": null,
+      "fears": "Losing his loved ones",
+      "hobbies": "Training, Reading books about the outside world",
+      "dislikes": "Injustice, Oppression",
+      "education": "Military training from 104th Training Corps",
+      "notableQuotes": [
+        "If you win, you live. If you lose, you die. If you don't fight, you can't win!",
+        "Tatakae! (Fight!)"
+      ],
+      "appearance": "Short black hair, green eyes. Typically seen wearing the Survey Corps uniform.",
+      "allies": [
+        "Mikasa Ackerman",
+        "Armin Arlert",
+        "Historia Reiss"
+      ],
+      "enemies": [
+        "Marley",
+        "Warriors",
+        "Titans"
+      ],
+      "characterArc": "Starts as a boy seeking revenge against Titans, evolves into a key figure in the fight for freedom, and later takes drastic measures for his vision of freedom.",
+      "titanKillCount": 20,
+      "humanKillCount": 100,
+      "affiliations": [
+        "104th Training Corps",
+        "Survey Corps",
+        "Yeagerists"
+      ],
+      "trivia": [
+        "Eren's name means 'saint' or 'holy person' in Turkish.",
+        "He was initially portrayed as the series' main protagonist but later becomes more of an anti-hero or even an antagonist."
+      ],
+      "injuriesAndScars": [
+        "Lost his left leg during the Battle of Trost but regenerated it after transforming into a Titan.",
+        "Lost his left arm to a Titan but regenerated it as well.",
+        "Has a key-shaped scar on his chest from the key to the basement."
+      ],
+      "voiceActors": {
+        "japanese": "Yuki Kaji",
+        "english": "Bryce Papenbrook"
+      }
+    },
+    {
+      "id": 2,
+      "name": "Mikasa Ackerman",
+      "age": 19,
+      "status": "Alive",
+      "height": "170 cm",
+      "weight": "68 kg",
+      "hairColor": "Black",
+      "eyeColor": "Black",
+      "birthplace": "Shiganshina District",
+      "skills": [
+        "Expert swordsmanship",
+        "Omni-directional mobility gear proficiency",
+        "Hand-to-hand combat"
+      ],
+      "titanForm": null,
+      "notableBattles": [
+        "Battle of Trost",
+        "Female Titan arc",
+        "Battle of Shiganshina"
+      ],
+      "loveInterests": "Eren Yeager",
+      "fears": "Losing Eren",
+      "hobbies": "Training, Taking care of Eren",
+      "dislikes": "Threats to Eren",
+      "education": "Military training from 104th Training Corps",
+      "notableQuotes": [
+        "Eren, if you die, I'll be lost too.",
+        "This world is cruel, but also very beautiful."
+      ],
+      "appearance": "Long black hair (later cut short), black eyes. Typically seen wearing the Survey Corps uniform.",
+      "allies": [
+        "Eren Yeager",
+        "Armin Arlert",
+        "Sasha Blouse"
+      ],
+      "enemies": [
+        "Marley",
+        "Warriors",
+        "Titans"
+      ],
+      "characterArc": "From a dependent child to a strong and independent soldier, Mikasa's loyalty to Eren remains unwavering, but she learns to make difficult decisions for the greater good.",
+      "titanKillCount": 15,
+      "humanKillCount": 10,
+      "affiliations": [
+        "104th Training Corps",
+        "Survey Corps"
+      ],
+      "trivia": [
+        "Mikasa is one of the last surviving members of the Ackerman clan.",
+        "She wears a scarf given to her by Eren, which she cherishes as a symbol of their bond."
+      ],
+      "injuriesAndScars": [
+        "Has a scar on her cheek from a knife wound during a kidnapping incident in her childhood.",
+        "Branding mark of the Ackerman clan on her wrist."
+      ],
+      "voiceActors": {
+        "japanese": "Yui Ishikawa",
+        "english": "Trina Nishimura"
+      }
+    },
+    {
+      "id": 3,
+      "name": "Armin Arlert",
+      "age": 19,
+      "status": "Alive",
+      "height": "163 cm",
+      "weight": "55 kg",
+      "hairColor": "Blonde",
+      "eyeColor": "Blue",
+      "birthplace": "Shiganshina District",
+      "skills": [
+        "Strategizing",
+        "Intellect",
+        "Omni-directional mobility gear proficiency"
+      ],
+      "titanForm": "Colossal Titan",
+      "notableBattles": [
+        "Battle of Trost",
+        "Clash of the Titans",
+        "Battle of Shiganshina"
+      ],
+      "loveInterests": null,
+      "fears": "The outside world's dangers",
+      "hobbies": "Reading, Dreaming of the outside world",
+      "dislikes": "Violence, Conflict",
+      "education": "Military training from 104th Training Corps",
+      "notableQuotes": [
+        "Someone who can't sacrifice anything, can't ever change anything.",
+        "I don't like the terms 'good person' or 'bad person', because it's impossible to be entirely good to everyone or entirely bad to everyone. To some, you are a good person, while to others, you are a bad person."
+      ],
+      "appearance": "Short blonde hair, blue eyes. Typically seen wearing the Survey Corps uniform.",
+      "allies": [
+        "Eren Yeager",
+        "Mikasa Ackerman",
+        "Jean Kirstein"
+      ],
+      "enemies": [
+        "Marley",
+        "Warriors",
+        "Titans"
+      ],
+      "characterArc": "From a timid and dreamy boy to a key strategist for the Survey Corps and inheritor of the Colossal Titan.",
+      "titanKillCount": 5,
+      "humanKillCount": 1,
+      "affiliations": [
+        "104th Training Corps",
+        "Survey Corps"
+      ],
+      "trivia": [
+        "Armin's name is of German origin and means 'warrior'.",
+        "He's the first main character to inherit a Titan power from an antagonist."
+      ],
+      "injuriesAndScars": [
+        "Severe burns and injuries from being grabbed by the Colossal Titan.",
+        "Injuries from Bertolt's explosion during the Battle of Shiganshina."
+      ],
+      "voiceActors": {
+        "japanese": "Marina Inoue",
+        "english": "Josh Grelle"
+      }
+    },
+    {
+      "id": 4,
+      "name": "Levi Ackerman",
+      "age": 34,
+      "status": "Alive",
+      "height": "160 cm",
+      "weight": "65 kg",
+      "hairColor": "Black",
+      "eyeColor": "Steel blue",
+      "birthplace": "Underground city",
+      "skills": [
+        "Expert swordsmanship",
+        "Omni-directional mobility gear proficiency",
+        "Hand-to-hand combat"
+      ],
+      "titanForm": null,
+      "notableBattles": [
+        "57th Exterior Scouting Mission",
+        "Clash of the Titans",
+        "Raid on Liberio"
+      ],
+      "loveInterests": null,
+      "fears": "Losing his comrades",
+      "hobbies": "Cleaning, Drinking tea",
+      "dislikes": "Dirt, Disorganization",
+      "education": "Self-taught combat skills, Military training",
+      "notableQuotes": [
+        "If you begin to regret, you'll dull your future decisions and let others make your choices for you.",
+        "No matter what, I'll keep moving forward.",
+        "If you win, you live. If you lose, you die. If you don't fight, you can't win!",
+        "I promise you, I will do whatever it takes to eradicate them all."
+      ],
+      "appearance": "Short black hair, steel-blue eyes. Typically seen wearing the Survey Corps uniform.",
+      "allies": [
+        "Erwin Smith",
+        "Hange Zoë",
+        "Eren Yeager"
+      ],
+      "enemies": [
+        "Marley",
+        "Warriors",
+        "Titans",
+        "Kenny Ackerman"
+      ],
+      "characterArc": "From a thug in the underground city to humanity's strongest soldier and a key figure in the fight against Titans.",
+      "titanKillCount": 100,
+      "humanKillCount": 20,
+      "affiliations": [
+        "Survey Corps",
+        "Levi Squad"
+      ],
+      "trivia": [
+        "Levi has a cleaning obsession.",
+        "He's known as 'Humanity's Strongest Soldier'."
+      ],
+      "injuriesAndScars": [
+        "Scar above his right eye.",
+        "Injuries from battles against Titans and the Anti-Personnel Control Squad."
+      ],
+      "voiceActors": {
+        "japanese": "Hiroshi Kamiya",
+        "english": "Matthew Mercer"
+      }
+    },
+    {
+      "id": 5,
+      "name": "Jean Kirstein",
+      "age": 19,
+      "status": "Alive",
+      "height": "175 cm",
+      "weight": "65 kg",
+      "hairColor": "Brown",
+      "eyeColor": "Hazel",
+      "birthplace": "Trost District",
+      "skills": [
+        "Omni-directional mobility gear proficiency",
+        "Hand-to-hand combat",
+        "Leadership"
+      ],
+      "titanForm": null,
+      "notableBattles": [
+        "Battle of Trost",
+        "Clash of the Titans",
+        "Battle of Shiganshina"
+      ],
+      "loveInterests": null,
+      "fears": "Dying meaninglessly",
+      "hobbies": "Complaining, Daydreaming about the Military Police Brigade",
+      "dislikes": "Eren's recklessness",
+      "education": "Military training from 104th Training Corps",
+      "notableQuotes": [
+        "The world is cruel, but it's also very beautiful.",
+        "If we only focus on making the best moves, we will never get the better of our opponent."
+      ],
+      "appearance": "Medium-length brown hair, hazel eyes. Typically seen wearing the Survey Corps uniform.",
+      "allies": [
+        "Eren Yeager",
+        "Mikasa Ackerman",
+        "Armin Arlert"
+      ],
+      "enemies": [
+        "Marley",
+        "Warriors",
+        "Titans"
+      ],
+      "characterArc": "From a self-centered recruit aiming for a safe position in the Military Police to a reliable Survey Corps soldier.",
+      "titanKillCount": 7,
+      "humanKillCount": 2,
+      "affiliations": [
+        "104th Training Corps",
+        "Survey Corps"
+      ],
+      "trivia": [
+        "Jean's name is of French origin and means 'God is gracious'.",
+        "He often serves as the voice of reason among his peers."
+      ],
+      "injuriesAndScars": [
+        "Various minor injuries from battles against Titans."
+      ],
+      "voiceActors": {
+        "japanese": "Kisho Taniyama",
+        "english": "Mike McFarland"
+      }
+    },
+    {
+      "id": 6,
+      "name": "Historia Reiss",
+      "age": 19,
+      "status": "Alive",
+      "height": "145 cm",
+      "weight": "42 kg",
+      "hairColor": "Blonde",
+      "eyeColor": "Blue",
+      "birthplace": "Walls",
+      "skills": [
+        "Hand-to-hand combat",
+        "Leadership"
+      ],
+      "titanForm": null,
+      "notableBattles": [
+        "Uprising Arc"
+      ],
+      "loveInterests": null,
+      "fears": "Being alone",
+      "hobbies": "Reading, Daydreaming",
+      "dislikes": "Her own past",
+      "education": "Military training from 104th Training Corps",
+      "notableQuotes": [
+        "If no one will do it, I will.",
+        "I might be the enemy of humanity, but I am your ally."
+      ],
+      "appearance": "Short blonde hair, blue eyes. Typically seen wearing royal attire or the Survey Corps uniform.",
+      "allies": [
+        "Eren Yeager",
+        "Ymir",
+        "Levi Ackerman"
+      ],
+      "enemies": [
+        "Marley",
+        "First Interior Squad"
+      ],
+      "characterArc": "From a timid girl with a fake persona to the true queen of the Walls and a symbol of hope.",
+      "titanKillCount": 0,
+      "humanKillCount": 1,
+      "affiliations": [
+        "104th Training Corps",
+        "Survey Corps",
+        "Royal Family"
+      ],
+      "trivia": [
+        "Historia was initially introduced under the alias 'Krista Lenz'.",
+        "She's the smallest soldier from the 104th Training Corps."
+      ],
+      "injuriesAndScars": [],
+      "voiceActors": {
+        "japanese": "Shiori Mikami",
+        "english": "Bryn Apprill"
+      }
+    },
+    {
+      "id": 7,
+      "name": "Sasha Blouse",
+      "age": 19,
+      "status": "Deceased",
+      "height": "168 cm",
+      "weight": "55 kg",
+      "hairColor": "Brown",
+      "eyeColor": "Gold",
+      "birthplace": "Dauper Village",
+      "skills": [
+        "Marksmanship",
+        "Omni-directional mobility gear proficiency"
+      ],
+      "titanForm": null,
+      "notableBattles": [
+        "Battle of Trost",
+        "Clash of the Titans",
+        "Raid on Liberio"
+      ],
+      "loveInterests": null,
+      "fears": "Starvation",
+      "hobbies": "Eating, Hunting",
+      "dislikes": "Food shortages",
+      "education": "Military training from 104th Training Corps",
+      "notableQuotes": [
+        "I'm strong, real strong. None of you come close. I am a warrior!",
+        "Potato? What's the matter with it?"
+      ],
+      "appearance": "Medium-length brown hair, gold eyes. Typically seen wearing the Survey Corps uniform.",
+      "allies": [
+        "Eren Yeager",
+        "Mikasa Ackerman",
+        "Armin Arlert"
+      ],
+      "enemies": [
+        "Marley",
+        "Warriors",
+        "Titans"
+      ],
+      "characterArc": "From a food-loving, comedic character to a brave and loyal soldier of the Survey Corps.",
+      "titanKillCount": 3,
+      "humanKillCount": 1,
+      "affiliations": [
+        "104th Training Corps",
+        "Survey Corps"
+      ],
+      "trivia": [
+        "Sasha's love for food often provides comic relief.",
+        "She's also known as 'Potato Girl'."
+      ],
+      "injuriesAndScars": [
+        "Various minor injuries from battles against Titans."
+      ],
+      "voiceActors": {
+        "japanese": "Yu Kobayashi",
+        "english": "Ashly Burch"
+      }
+    },
+    {
+      "id": 8,
+      "name": "Connie Springer",
+      "age": 19,
+      "status": "Alive",
+      "height": "158 cm",
+      "weight": "58 kg",
+      "hairColor": "Black",
+      "eyeColor": "Brown",
+      "birthplace": "Ragako Village",
+      "skills": [
+        "Omni-directional mobility gear proficiency",
+        "Hand-to-hand combat"
+      ],
+      "titanForm": null,
+      "notableBattles": [
+        "Battle of Trost",
+        "Clash of the Titans",
+        "Battle of Shiganshina"
+      ],
+      "loveInterests": null,
+      "fears": "Losing his family",
+      "hobbies": "Joking, Socializing",
+      "dislikes": "Complex plans",
+      "education": "Military training from 104th Training Corps",
+      "notableQuotes": [
+        "We were always together, and we always will be.",
+        "I want to be a great soldier who can really make a difference!"
+      ],
+      "appearance": "Short black hair, brown eyes. Typically seen wearing the Survey Corps uniform.",
+      "allies": [
+        "Eren Yeager",
+        "Mikasa Ackerman",
+        "Armin Arlert"
+      ],
+      "enemies": [
+        "Marley",
+        "Warriors",
+        "Titans"
+      ],
+      "characterArc": "From a cheerful and somewhat naive recruit to a soldier grappling with the loss of his family and village.",
+      "titanKillCount": 2,
+      "humanKillCount": 1,
+      "affiliations": [
+        "104th Training Corps",
+        "Survey Corps"
+      ],
+      "trivia": [
+        "Connie's cheerful demeanor often contrasts with the series' dark tone.",
+        "He shares a close bond with Sasha and Jean."
+      ],
+      "injuriesAndScars": [
+        "Various minor injuries from battles against Titans."
+      ],
+      "voiceActors": {
+        "japanese": "Hiro Shimono",
+        "english": "Clifford Chapin"
+      }
+    },
+    {
+      "id": 9,
+      "name": "Hange Zoë",
+      "age": 29,
+      "status": "Deceased",
+      "height": "170 cm",
+      "weight": "58 kg",
+      "hairColor": "Brown",
+      "eyeColor": "Brown",
+      "birthplace": "Walls",
+      "skills": [
+        "Research on Titans",
+        "Omni-directional mobility gear proficiency",
+        "Leadership"
+      ],
+      "titanForm": null,
+      "notableBattles": [
+        "57th Exterior Scouting Mission",
+        "Uprising Arc",
+        "Battle of Shiganshina"
+      ],
+      "loveInterests": null,
+      "fears": "Not uncovering all the mysteries of the Titans",
+      "hobbies": "Titan research, Experimenting",
+      "dislikes": "Destruction of knowledge",
+      "education": "Self-taught in Titan research, Military training",
+      "notableQuotes": [
+        "There's nothing further removed from freedom than ignorance.",
+        "Titans are not our only enemies."
+      ],
+      "appearance": "Medium-length brown hair, glasses, brown eyes. Typically seen wearing the Survey Corps uniform.",
+      "allies": [
+        "Erwin Smith",
+        "Levi Ackerman",
+        "Eren Yeager"
+      ],
+      "enemies": [
+        "Marley",
+        "Warriors",
+        "Titans"
+      ],
+      "characterArc": "From a passionate Titan researcher to the 14th commander of the Survey Corps.",
+      "titanKillCount": 5,
+      "humanKillCount": 2,
+      "affiliations": [
+        "Survey Corps"
+      ],
+      "trivia": [
+        "Hange's gender is deliberately ambiguous in the manga.",
+        "Has a deep fascination and almost affectionate attitude towards Titans."
+      ],
+      "injuriesAndScars": [
+        "Lost an eye during the Uprising Arc.",
+        "Various minor injuries from battles against Titans."
+      ],
+      "voiceActors": {
+        "japanese": "Romi Park",
+        "english": "Jessica Calvello"
+      }
+    },
+    {
+      "id": 10,
+      "name": "Reiner Braun",
+      "age": 21,
+      "status": "Alive",
+      "height": "185 cm",
+      "weight": "95 kg",
+      "hairColor": "Blond",
+      "eyeColor": "Yellow",
+      "birthplace": "Liberio (Marley)",
+      "skills": [
+        "Titan transformation",
+        "Hand-to-hand combat",
+        "Omni-directional mobility gear proficiency"
+      ],
+      "titanForm": "Armored Titan",
+      "notableBattles": [
+        "Battle of Trost",
+        "Clash of the Titans",
+        "Battle of Shiganshina",
+        "Raid on Liberio"
+      ],
+      "loveInterests": null,
+      "fears": "His split personalities conflicting",
+      "hobbies": "Training, Reflecting on his actions",
+      "dislikes": "His own perceived weakness",
+      "education": "Warrior training in Marley, Military training from 104th Training Corps",
+      "notableQuotes": [
+        "I'm the same as you, Eren. I didn't have any other choice. That's why I did it.",
+        "We were just kids... We didn't know anything."
+      ],
+      "appearance": "Short blond hair, yellow eyes. Typically seen wearing the Marleyan Warrior uniform or the Survey Corps uniform.",
+      "allies": [
+        "Bertholdt Hoover",
+        "Annie Leonhart",
+        "Zeke Yeager"
+      ],
+      "enemies": [
+        "Eren Yeager",
+        "Survey Corps"
+      ],
+      "characterArc": "From a seemingly loyal soldier of the 104th Training Corps to revealing himself as the Armored Titan and a key antagonist.",
+      "titanKillCount": 0,
+      "humanKillCount": 20,
+      "affiliations": [
+        "Marleyan Warriors",
+        "104th Training Corps (undercover)"
+      ],
+      "trivia": [
+        "Reiner suffers from a split personality disorder due to the guilt and trauma of his actions.",
+        "He's known as the 'Shield of Marley' in his Armored Titan form."
+      ],
+      "injuriesAndScars": [
+        "Various injuries from battles against Titans and the Survey Corps.",
+        "Mental scars from the weight of his actions and betrayals."
+      ],
+      "voiceActors": {
+        "japanese": "Yoshimasa Hosoya",
+        "english": "Robert McCollum"
+      }
+    },
+    {
+      "id": 11,
+      "name": "Annie Leonhart",
+      "age": 20,
+      "status": "Alive",
+      "height": "153 cm",
+      "weight": "54 kg",
+      "hairColor": "Blonde",
+      "eyeColor": "Blue",
+      "birthplace": "Marley",
+      "skills": [
+        "Titan transformation",
+        "Hand-to-hand combat",
+        "Omni-directional mobility gear proficiency"
+      ],
+      "titanForm": "Female Titan",
+      "notableBattles": [
+        "57th Exterior Scouting Mission",
+        "Stohess District raid"
+      ],
+      "loveInterests": null,
+      "fears": "Not returning to her father",
+      "hobbies": "Martial arts training",
+      "dislikes": "Betraying her comrades",
+      "education": "Warrior training in Marley, Military training from 104th Training Corps",
+      "notableQuotes": [
+        "When you're prepared to lose... You can attack anyone.",
+        "I want to go home."
+      ],
+      "appearance": "Short blonde hair, blue eyes. Typically seen wearing the Military Police Brigade uniform.",
+      "allies": [
+        "Reiner Braun",
+        "Bertholdt Hoover"
+      ],
+      "enemies": [
+        "Eren Yeager",
+        "Survey Corps"
+      ],
+      "characterArc": "From a seemingly distant soldier of the 104th Training Corps to revealing herself as the Female Titan.",
+      "titanKillCount": 4,
+      "humanKillCount": 15,
+      "affiliations": [
+        "Marleyan Warriors",
+        "Military Police Brigade (undercover)"
+      ],
+      "trivia": [
+        "Annie has a unique fighting style, which she taught to Eren.",
+        "She has a close bond with her father and desires to reunite with him."
+      ],
+      "injuriesAndScars": [
+        "Various injuries from battles against Titans and the Survey Corps."
+      ],
+      "voiceActors": {
+        "japanese": "Yu Shimamura",
+        "english": "Lauren Landa"
+      }
+    },
+    {
+      "id": 12,
+      "name": "Bertholdt Hoover",
+      "age": 20,
+      "status": "Deceased",
+      "height": "192 cm",
+      "weight": "81 kg",
+      "hairColor": "Black",
+      "eyeColor": "Brown",
+      "birthplace": "Marley",
+      "skills": [
+        "Titan transformation",
+        "Omni-directional mobility gear proficiency"
+      ],
+      "titanForm": "Colossal Titan",
+      "notableBattles": [
+        "Battle of Trost",
+        "Clash of the Titans",
+        "Battle of Shiganshina"
+      ],
+      "loveInterests": null,
+      "fears": "Confrontation",
+      "hobbies": "Reflecting, Spending time with friends",
+      "dislikes": "Conflict, Betraying his friends",
+      "education": "Warrior training in Marley, Military training from 104th Training Corps",
+      "notableQuotes": [
+        "We're not the ones who were wrong. It's the world.",
+        "I don't want to die. I want to be here, with everyone."
+      ],
+      "appearance": "Tall with short black hair, brown eyes. Typically seen wearing the 104th Training Corps uniform.",
+      "allies": [
+        "Reiner Braun",
+        "Annie Leonhart"
+      ],
+      "enemies": [
+        "Eren Yeager",
+        "Survey Corps"
+      ],
+      "characterArc": "From a quiet and reserved soldier to revealing himself as the Colossal Titan.",
+      "titanKillCount": 0,
+      "humanKillCount": 10,
+      "affiliations": [
+        "Marleyan Warriors",
+        "104th Training Corps (undercover)"
+      ],
+      "trivia": [
+        "Bertholdt is the tallest character in the series.",
+        "He's known for his passive and introverted nature."
+      ],
+      "injuriesAndScars": [
+        "Various injuries from battles against Titans and the Survey Corps."
+      ],
+      "voiceActors": {
+        "japanese": "Tomohisa Hashizume",
+        "english": "David Matranga"
+      }
+    },
+    {
+      "id": 13,
+      "name": "Erwin Smith",
+      "age": 38,
+      "status": "Deceased",
+      "height": "188 cm",
+      "weight": "92 kg",
+      "hairColor": "Blonde",
+      "eyeColor": "Blue",
+      "birthplace": "Walls",
+      "skills": [
+        "Leadership",
+        "Strategy formulation",
+        "Omni-directional mobility gear proficiency"
+      ],
+      "titanForm": null,
+      "notableBattles": [
+        "57th Exterior Scouting Mission",
+        "Uprising Arc",
+        "Battle of Shiganshina"
+      ],
+      "loveInterests": null,
+      "fears": "Not uncovering the truth of the world",
+      "hobbies": "Strategizing, Reading",
+      "dislikes": "Corruption within the Walls",
+      "education": "Military training",
+      "notableQuotes": [
+        "If you begin to regret, you'll dull your future decisions and let others make your choices for you.",
+        "Dedicate your heart!"
+      ],
+      "appearance": "Short blonde hair, blue eyes, missing right arm. Typically seen wearing the Survey Corps uniform.",
+      "allies": [
+        "Levi Ackerman",
+        "Hange Zoë",
+        "Eren Yeager"
+      ],
+      "enemies": [
+        "Marley",
+        "Warriors",
+        "Central MP Brigade"
+      ],
+      "characterArc": "From a young man curious about the outside world to the 13th commander of the Survey Corps.",
+      "titanKillCount": 0,
+      "humanKillCount": 2,
+      "affiliations": [
+        "Survey Corps"
+      ],
+      "trivia": [
+        "Erwin's leadership and strategic abilities are highly regarded.",
+        "He lost his right arm during the Battle of Shiganshina."
+      ],
+      "injuriesAndScars": [
+        "Lost his right arm during the Battle of Shiganshina."
+      ],
+      "voiceActors": {
+        "japanese": "Daisuke Ono",
+        "english": "J. Michael Tatum"
+      }
+    },
+    {
+      "id": 14,
+      "name": "Zeke Yeager",
+      "age": 29,
+      "status": "Deceased",
+      "height": "183 cm",
+      "weight": "87 kg",
+      "hairColor": "Blond",
+      "eyeColor": "Green",
+      "birthplace": "Liberio (Marley)",
+      "skills": [
+        "Titan transformation",
+        "Strategy formulation",
+        "Baseball"
+      ],
+      "titanForm": "Beast Titan",
+      "notableBattles": [
+        "Clash of the Titans",
+        "Battle of Shiganshina",
+        "Raid on Liberio"
+      ],
+      "loveInterests": null,
+      "fears": "Not completing his mission",
+      "hobbies": "Baseball, Strategizing",
+      "dislikes": "Marley's oppression",
+      "education": "Warrior training in Marley",
+      "notableQuotes": [
+        "I will come back and save you.",
+        "Eren, I'll come to save you."
+      ],
+      "appearance": "Tall with short blond hair, glasses, green eyes. Typically seen wearing the Marleyan Warrior uniform.",
+      "allies": [
+        "Reiner Braun",
+        "Pieck Finger",
+        "Eren Yeager"
+      ],
+      "enemies": [
+        "Survey Corps",
+        "Marley (later in the series)"
+      ],
+      "characterArc": "From Marley's top warrior to a key ally of Eren Yeager.",
+      "titanKillCount": 10,
+      "humanKillCount": 30,
+      "affiliations": [
+        "Marleyan Warriors",
+        "Yeagerists"
+      ],
+      "trivia": [
+        "Zeke has the ability to control Titans with his scream.",
+        "He's known for his exceptional throwing abilities, both as a human and as the Beast Titan."
+      ],
+      "injuriesAndScars": [
+        "Various injuries from battles against the Survey Corps."
+      ],
+      "voiceActors": {
+        "japanese": "Takehito Koyasu",
+        "english": "Jason Liebrecht"
+      }
+    },
+    {
+      "id": 15,
+      "name": "Pieck Finger",
+      "age": 25,
+      "status": "Alive",
+      "height": "157 cm",
+      "weight": "52 kg",
+      "hairColor": "Brown",
+      "eyeColor": "Gray",
+      "birthplace": "Marley",
+      "skills": [
+        "Titan transformation",
+        "Strategy formulation"
+      ],
+      "titanForm": "Cart Titan",
+      "notableBattles": [
+        "Battle of Shiganshina",
+        "Raid on Liberio"
+      ],
+      "loveInterests": null,
+      "fears": "Losing her comrades",
+      "hobbies": "Spending time with fellow Warriors",
+      "dislikes": "Betrayal",
+      "education": "Warrior training in Marley",
+      "notableQuotes": [
+        "I can't just leave it like this. I have to go back.",
+        "You guys... are important to me."
+      ],
+      "appearance": "Medium-length brown hair, gray eyes. Typically seen wearing the Marleyan Warrior uniform.",
+      "allies": [
+        "Reiner Braun",
+        "Zeke Yeager",
+        "Porco Galliard"
+      ],
+      "enemies": [
+        "Survey Corps"
+      ],
+      "characterArc": "From a loyal Marleyan Warrior to questioning her allegiance.",
+      "titanKillCount": 5,
+      "humanKillCount": 10,
+      "affiliations": [
+        "Marleyan Warriors"
+      ],
+      "trivia": [
+        "Pieck is known for her intelligence and strategic insights.",
+        "She often spends prolonged periods in her Titan form, leading to her walking on all fours even in human form."
+      ],
+      "injuriesAndScars": [
+        "Various injuries from battles against the Survey Corps."
+      ],
+      "voiceActors": {
+        "japanese": "Manami Numakura",
+        "english": "Amber Lee Connors"
+      }
+    },
+    {
+      "id": 16,
+      "name": "Porco Galliard",
+      "age": 25,
+      "status": "Deceased",
+      "height": "177 cm",
+      "weight": "74 kg",
+      "hairColor": "Blond",
+      "eyeColor": "Green",
+      "birthplace": "Marley",
+      "skills": [
+        "Titan transformation",
+        "Hand-to-hand combat"
+      ],
+      "titanForm": "Jaw Titan",
+      "notableBattles": [
+        "Battle of Fort Slava",
+        "Raid on Liberio"
+      ],
+      "loveInterests": null,
+      "fears": "Losing his brother's legacy",
+      "hobbies": "Training",
+      "dislikes": "Reiner's perceived incompetence",
+      "education": "Warrior training in Marley",
+      "notableQuotes": [
+        "I'll make you pay for eating my brother!",
+        "This is for Marcel!"
+      ],
+      "appearance": "Short blond hair, green eyes. Typically seen wearing the Marleyan Warrior uniform.",
+      "allies": [
+        "Reiner Braun",
+        "Pieck Finger",
+        "Zeke Yeager"
+      ],
+      "enemies": [
+        "Survey Corps",
+        "Eren Yeager"
+      ],
+      "characterArc": "From living in his brother's shadow to trying to prove himself as the Jaw Titan.",
+      "titanKillCount": 5,
+      "humanKillCount": 8,
+      "affiliations": [
+        "Marleyan Warriors"
+      ],
+      "trivia": [
+        "Porco inherited the Jaw Titan from his brother, Marcel Galliard.",
+        "He has a rivalry with Reiner Braun."
+      ],
+      "injuriesAndScars": [
+        "Various injuries from battles against the Survey Corps."
+      ],
+      "voiceActors": {
+        "japanese": "Toshiki Masuda",
+        "english": "Kellen Goff"
+      }
+    },
+    {
+      "id": 17,
+      "name": "Gabi Braun",
+      "age": 12,
+      "status": "Alive",
+      "height": "150 cm",
+      "weight": "45 kg",
+      "hairColor": "Brown",
+      "eyeColor": "Brown",
+      "birthplace": "Liberio (Marley)",
+      "skills": [
+        "Marksmanship",
+        "Hand-to-hand combat",
+        "Stealth"
+      ],
+      "titanForm": null,
+      "notableBattles": [
+        "Raid on Liberio",
+        "Battle of Shiganshina"
+      ],
+      "loveInterests": null,
+      "fears": "Eldians of Paradis Island",
+      "hobbies": "Training, Spending time with fellow Warrior candidates",
+      "dislikes": "Island Devils",
+      "education": "Warrior training in Marley",
+      "notableQuotes": [
+        "I'll prove that I can be a better Warrior than anyone!",
+        "Why did it have to be like this?"
+      ],
+      "appearance": "Short brown hair, brown eyes. Typically seen wearing Marleyan civilian clothes or Warrior uniform.",
+      "allies": [
+        "Falco Grice",
+        "Reiner Braun",
+        "Zeke Yeager"
+      ],
+      "enemies": [
+        "Eren Yeager",
+        "Survey Corps"
+      ],
+      "characterArc": "From a loyal Marleyan Warrior candidate to questioning her beliefs.",
+      "titanKillCount": 0,
+      "humanKillCount": 3,
+      "affiliations": [
+        "Marleyan Warrior Candidates"
+      ],
+      "trivia": [
+        "Gabi is Reiner Braun's cousin.",
+        "She's highly skilled and was considered a top candidate to inherit the Armored Titan."
+      ],
+      "injuriesAndScars": [
+        "Minor injuries from her time on Paradis Island."
+      ],
+      "voiceActors": {
+        "japanese": "Ayane Sakura",
+        "english": "Lindsay Seidel"
+      }
+    },
+    {
+      "id": 18,
+      "name": "Falco Grice",
+      "age": 12,
+      "status": "Alive",
+      "height": "155 cm",
+      "weight": "48 kg",
+      "hairColor": "Brown",
+      "eyeColor": "Brown",
+      "birthplace": "Liberio (Marley)",
+      "skills": [
+        "Hand-to-hand combat",
+        "Stealth",
+        "First aid"
+      ],
+      "titanForm": "Jaw Titan (later in the series)",
+      "notableBattles": [
+        "Raid on Liberio",
+        "Battle of Shiganshina"
+      ],
+      "loveInterests": [
+        "Gabi Braun"
+      ],
+      "fears": "War, Losing his loved ones",
+      "hobbies": "Training, Reflecting on his actions",
+      "dislikes": "War, Marley's treatment of Eldians",
+      "education": "Warrior training in Marley",
+      "notableQuotes": [
+        "I want to save Gabi from this dark future!",
+        "Why do things have to be this way?"
+      ],
+      "appearance": "Short brown hair, brown eyes. Typically seen wearing Marleyan civilian clothes or Warrior uniform.",
+      "allies": [
+        "Gabi Braun",
+        "Reiner Braun",
+        "Zeke Yeager"
+      ],
+      "enemies": [
+        "Eren Yeager",
+        "Survey Corps"
+      ],
+      "characterArc": "From a Warrior candidate to someone who questions the world's truths.",
+      "titanKillCount": 0,
+      "humanKillCount": 1,
+      "affiliations": [
+        "Marleyan Warrior Candidates"
+      ],
+      "trivia": [
+        "Falco is kind-hearted and often acts as a voice of reason.",
+        "He develops a bond with Eren Yeager during their time in Liberio."
+      ],
+      "injuriesAndScars": [
+        "Minor injuries from his time on Paradis Island."
+      ],
+      "voiceActors": {
+        "japanese": "Natsuki Hanae",
+        "english": "Bryson Baugus"
+      }
+    },
+    {
+      "id": 19,
+      "name": "Colt Grice",
+      "age": 23,
+      "status": "Deceased",
+      "height": "180 cm",
+      "weight": "75 kg",
+      "hairColor": "Brown",
+      "eyeColor": "Green",
+      "birthplace": "Marley",
+      "skills": [
+        "Leadership",
+        "Strategy formulation",
+        "Marksmanship"
+      ],
+      "titanForm": null,
+      "notableBattles": [
+        "Raid on Liberio"
+      ],
+      "loveInterests": null,
+      "fears": "Losing his younger brother, Falco",
+      "hobbies": "Training, Taking care of Falco",
+      "dislikes": "War, Marley's treatment of Eldians",
+      "education": "Warrior training in Marley",
+      "notableQuotes": [
+        "I have to protect Falco at all costs.",
+        "We're just pawns in Marley's game."
+      ],
+      "appearance": "Short brown hair, green eyes. Typically seen wearing the Marleyan Warrior uniform.",
+      "allies": [
+        "Zeke Yeager",
+        "Reiner Braun",
+        "Falco Grice"
+      ],
+      "enemies": [
+        "Eren Yeager",
+        "Survey Corps"
+      ],
+      "characterArc": "From a Warrior candidate to a protective older brother.",
+      "titanKillCount": 0,
+      "humanKillCount": 0,
+      "affiliations": [
+        "Marleyan Warrior Candidates"
+      ],
+      "trivia": [
+        "Colt is Falco Grice's older brother.",
+        "He was the leading candidate to inherit the Beast Titan."
+      ],
+      "injuriesAndScars": [
+        "Minor injuries from his time in the Marleyan military."
+      ],
+      "voiceActors": {
+        "japanese": "Masaya Matsukaze",
+        "english": "Ricco Fajardo"
+      }
+    },
+    {
+      "id": 20,
+      "name": "Marcel Galliard",
+      "age": 17,
+      "status": "Deceased",
+      "height": "175 cm",
+      "weight": "70 kg",
+      "hairColor": "Brown",
+      "eyeColor": "Green",
+      "birthplace": "Marley",
+      "skills": [
+        "Titan transformation",
+        "Hand-to-hand combat"
+      ],
+      "titanForm": "Jaw Titan (former)",
+      "notableBattles": [
+        "Mission to Paradis Island"
+      ],
+      "loveInterests": null,
+      "fears": "Losing his comrades",
+      "hobbies": "Training, Looking out for his younger brother",
+      "dislikes": "Deception",
+      "education": "Warrior training in Marley",
+      "notableQuotes": [
+        "I have to protect my friends.",
+        "Reiner, I'm sorry..."
+      ],
+      "appearance": "Short brown hair, green eyes. Typically seen wearing the Marleyan Warrior uniform.",
+      "allies": [
+        "Reiner Braun",
+        "Annie Leonhart",
+        "Bertholdt Hoover"
+      ],
+      "enemies": [
+        "Eren Yeager",
+        "Survey Corps"
+      ],
+      "characterArc": "From a Warrior candidate to a self-sacrificing hero.",
+      "titanKillCount": 5,
+      "humanKillCount": 0,
+      "affiliations": [
+        "Marleyan Warriors"
+      ],
+      "trivia": [
+        "Marcel sacrificed himself to save Reiner from Ymir's Titan.",
+        "He is Porco Galliard's older brother."
+      ],
+      "injuriesAndScars": [
+        "Fatal injuries from being eaten by Ymir's Titan."
+      ],
+      "voiceActors": {
+        "japanese": "Masamichi Kitada",
+        "english": "Bryce Papenbrook"
+      }
+    },
+    {
+      "id": 21,
+      "name": "Nile Dok",
+      "age": 40,
+      "status": "Deceased",
+      "height": "190 cm",
+      "weight": "85 kg",
+      "hairColor": "Black",
+      "eyeColor": "Brown",
+      "birthplace": "Inside the Walls",
+      "skills": [
+        "Leadership",
+        "Strategy formulation",
+        "Swordsmanship"
+      ],
+      "titanForm": null,
+      "notableBattles": [
+        "Uprising Arc"
+      ],
+      "loveInterests": null,
+      "fears": "Threats to the Walls",
+      "hobbies": "Overseeing the Military Police Brigade",
+      "dislikes": "Corruption within the Walls",
+      "education": "Military training",
+      "notableQuotes": [
+        "The safety of the Walls is paramount.",
+        "Erwin, we were once friends."
+      ],
+      "appearance": "Short black hair, mustache, brown eyes. Typically seen wearing the Military Police Brigade uniform.",
+      "allies": [
+        "Military Police Brigade"
+      ],
+      "enemies": [
+        "Survey Corps (initially)",
+        "Central MP Brigade"
+      ],
+      "characterArc": "From a strict leader to understanding the bigger picture.",
+      "titanKillCount": 0,
+      "humanKillCount": 0,
+      "affiliations": [
+        "Military Police Brigade"
+      ],
+      "trivia": [
+        "Nile was once friends with Erwin Smith during their cadet days.",
+        "He chose to join the Military Police Brigade to stay close to his family."
+      ],
+      "injuriesAndScars": [
+        "Minor injuries from the Uprising Arc."
+      ],
+      "voiceActors": {
+        "japanese": "Anri Katsu",
+        "english": "Ian Sinclair"
+      }
+    },
+    {
+      "id": 22,
+      "name": "Dot Pixis",
+      "age": 60,
+      "height": "160 cm",
+      "weight": "65 kg",
+      "hairColor": "Bald",
+      "eyeColor": "Black",
+      "birthplace": "Inside the Walls",
+      "skills": [
+        "Leadership",
+        "Strategy formulation",
+        "Diplomacy"
+      ],
+      "titanForm": null,
+      "notableBattles": [
+        "Battle of Trost"
+      ],
+      "loveInterests": null,
+      "fears": "Humanity's extinction",
+      "hobbies": "Drinking, Strategizing",
+      "dislikes": "Incompetence",
+      "education": "Military training",
+      "notableQuotes": [
+        "If there's a way to save humanity from this crisis, I'll use it, no matter how cruel.",
+        "I don't want to die with regrets."
+      ],
+      "appearance": "Bald, black eyes, mustache. Typically seen wearing the Garrison uniform.",
+      "allies": [
+        "Garrison",
+        "Survey Corps"
+      ],
+      "enemies": [
+        "Titans"
+      ],
+      "characterArc": "From a Garrison leader to a key ally of the Survey Corps.",
+      "titanKillCount": 0,
+      "humanKillCount": 0,
+      "affiliations": [
+        "Garrison"
+      ],
+      "trivia": [
+        "Pixis is known for his eccentric personality and strategic mind.",
+        "He's one of the few military leaders who trusts Eren early on."
+      ],
+      "injuriesAndScars": [
+        "Minor injuries from various operations."
+      ],
+      "voiceActors": {
+        "japanese": "Masahiko Tanaka",
+        "english": "R. Bruce Elliott"
+      }
+    },
+    {
+      "id": 23,
+      "name": "Darius Zackly",
+      "age": 61,
+      "status": "Deceased",
+      "height": "175 cm",
+      "weight": "72 kg",
+      "hairColor": "Gray",
+      "eyeColor": "Brown",
+      "birthplace": "Inside the Walls",
+      "skills": [
+        "Leadership",
+        "Judgment",
+        "Diplomacy"
+      ],
+      "titanForm": null,
+      "notableBattles": [
+        "Uprising Arc"
+      ],
+      "loveInterests": null,
+      "fears": "Loss of order",
+      "hobbies": "Overseeing the military",
+      "dislikes": "Corruption",
+      "education": "Military training",
+      "notableQuotes": [
+        "Order must be maintained within the Walls.",
+        "The truth is always a heavy burden."
+      ],
+      "appearance": "Short gray hair, beard, brown eyes. Typically seen wearing the military uniform.",
+      "allies": [
+        "Military top brass"
+      ],
+      "enemies": [
+        "Central MP Brigade"
+      ],
+      "characterArc": "From the highest-ranking military official to a controversial figure.",
+      "titanKillCount": 0,
+      "humanKillCount": 0,
+      "affiliations": [
+        "Military top brass"
+      ],
+      "trivia": [
+        "Zackly is the commander-in-chief of all military forces within the Walls.",
+        "He has a controversial side that's revealed in the Uprising Arc."
+      ],
+      "injuriesAndScars": [],
+      "voiceActors": {
+        "japanese": "Hideaki Tezuka",
+        "english": "John Swasey"
+      }
+    },
+    {
+      "id": 24,
+      "name": "Hitch Dreyse",
+      "age": 20,
+      "status": "Alive",
+      "height": "168 cm",
+      "weight": "58 kg",
+      "hairColor": "Auburn",
+      "eyeColor": "Green",
+      "birthplace": "Inside the Walls",
+      "skills": [
+        "Swordsmanship",
+        "Omni-directional mobility gear proficiency"
+      ],
+      "titanForm": null,
+      "notableBattles": [
+        "Uprising Arc"
+      ],
+      "loveInterests": null,
+      "fears": "Titans",
+      "hobbies": "Gossiping, Teasing her comrades",
+      "dislikes": "Hard work, Survey Corps",
+      "education": "Military training",
+      "notableQuotes": [
+        "Why work hard when you can work smart?",
+        "Annie, where did you go?"
+      ],
+      "appearance": "Long auburn hair, green eyes. Typically seen wearing the Military Police Brigade uniform.",
+      "allies": [
+        "Annie Leonhart",
+        "Marlo Freudenberg"
+      ],
+      "enemies": [
+        "Central MP Brigade"
+      ],
+      "characterArc": "From a laid-back soldier to someone who understands the bigger picture.",
+      "titanKillCount": 0,
+      "humanKillCount": 0,
+      "affiliations": [
+        "Military Police Brigade"
+      ],
+      "trivia": [
+        "Hitch often teases her fellow MP members.",
+        "She has a complicated relationship with Annie Leonhart."
+      ],
+      "injuriesAndScars": [
+        "Minor injuries from the Uprising Arc."
+      ],
+      "voiceActors": {
+        "japanese": "Akeno Watanabe",
+        "english": "Brittney Karbowski"
+      }
+    },
+    {
+      "id": 25,
+      "name": "Rod Reiss",
+      "age": 61,
+      "status": "Deceased",
+      "height": "190 cm",
+      "weight": "90 kg",
+      "hairColor": "Gray",
+      "eyeColor": "Blue",
+      "birthplace": "Inside the Walls",
+      "skills": [
+        "Leadership",
+        "Manipulation"
+      ],
+      "titanForm": "Colossal Titan (Abnormal)",
+      "notableBattles": [
+        "Uprising Arc"
+      ],
+      "loveInterests": null,
+      "fears": "Loss of royal lineage",
+      "hobbies": "Maintaining the Reiss family's secrets",
+      "dislikes": "Threats to the Reiss family's power",
+      "education": "Royal upbringing",
+      "notableQuotes": [
+        "The power of the Titans must remain with the Reiss family.",
+        "Historia, you must eat Eren!"
+      ],
+      "appearance": "Tall, gray hair, blue eyes. Typically seen in noble attire.",
+      "allies": [
+        "Central MP Brigade"
+      ],
+      "enemies": [
+        "Survey Corps",
+        "Eren Yeager",
+        "Kenny Ackerman"
+      ],
+      "characterArc": "From the true king behind the Walls to a tragic antagonist.",
+      "titanKillCount": 0,
+      "humanKillCount": 0,
+      "affiliations": [
+        "Reiss family",
+        "Central MP Brigade"
+      ],
+      "trivia": [
+        "Rod Reiss is Historia's father.",
+        "He becomes a massive abnormal Titan during the Uprising Arc."
+      ],
+      "injuriesAndScars": [],
+      "voiceActors": {
+        "japanese": "Yūsaku Yara",
+        "english": "Kenny Green"
+      }
+    },
+    {
+      "id": 26,
+      "name": "Kenny Ackerman",
+      "age": 51,
+      "status": "Deceased",
+      "height": "190 cm",
+      "weight": "85 kg",
+      "hairColor": "Blond",
+      "eyeColor": "Gray",
+      "birthplace": "Inside the Walls",
+      "skills": [
+        "Swordsmanship",
+        "Marksmanship",
+        "Omni-directional mobility gear proficiency"
+      ],
+      "titanForm": null,
+      "notableBattles": [
+        "Uprising Arc"
+      ],
+      "loveInterests": null,
+      "fears": "Losing power",
+      "hobbies": "Fighting, Pursuing power",
+      "dislikes": "The monarchy's secrets",
+      "education": "Self-taught combat skills",
+      "notableQuotes": [
+        "Every last person I've seen was the same way. Whether it was booze, women, or even God. Family, the king, dreams, children, power.",
+        "Levi, you and I are just alike."
+      ],
+      "appearance": "Tall, blond hair, gray eyes, and a goatee. Typically seen in a trench coat and hat.",
+      "allies": [
+        "Central MP Brigade"
+      ],
+      "enemies": [
+        "Survey Corps",
+        "Levi Ackerman"
+      ],
+      "characterArc": "From a ruthless assassin to understanding the nature of power.",
+      "titanKillCount": 0,
+      "humanKillCount": 100,
+      "affiliations": [
+        "Central MP Brigade",
+        "Ackerman family"
+      ],
+      "trivia": [
+        "Kenny is Levi's uncle.",
+        "He aspired to gain the power of the Titans to understand the world's truths."
+      ],
+      "injuriesAndScars": [
+        "Various scars from battles."
+      ],
+      "voiceActors": {
+        "japanese": "Kazuhiro Yamaji",
+        "english": "Phil Parsons"
+      }
+    },
+    {
+      "id": 27,
+      "name": "Petra Ral",
+      "age": 30,
+      "status": "Deceased",
+      "height": "153 cm",
+      "weight": "56 kg",
+      "hairColor": "Auburn",
+      "eyeColor": "Brown",
+      "birthplace": "Inside the Walls",
+      "skills": [
+        "Swordsmanship",
+        "Omni-directional mobility gear proficiency",
+        "Scouting"
+      ],
+      "titanForm": null,
+      "notableBattles": [
+        "57th Exterior Scouting Mission"
+      ],
+      "loveInterests": null,
+      "fears": "Losing her comrades",
+      "hobbies": "Scouting, Training new recruits",
+      "dislikes": "Titans",
+      "education": "Military training",
+      "notableQuotes": [
+        "Captain Levi trusts us. We won't let him down.",
+        "We have to make sacrifices to achieve our goals."
+      ],
+      "appearance": "Short auburn hair, brown eyes. Typically seen wearing the Survey Corps uniform.",
+      "allies": [
+        "Levi Ackerman",
+        "Eld Jinn",
+        "Oluo Bozado",
+        "Gunther Schultz"
+      ],
+      "enemies": [
+        "Titans",
+        "Kenny Ackerman's squad"
+      ],
+      "characterArc": "From a dedicated soldier to a tragic hero in the 57th Scouting Mission.",
+      "titanKillCount": 10,
+      "humanKillCount": 0,
+      "affiliations": [
+        "Survey Corps",
+        "Levi's Special Operations Squad"
+      ],
+      "trivia": [
+        "Petra was deeply respected by her peers in the Survey Corps.",
+        "She was part of Levi's elite squad."
+      ],
+      "injuriesAndScars": [
+        "Various scars from battles against Titans."
+      ],
+      "voiceActors": {
+        "japanese": "Natsuki Aikawa",
+        "english": "Caitlin Glass"
+      }
+    },
+    {
+      "id": 28,
+      "name": "Oluo Bozado",
+      "age": 32,
+      "status": "Deceased",
+      "height": "160 cm",
+      "weight": "60 kg",
+      "hairColor": "Black",
+      "eyeColor": "Gray",
+      "birthplace": "Inside the Walls",
+      "skills": [
+        "Swordsmanship",
+        "Omni-directional mobility gear proficiency",
+        "Scouting"
+      ],
+      "titanForm": null,
+      "notableBattles": [
+        "57th Exterior Scouting Mission"
+      ],
+      "loveInterests": null,
+      "fears": "Being overshadowed",
+      "hobbies": "Trying to imitate Levi, Scouting",
+      "dislikes": "Being made fun of",
+      "education": "Military training",
+      "notableQuotes": [
+        "I've killed way more Titans than you have, newbie!",
+        "Captain Levi is the ideal soldier."
+      ],
+      "appearance": "Short black hair, gray eyes, and a goatee. Typically seen wearing the Survey Corps uniform.",
+      "allies": [
+        "Levi Ackerman",
+        "Petra Ral",
+        "Eld Jinn",
+        "Gunther Schultz"
+      ],
+      "enemies": [
+        "Titans",
+        "Kenny Ackerman's squad"
+      ],
+      "characterArc": "From a boastful soldier to a loyal member of Levi's squad.",
+      "titanKillCount": 12,
+      "humanKillCount": 0,
+      "affiliations": [
+        "Survey Corps",
+        "Levi's Special Operations Squad"
+      ],
+      "trivia": [
+        "Oluo often tries to imitate Levi's mannerisms but usually ends up biting his tongue.",
+        "He was part of Levi's elite squad."
+      ],
+      "injuriesAndScars": [
+        "Various scars from battles against Titans."
+      ],
+      "voiceActors": {
+        "japanese": "Shinji Kawada",
+        "english": "Christopher Corey Smith"
+      }
+    },
+    {
+      "id": 29,
+      "name": "Gunther Schultz",
+      "age": 29,
+      "status": "Deceased",
+      "height": "175 cm",
+      "weight": "68 kg",
+      "hairColor": "Brown",
+      "eyeColor": "Blue",
+      "birthplace": "Inside the Walls",
+      "skills": [
+        "Swordsmanship",
+        "Omni-directional mobility gear proficiency",
+        "Scouting"
+      ],
+      "titanForm": null,
+      "notableBattles": [
+        "57th Exterior Scouting Mission"
+      ],
+      "loveInterests": null,
+      "fears": "Titans",
+      "hobbies": "Scouting, Training with the squad",
+      "dislikes": "Complacency",
+      "education": "Military training",
+      "notableQuotes": [
+        "We have to trust Captain Levi's judgment.",
+        "Stay alert! Titans could be anywhere."
+      ],
+      "appearance": "Short brown hair, blue eyes. Typically seen wearing the Survey Corps uniform.",
+      "allies": [
+        "Levi Ackerman",
+        "Petra Ral",
+        "Eld Jinn",
+        "Oluo Bozado"
+      ],
+      "enemies": [
+        "Titans",
+        "Kenny Ackerman's squad"
+      ],
+      "characterArc": "From a dedicated soldier to a tragic hero in the 57th Scouting Mission.",
+      "titanKillCount": 8,
+      "humanKillCount": 0,
+      "affiliations": [
+        "Survey Corps",
+        "Levi's Special Operations Squad"
+      ],
+      "trivia": [
+        "Gunther was known for his calm demeanor during missions.",
+        "He was part of Levi's elite squad."
+      ],
+      "injuriesAndScars": [
+        "Various scars from battles against Titans."
+      ],
+      "voiceActors": {
+        "japanese": "Kōzō Mito",
+        "english": "Brett Weaver"
+      }
+    },
+    {
+      "id": 30,
+      "name": "Eld Jinn",
+      "age": 31,
+      "status": "Deceased",
+      "height": "180 cm",
+      "weight": "75 kg",
+      "hairColor": "Blond",
+      "eyeColor": "Green",
+      "birthplace": "Inside the Walls",
+      "skills": [
+        "Swordsmanship",
+        "Omni-directional mobility gear proficiency",
+        "Scouting"
+      ],
+      "titanForm": null,
+      "notableBattles": [
+        "57th Exterior Scouting Mission"
+      ],
+      "loveInterests": null,
+      "fears": "Titans",
+      "hobbies": "Scouting, Discussing tactics",
+      "dislikes": "Recklessness",
+      "education": "Military training",
+      "notableQuotes": [
+        "We need to stick to the plan.",
+        "Trust in your comrades."
+      ],
+      "appearance": "Long blond hair, green eyes. Typically seen wearing the Survey Corps uniform.",
+      "allies": [
+        "Levi Ackerman",
+        "Petra Ral",
+        "Gunther Schultz",
+        "Oluo Bozado"
+      ],
+      "enemies": [
+        "Titans",
+        "Kenny Ackerman's squad"
+      ],
+      "characterArc": "From a tactical thinker to a loyal member of Levi's squad.",
+      "titanKillCount": 9,
+      "humanKillCount": 0,
+      "affiliations": [
+        "Survey Corps",
+        "Levi's Special Operations Squad"
+      ],
+      "trivia": [
+        "Eld was known for his tactical thinking during missions.",
+        "He was the second-in-command in Levi's squad."
+      ],
+      "injuriesAndScars": [
+        "Various scars from battles against Titans."
+      ],
+      "voiceActors": {
+        "japanese": "Susumu Chiba",
+        "english": "Vic Mignogna"
+      }
+    },
+    {
+      "id": 31,
+      "name": "Moblit Berner",
+      "age": 31,
+      "status": "Deceased",
+      "height": "175 cm",
+      "weight": "68 kg",
+      "hairColor": "Brown",
+      "eyeColor": "Green",
+      "birthplace": "Inside the Walls",
+      "skills": [
+        "Swordsmanship",
+        "Omni-directional mobility gear proficiency",
+        "Research assistance"
+      ],
+      "titanForm": null,
+      "notableBattles": [
+        "Clash of the Titans Arc",
+        "Return to Shiganshina Arc"
+      ],
+      "loveInterests": null,
+      "fears": "Losing Hange",
+      "hobbies": "Assisting Hange with experiments, Research",
+      "dislikes": "Recklessness",
+      "education": "Military training",
+      "notableQuotes": [
+        "Commander Hange, please be careful!",
+        "We have to gather as much information as possible."
+      ],
+      "appearance": "Short brown hair, green eyes. Typically seen wearing the Survey Corps uniform.",
+      "allies": [
+        "Hange Zoë",
+        "Levi Ackerman",
+        "Survey Corps"
+      ],
+      "enemies": [
+        "Titans",
+        "Marleyan Warriors"
+      ],
+      "characterArc": "From Hange's loyal assistant to a hero during the Return to Shiganshina Arc.",
+      "titanKillCount": 3,
+      "humanKillCount": 0,
+      "affiliations": [
+        "Survey Corps",
+        "Hange's research team"
+      ],
+      "trivia": [
+        "Moblit was always seen trying to keep Hange out of trouble.",
+        "He sacrificed himself to save Hange during the Return to Shiganshina Arc."
+      ],
+      "injuriesAndScars": [
+        "Various scars from battles against Titans."
+      ],
+      "voiceActors": {
+        "japanese": "Rintarou Nishi",
+        "english": "Jerry Jewell"
+      }
+    },
+    {
+      "id": 32,
+      "name": "Nanaba",
+      "age": 29,
+      "status": "Deceased",
+      "height": "170 cm",
+      "weight": "64 kg",
+      "hairColor": "Blond",
+      "eyeColor": "Blue",
+      "birthplace": "Inside the Walls",
+      "skills": [
+        "Swordsmanship",
+        "Omni-directional mobility gear proficiency",
+        "Scouting"
+      ],
+      "titanForm": null,
+      "notableBattles": [
+        "Clash of the Titans Arc"
+      ],
+      "loveInterests": null,
+      "fears": "Titans",
+      "hobbies": "Scouting, Training new recruits",
+      "dislikes": "Complacency",
+      "education": "Military training",
+      "notableQuotes": [
+        "We have to protect the tower!",
+        "Stay focused, and don't let your guard down."
+      ],
+      "appearance": "Medium-length blond hair, blue eyes. Typically seen wearing the Survey Corps uniform.",
+      "allies": [
+        "Mike Zacharias",
+        "Gelgar",
+        "Survey Corps"
+      ],
+      "enemies": [
+        "Titans",
+        "Beast Titan"
+      ],
+      "characterArc": "From a dedicated soldier to a tragic hero during the Clash of the Titans Arc.",
+      "titanKillCount": 15,
+      "humanKillCount": 0,
+      "affiliations": [
+        "Survey Corps"
+      ],
+      "trivia": [
+        "Nanaba was known for her calm and focused demeanor during missions.",
+        "She met a tragic end during the Clash of the Titans Arc."
+      ],
+      "injuriesAndScars": [
+        "Various scars from battles against Titans."
+      ],
+      "voiceActors": {
+        "japanese": "Asami Shimoda",
+        "english": "Jessica Cavanagh"
+      }
+    }
+  ]
+}
