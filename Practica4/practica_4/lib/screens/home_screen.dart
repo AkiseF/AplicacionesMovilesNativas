@@ -28,75 +28,85 @@ class HomeScreen extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(24.0),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // Custom logo widget replacing image
+                    // Custom logo widget
                     const CustomLogo(),
-                    const SizedBox(height: 64), 
+                    const SizedBox(height: 40), // Reducido de 64
 
-                    // Game mode buttons
-                    ThemedGameModeCard(
-                      title: 'Un Jugador',
-                      subtitle: 'Juega contra la IA',
-                      icon: Icons.person,
-                      onTap: () => _startSinglePlayerGame(context),
-                    ),
-                    const SizedBox(height: 24),
-                    
-                    ThemedGameModeCard(
-                      title: 'Dos Jugadores',
-                      subtitle: 'Conexión por Bluetooth',
-                      icon: Icons.bluetooth,
-                      onTap: () => _navigateToBluetoothSetup(context),
-                    ),
-                    const SizedBox(height: 64),
+                    // Game mode buttons - Scrollable si es necesario
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            ThemedGameModeCard(
+                              title: 'Un Jugador',
+                              subtitle: 'Juega contra la IA',
+                              icon: Icons.person,
+                              onTap: () => _startSinglePlayerGame(context),
+                            ),
+                            const SizedBox(height: 20), // Reducido de 24
+                            
+                            ThemedGameModeCard(
+                              title: 'Dos Jugadores',
+                              subtitle: 'Conexión por Bluetooth',
+                              icon: Icons.bluetooth,
+                              onTap: () => _navigateToBluetoothSetup(context),
+                            ),
+                            const SizedBox(height: 40), // Reducido de 64
 
-                    // Score display
-                    Consumer<GameProvider>(
-                      builder: (context, gameProvider, child) {
-                        if (gameProvider.hasGame) {
-                          return _buildScoreCard(
-                            gameProvider.player1Score,
-                            gameProvider.player2Score,
-                          );
-                        }
-                        return const SizedBox.shrink();
-                      },
+                            // Score display - Solo mostrar si hay juego activo
+                            Consumer<GameProvider>(
+                              builder: (context, gameProvider, child) {
+                                if (gameProvider.hasGame) {
+                                  return _buildScoreCard(
+                                    gameProvider.player1Score,
+                                    gameProvider.player2Score,
+                                  );
+                                }
+                                return const SizedBox.shrink();
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-
-                    const Spacer(),
 
                     // Bottom row with instructions and theme selector
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        // Instructions button
-                        OutlinedButton.icon(
-                          onPressed: () => _showInstructions(context),
-                          icon: Icon(
-                            Icons.help_outline, 
-                            color: themeProvider.isDarkMode ? Colors.white : Colors.black,
-                          ),
-                          label: Text(
-                            'Cómo Jugar',
-                            style: TextStyle(
+                    // Espacio mínimo fijo en la parte inferior
+                    Container(
+                      padding: const EdgeInsets.only(top: 16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          // Instructions button
+                          OutlinedButton.icon(
+                            onPressed: () => _showInstructions(context),
+                            icon: Icon(
+                              Icons.help_outline, 
                               color: themeProvider.isDarkMode ? Colors.white : Colors.black,
                             ),
-                          ),
-                          style: OutlinedButton.styleFrom(
-                            side: BorderSide(
-                              color: themeProvider.isDarkMode ? Colors.white : Colors.black,
+                            label: Text(
+                              'Cómo Jugar',
+                              style: TextStyle(
+                                color: themeProvider.isDarkMode ? Colors.white : Colors.black,
+                              ),
                             ),
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 24,
-                              vertical: 12,
+                            style: OutlinedButton.styleFrom(
+                              side: BorderSide(
+                                color: themeProvider.isDarkMode ? Colors.white : Colors.black,
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 20, // Reducido
+                                vertical: 10,   // Reducido
+                              ),
                             ),
                           ),
-                        ),
-                        
-                        // Theme selector button
-                        const ThemeSelector(),
-                      ],
+                          
+                          // Theme selector button
+                          const ThemeSelector(),
+                        ],
+                      ),
                     ),
                   ],
                 ),

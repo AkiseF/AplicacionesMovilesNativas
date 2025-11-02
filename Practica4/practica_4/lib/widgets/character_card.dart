@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import '../models/character.dart';
 
 class CharacterCard extends StatelessWidget {
@@ -25,7 +24,7 @@ class CharacterCard extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // Character image
+                // Character image - usando Image.asset para imágenes locales
                 Expanded(
                   flex: 3,
                   child: Container(
@@ -40,64 +39,15 @@ class CharacterCard extends StatelessWidget {
                         top: Radius.circular(12),
                       ),
                       child: character.imageUrl != null
-                          ? CachedNetworkImage(
-                              imageUrl: character.imageUrl!,
+                          ? Image.asset(
+                              character.imageUrl!,
                               fit: BoxFit.cover,
-                              placeholder: (context, url) => Container(
-                                color: Colors.grey[300],
-                                child: const Center(
-                                  child: CircularProgressIndicator(),
-                                ),
-                              ),
-                              errorWidget: (context, url, error) => Container(
-                                color: Colors.grey[300],
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      Icons.person,
-                                      size: 32,
-                                      color: Colors.grey[600],
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      character.name.split(' ').first,
-                                      style: TextStyle(
-                                        fontSize: 10,
-                                        color: Colors.grey[600],
-                                      ),
-                                      textAlign: TextAlign.center,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ],
-                                ),
-                              ),
+                              errorBuilder: (context, error, stackTrace) {
+                                // Fallback si la imagen no se carga
+                                return _buildImageFallback(character);
+                              },
                             )
-                          : Container(
-                              color: Colors.grey[300],
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.person,
-                                    size: 32,
-                                    color: Colors.grey[600],
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Text(
-                                    character.name.split(' ').first,
-                                    style: TextStyle(
-                                      fontSize: 10,
-                                      color: Colors.grey[600],
-                                    ),
-                                    textAlign: TextAlign.center,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ],
-                              ),
-                            ),
+                          : _buildImageFallback(character),
                     ),
                   ),
                 ),
@@ -109,8 +59,8 @@ class CharacterCard extends StatelessWidget {
                     padding: const EdgeInsets.all(4),
                     decoration: BoxDecoration(
                       color: isSelectionMode 
-                          ? Theme.of(context).primaryColor.withValues(alpha: 0.1)
-                          : null,
+                          ? Theme.of(context).primaryColor.withOpacity(0.1)
+                          : Colors.black.withOpacity(0.6), // Fondo oscuro
                       borderRadius: const BorderRadius.vertical(
                         bottom: Radius.circular(12),
                       ),
@@ -123,7 +73,14 @@ class CharacterCard extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                           color: character.isEliminated 
                               ? Colors.grey 
-                              : Colors.black87,
+                              : Colors.white, // Blanco
+                          shadows: const [
+                            Shadow(
+                              offset: Offset(0, 0),
+                              blurRadius: 3,
+                              color: Colors.black,
+                            ),
+                          ],
                         ),
                         textAlign: TextAlign.center,
                         maxLines: 2,
@@ -139,7 +96,7 @@ class CharacterCard extends StatelessWidget {
             if (character.isEliminated)
               Container(
                 decoration: BoxDecoration(
-                  color: Colors.red.withValues(alpha: 0.8),
+                  color: Colors.red.withOpacity(0.8),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Center(
@@ -202,6 +159,34 @@ class CharacterCard extends StatelessWidget {
               ),
           ],
         ),
+      ),
+    );
+  }
+
+  // Widget de fallback para cuando no hay imagen
+  Widget _buildImageFallback(Character character) {
+    return Container(
+      color: Colors.grey[300],
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.person,
+            size: 32,
+            color: Colors.grey[600],
+          ),
+          const SizedBox(height: 4),
+          Text(
+            character.name.split(' ').first,
+            style: TextStyle(
+              fontSize: 10,
+              color: Colors.grey[600],
+            ),
+            textAlign: TextAlign.center,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
       ),
     );
   }

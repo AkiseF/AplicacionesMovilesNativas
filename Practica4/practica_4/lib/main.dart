@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'providers/game_provider.dart';
 import 'providers/theme_provider.dart';
-import 'screens/home_screen.dart';
+import 'screens/splash_screen.dart'; 
 
 void main() {
   runApp(const GuessWhoApp());
@@ -23,9 +23,9 @@ class GuessWhoApp extends StatelessWidget {
           return MaterialApp(
             title: 'Guess Who - Attack on Titan',
             theme: themeProvider.getThemeData(),
-            darkTheme: themeProvider.getThemeData(), // Same theme for both modes since we handle it internally
-            themeMode: ThemeMode.light, // Always use light mode, dark mode is handled internally
-            home: const HomeScreen(),
+            darkTheme: themeProvider.getThemeData(),
+            themeMode: ThemeMode.light,
+            home: const SplashScreen(), 
             debugShowCheckedModeBanner: false,
           );
         },

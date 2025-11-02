@@ -27,7 +27,7 @@ class Character {
   final List<String> trivia;
   final List<String> injuriesAndScars;
   final Map<String, String> voiceActors;
-  
+
   // Game-specific properties
   bool isEliminated;
   bool isSelected;
@@ -68,37 +68,75 @@ class Character {
   });
 
   factory Character.fromJson(Map<String, dynamic> json) {
-    return Character(
-      id: json['id'] as int,
-      name: json['name'] as String,
-      age: json['age'] as int,
-      status: json['status'] as String,
-      height: json['height'] as String,
-      weight: json['weight'] as String,
-      hairColor: json['hairColor'] as String,
-      eyeColor: json['eyeColor'] as String,
-      birthplace: json['birthplace'] as String,
-      skills: List<String>.from(json['skills'] as List),
-      titanForm: json['titanForm'] as String?,
-      notableBattles: List<String>.from(json['notableBattles'] as List),
-      loveInterests: json['loveInterests'] as String?,
-      fears: json['fears'] as String,
-      hobbies: json['hobbies'] as String,
-      dislikes: json['dislikes'] as String,
-      education: json['education'] as String,
-      notableQuotes: List<String>.from(json['notableQuotes'] as List),
-      appearance: json['appearance'] as String,
-      allies: List<String>.from(json['allies'] as List),
-      enemies: List<String>.from(json['enemies'] as List),
-      characterArc: json['characterArc'] as String,
-      titanKillCount: json['titanKillCount'] as int,
-      humanKillCount: json['humanKillCount'] as int,
-      affiliations: List<String>.from(json['affiliations'] as List),
-      trivia: List<String>.from(json['trivia'] as List),
-      injuriesAndScars: List<String>.from(json['injuriesAndScars'] as List),
-      voiceActors: Map<String, String>.from(json['voiceActors'] as Map),
-      imageUrl: generateImageUrl(json['name'] as String),
-    );
+    try {
+      return Character(
+        id: json['id'] as int,
+        name: json['name'] as String,
+        age: json['age'] as int? ?? 0,
+        status: json['status'] as String? ?? 'Unknown',
+        height: json['height'] as String? ?? 'Unknown',
+        weight: json['weight'] as String? ?? 'Unknown',
+        hairColor: json['hairColor'] as String? ?? 'Unknown',
+        eyeColor: json['eyeColor'] as String? ?? 'Unknown',
+        birthplace: json['birthplace'] as String? ?? 'Unknown',
+        skills: _parseList(json['skills']),
+        titanForm: _parseStringOrNull(json['titanForm']),
+        notableBattles: _parseList(json['notableBattles']),
+        loveInterests: _parseStringOrNull(json['loveInterests']),
+        fears: json['fears'] as String? ?? 'Unknown',
+        hobbies: json['hobbies'] as String? ?? 'Unknown',
+        dislikes: json['dislikes'] as String? ?? 'Unknown',
+        education: json['education'] as String? ?? 'Unknown',
+        notableQuotes: _parseList(json['notableQuotes']),
+        appearance: json['appearance'] as String? ?? 'Unknown',
+        allies: _parseList(json['allies']),
+        enemies: _parseList(json['enemies']),
+        characterArc: json['characterArc'] as String? ?? 'Unknown',
+        titanKillCount: json['titanKillCount'] as int? ?? 0,
+        humanKillCount: json['humanKillCount'] as int? ?? 0,
+        affiliations: _parseList(json['affiliations']),
+        trivia: _parseList(json['trivia']),
+        injuriesAndScars: _parseList(json['injuriesAndScars']),
+        voiceActors: _parseMap(json['voiceActors']),
+        imageUrl: generateImageUrl(json['name'] as String),
+      );
+    } catch (e, stackTrace) {
+      print('❌ Error parseando personaje: $e');
+      print('📋 Nombre: ${json['name'] ?? 'Unknown'}');
+      print('🔍 Stack trace: $stackTrace');
+      rethrow;
+    }
+  }
+
+  // Método helper para parsear String o null (maneja String, List, o null)
+  static String? _parseStringOrNull(dynamic value) {
+    if (value == null) return null;
+    if (value is String) return value;
+    if (value is List && value.isNotEmpty) {
+      return value.join(', ');
+    }
+    return null;
+  }
+
+  // Método helper para parsear listas de forma segura
+  static List<String> _parseList(dynamic value) {
+    if (value == null) return [];
+    if (value is List) {
+      return value.map((e) => e?.toString() ?? '').where((s) => s.isNotEmpty).toList();
+    }
+    if (value is String && value.isNotEmpty) return [value];
+    return [];
+  }
+
+  // Método helper para parsear maps de forma segura
+  static Map<String, String> _parseMap(dynamic value) {
+    if (value == null) return {};
+    if (value is Map) {
+      return value.map((key, val) => 
+        MapEntry(key?.toString() ?? '', val?.toString() ?? '')
+      );
+    }
+    return {};
   }
 
   Map<String, dynamic> toJson() {
@@ -177,11 +215,15 @@ class Character {
     );
   }
 
-  // Generate a placeholder image URL based on character name
+  // Generate local image URL based on character name
   static String generateImageUrl(String characterName) {
-    // Using a placeholder service with the character name
-    final encodedName = Uri.encodeComponent(characterName);
-    return 'https://via.placeholder.com/200x250/333333/FFFFFF?text=$encodedName';
+    // Remove accents and special characters, replace spaces
+    final formattedName = characterName
+        .toLowerCase()
+        .replaceAll(RegExp(r'[^a-z0-9]'), '')
+        .replaceAll(' ', '');
+    
+    return 'assets/data/images/${formattedName}4k.jpg';
   }
 
   @override

@@ -3,9 +3,11 @@ import 'package:provider/provider.dart';
 import '../providers/game_provider.dart';
 import '../models/game_session.dart';
 import '../models/character.dart';
+import '../models/question.dart';
 import '../widgets/character_card.dart';
 import '../widgets/question_carousel.dart';
 import '../widgets/game_status_bar.dart';
+import '../services/ai_service.dart'; 
 
 class GameScreen extends StatefulWidget {
   const GameScreen({super.key});
@@ -31,25 +33,32 @@ class _GameScreenState extends State<GameScreen> {
       body: Consumer<GameProvider>(
         builder: (context, gameProvider, child) {
           if (gameProvider.isLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return const Center(child: CircularProgressIndicator());
           }
 
           if (!gameProvider.hasGame) {
-            return const Center(
-              child: Text('No hay juego activo'),
-            );
+            // Si no hay juego, regresar al menú principal
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (mounted) {
+                Navigator.of(context).pop();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('No se pudo cargar el juego'),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+              }
+            });
+            return const Center(child: CircularProgressIndicator());
           }
 
           final game = gameProvider.currentGame!;
 
-          // Character selection phase
+          // Mostrar pantalla de selección de personajes si está en ese estado
           if (game.state == GameState.characterSelection) {
             return _buildCharacterSelectionScreen(context, game);
           }
 
-          // Main game screen
           return Column(
             children: [
               // Game status bar
@@ -58,28 +67,25 @@ class _GameScreenState extends State<GameScreen> {
                 isPlayerTurn: game.isCurrentPlayerTurn,
               ),
 
-              // Game board
+              // Game board - siempre visible
               Expanded(
                 flex: 3,
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: _buildGameBoard(context, gameProvider.currentVisibleCharacters),
+                  child: _buildGameBoard(
+                    context, 
+                    gameProvider.currentVisibleCharacters,
+                    canInteract: game.state == GameState.playing && 
+                                game.isCurrentPlayerTurn,
+                  ),
                 ),
               ),
 
-              // Question carousel (only show during player's turn in playing state)
-              if (game.state == GameState.playing && game.isCurrentPlayerTurn)
-                Expanded(
-                  flex: 1,
-                  child: QuestionCarousel(
-                    questions: game.availableQuestions,
-                    onQuestionAsked: (question) {
-                      gameProvider.askQuestion(question);
-                    },
-                  ),
-                ),
+              // Action area - depende del estado del juego
+              if (game.state == GameState.playing)
+                _buildActionArea(context, gameProvider),
 
-              // Game over screen
+              // Game over overlay
               if (game.state == GameState.gameOver)
                 _buildGameOverOverlay(context, game),
             ],
@@ -89,12 +95,156 @@ class _GameScreenState extends State<GameScreen> {
     );
   }
 
+  Widget _buildActionArea(BuildContext context, GameProvider gameProvider) {
+    final game = gameProvider.currentGame!;
+    
+    if (game.isCurrentPlayerTurn) {
+      // Player's turn - show question carousel and guess button
+      return Expanded(
+        flex: 2,
+        child: Column(
+          children: [
+            // Question carousel
+            Expanded(
+              child: QuestionCarousel(
+                questions: game.availableQuestions,
+                onQuestionAsked: (question) {
+                  _askQuestion(context, question);
+                },
+              ),
+            ),
+            
+            // Guess button (only if more than 1 character remains)
+            if (gameProvider.currentPlayerBoard.length > 1)
+              Container(
+                padding: const EdgeInsets.all(16),
+                child: ElevatedButton.icon(
+                  onPressed: () => _showGuessDialog(context),
+                  icon: const Icon(Icons.lightbulb_outline),
+                  label: const Text('Adivinar Personaje'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.amber,
+                    foregroundColor: Colors.black,
+                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                  ),
+                ),
+              ),
+          ],
+        ),
+      );
+    } else {
+      // AI's turn - show thinking indicator
+      return Expanded(
+        flex: 1,
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const CircularProgressIndicator(),
+              const SizedBox(height: 16),
+              Text(
+                game.mode == GameMode.singlePlayer 
+                  ? 'La IA está pensando...'
+                  : 'Turno del oponente...',
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+  }
+
+  // Método para hacer preguntas
+  void _askQuestion(BuildContext context, Question question) {
+    final gameProvider = Provider.of<GameProvider>(context, listen: false);
+    final game = gameProvider.currentGame!;
+    
+    if (game.mode == GameMode.singlePlayer) {
+      // Against AI - get answer immediately
+      final aiCharacter = game.player2Character!;
+      final answer = AIService.instance.answerQuestion(question, aiCharacter);
+      
+      // Show answer to player
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Respuesta'),
+          content: Text('La respuesta es: ${answer ? "SÍ" : "NO"}'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                // Player eliminates characters based on answer
+                gameProvider.eliminateCharactersBasedOnAnswer(question, answer);
+              },
+              child: const Text('Continuar'),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+
+  // Método para mostrar diálogo de adivinanza
+  void _showGuessDialog(BuildContext context) {
+    final gameProvider = Provider.of<GameProvider>(context, listen: false);
+    final remainingCharacters = gameProvider.currentPlayerBoard;
+    
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Adivinar Personaje'),
+        content: SizedBox(
+          width: double.maxFinite,
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: remainingCharacters.length,
+            itemBuilder: (context, index) {
+              final character = remainingCharacters[index];
+              return ListTile(
+                leading: Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    image: character.imageUrl != null 
+                      ? DecorationImage(
+                          image: AssetImage(character.imageUrl!),
+                          fit: BoxFit.cover,
+                        )
+                      : null,
+                    color: Colors.grey[300],
+                  ),
+                  child: character.imageUrl == null
+                    ? Icon(Icons.person, color: Colors.grey[600])
+                    : null,
+                ),
+                title: Text(character.name),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  gameProvider.makeGuess(character);
+                },
+              );
+            },
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Cancelar'),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildCharacterSelectionScreen(BuildContext context, GameSession game) {
     return Column(
       children: [
         Container(
           padding: const EdgeInsets.all(16),
-          color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
+          color: Theme.of(context).primaryColor.withOpacity(0.1),
           child: Column(
             children: [
               Text(
@@ -105,16 +255,16 @@ class _GameScreenState extends State<GameScreen> {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 8),
-              Text(
+              const Text(
                 'Este será el personaje que tu oponente debe adivinar',
-                style: const TextStyle(color: Colors.grey),
+                style: TextStyle(color: Colors.grey),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 8),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
+                  color: Theme.of(context).primaryColor.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Text(
@@ -142,14 +292,21 @@ class _GameScreenState extends State<GameScreen> {
     );
   }
 
-  Widget _buildGameBoard(BuildContext context, List<Character> characters, {bool isSelectionMode = false}) {
+  Widget _buildGameBoard(
+    BuildContext context, 
+    List<Character> characters, {
+    bool isSelectionMode = false, 
+    bool canInteract = true,
+  }) {
     final gameProvider = Provider.of<GameProvider>(context, listen: false);
     final dimensions = gameProvider.gridDimensions;
     final hasMultipleGrids = gameProvider.hasMultipleGrids;
     final currentGridIndex = gameProvider.currentGridIndex;
     
     if (dimensions == null) {
-      return const Center(child: Text('Error: No se pudieron cargar las dimensiones del grid'));
+      return const Center(
+        child: Text('Error: No se pudieron cargar las dimensiones del grid')
+      );
     }
 
     Widget gridWidget = GridView.builder(
@@ -164,13 +321,13 @@ class _GameScreenState extends State<GameScreen> {
         final character = characters[index];
         return CharacterCard(
           character: character,
-          onTap: () {
+          onTap: canInteract ? () {
             if (isSelectionMode) {
               _selectCharacter(context, character);
             } else {
               _handleCharacterTap(context, character);
             }
-          },
+          } : null,
           isSelectionMode: isSelectionMode,
         );
       },
@@ -204,7 +361,7 @@ class _GameScreenState extends State<GameScreen> {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                       decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
+                        color: Theme.of(context).primaryColor.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(16),
                       ),
                       child: Row(
@@ -252,8 +409,8 @@ class _GameScreenState extends State<GameScreen> {
     if (game.mode == GameMode.singlePlayer) {
       // Check last action to see who won
       final lastAction = game.gameHistory.isNotEmpty ? game.gameHistory.last : null;
-      if (lastAction?.type == 'guess' && lastAction?.data['correct'] == true) {
-        winnerText = lastAction!.player == PlayerTurn.player1 ? '¡Ganaste!' : '¡La IA Ganó!';
+      if (lastAction != null && lastAction.type == 'guess' && lastAction.data['correct'] == true) {
+        winnerText = lastAction.player == PlayerTurn.player1 ? '¡Ganaste!' : '¡La IA Ganó!';
       } else {
         winnerText = 'Juego Terminado';
       }
@@ -265,35 +422,47 @@ class _GameScreenState extends State<GameScreen> {
       color: Colors.black54,
       child: Center(
         child: Card(
-          margin: const EdgeInsets.all(32),
+          margin: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
           child: Padding(
-            padding: const EdgeInsets.all(24),
+            padding: const EdgeInsets.all(20),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
                   winnerText,
-                  style: Theme.of(context).textTheme.headlineMedium,
+                  style: Theme.of(context).textTheme.headlineSmall, // Más pequeño
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 12),
                 Text(
                   'Puntuación: ${game.player1Score} - ${game.player2Score}',
-                  style: Theme.of(context).textTheme.bodyLarge,
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
-                const SizedBox(height: 24),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () => _playAgain(context),
-                      child: const Text('Jugar Otra Vez'),
-                    ),
-                    OutlinedButton(
-                      onPressed: () => Navigator.of(context).pop(),
-                      child: const Text('Menú Principal'),
-                    ),
-                  ],
+                const SizedBox(height: 20),
+                // Botones en columna
+                SizedBox(
+                  width: double.infinity,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () => _playAgain(context),
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                        ),
+                        child: const Text('Jugar Otra Vez', style: TextStyle(fontSize: 14)),
+                      ),
+                      const SizedBox(height: 10),
+                      OutlinedButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        style: OutlinedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                        ),
+                        child: const Text('Menú Principal', style: TextStyle(fontSize: 14)),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -404,7 +573,8 @@ class _GameScreenState extends State<GameScreen> {
     final currentMode = gameProvider.currentGame?.mode ?? GameMode.singlePlayer;
     final currentDifficulty = gameProvider.currentGame?.difficulty ?? DifficultyLevel.hard;
     
-    gameProvider.startNewGame(currentMode, difficulty: currentDifficulty);
+    // Mantener los scores acumulados
+    gameProvider.startNewGame(currentMode, difficulty: currentDifficulty, keepScore: true);
   }
 
   void _showGameMenu(BuildContext context) {

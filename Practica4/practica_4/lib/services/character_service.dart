@@ -17,7 +17,7 @@ class CharacterService {
     }
 
     try {
-      final String jsonString = await rootBundle.loadString('data/attackontitan.json');
+      final String jsonString = await rootBundle.loadString('assets/data/attackontitan.json');
       final Map<String, dynamic> data = json.decode(jsonString);
       final List<dynamic> charactersJson = data['body'] as List<dynamic>;
 
@@ -147,4 +147,6 @@ class CharacterService {
 
     return stats;
   }
+
+  
 }
