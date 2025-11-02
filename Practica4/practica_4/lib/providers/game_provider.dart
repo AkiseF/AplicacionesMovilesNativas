@@ -3,20 +3,35 @@ import 'package:flutter/foundation.dart';
 import '../models/character.dart';
 import '../models/question.dart';
 import '../models/game_session.dart';
+import '../models/game_statistics.dart';
 import '../services/character_service.dart';
 import '../services/ai_service.dart';
+import '../services/bluethooth_service.dart';
+import '../services/database_service.dart';
 import 'package:flutter/material.dart';
 
 class GameProvider with ChangeNotifier {
   GameSession? _currentGame;
   bool _isLoading = false;
   String? _error;
+  DateTime? _gameStartTime;
+  int _questionsAskedThisGame = 0;
+  int _charactersEliminatedThisGame = 0;
+
+  // Para manejar preguntas del oponente en multiplayer
+  Question? _pendingOpponentQuestion;
+  bool _showOpponentQuestionDialog = false;
+
+  final BluetoothService _bluetoothService = BluetoothService.instance;
+  final DatabaseService _databaseService = DatabaseService.instance;
 
   // Getters
   GameSession? get currentGame => _currentGame;
   bool get isLoading => _isLoading;
   String? get error => _error;
   bool get hasGame => _currentGame != null;
+  Question? get pendingOpponentQuestion => _pendingOpponentQuestion;
+  bool get showOpponentQuestionDialog => _showOpponentQuestionDialog;
 
   // Game state getters
   GameState? get gameState => _currentGame?.state;
@@ -33,7 +48,6 @@ class GameProvider with ChangeNotifier {
   int get player2Score => _currentGame?.player2Score ?? 0;
   List<Question> get availableQuestions => _currentGame?.availableQuestions ?? [];
 
-  // Nuevos getters para la lógica del juego
   List<Character> get currentPlayerBoard {
     if (_currentGame == null) return [];
     
@@ -43,6 +57,187 @@ class GameProvider with ChangeNotifier {
   }
 
   bool get canMakeGuess => currentPlayerBoard.length > 1;
+
+  GameProvider() {
+    _setupBluetoothListeners();
+  }
+
+  void _setupBluetoothListeners() {
+    _bluetoothService.messageStream.listen((message) {
+      _handleBluetoothMessage(message);
+    });
+  }
+
+  void _handleBluetoothMessage(BluetoothGameMessage message) {
+    switch (message.type) {
+      case BluetoothGameMessageType.characterSelection:
+        _handleOpponentCharacterSelection(message);
+        break;
+      case BluetoothGameMessageType.question:
+        _handleOpponentQuestion(message);
+        break;
+      case BluetoothGameMessageType.answer:
+        _handleOpponentAnswer(message);
+        break;
+      case BluetoothGameMessageType.elimination:
+        _handleOpponentElimination(message);
+        break;
+      case BluetoothGameMessageType.guess:
+        _handleOpponentGuess(message);
+        break;
+      case BluetoothGameMessageType.gameStart:
+        _handleGameStartFromHost(message);
+        break;
+      case BluetoothGameMessageType.turnChange:
+        _handleTurnChange(message);
+        break;
+      default:
+        break;
+    }
+  }
+
+  void _handleOpponentCharacterSelection(BluetoothGameMessage message) {
+    if (_currentGame == null) return;
+    
+    final characterId = message.data['characterId'] as int;
+    final character = getCharacterById(characterId);
+    
+    if (character != null) {
+      _currentGame!.selectCharacter(character, PlayerTurn.player2);
+      
+      if (_currentGame!.player1Character != null && _currentGame!.player2Character != null) {
+        _currentGame!.state = GameState.playing;
+      }
+      
+      notifyListeners();
+    }
+  }
+
+  void _handleOpponentQuestion(BluetoothGameMessage message) {
+    // El oponente nos está haciendo una pregunta
+    final questionId = message.data['questionId'] as int;
+    final questionText = message.data['questionText'] as String;
+    final category = QuestionCategory.values.firstWhere(
+      (e) => e.name == message.data['category'],
+    );
+    
+    print('❓ Oponente preguntó: $questionText');
+    
+    // Crear una pregunta temporal para mostrar al jugador
+    final temporaryQuestion = Question(
+      id: questionId,
+      text: questionText,
+      category: category,
+      checkAnswer: (character) {
+        // Esta función no se usará realmente, ya que el oponente ya tiene la lógica
+        // Solo necesitamos el texto para mostrar al usuario
+        return false;
+      },
+    );
+    
+    // Guardar la pregunta pendiente y mostrar el diálogo
+    _pendingOpponentQuestion = temporaryQuestion;
+    _showOpponentQuestionDialog = true;
+    notifyListeners();
+  }
+
+  void _handleOpponentAnswer(BluetoothGameMessage message) {
+    final answer = message.data['answer'] as bool;
+    print('✅ Oponente respondió: $answer');
+    
+    // Usar la respuesta para eliminar personajes en nuestro tablero
+    if (_currentGame != null && _currentGame!.state == GameState.playing) {
+      // Buscar la última pregunta que hicimos
+      final lastQuestionAction = _currentGame!.gameHistory.reversed
+          .firstWhere((action) => action.type == 'question' && action.player == PlayerTurn.player1);
+      
+      if (lastQuestionAction != null) {
+        final questionId = lastQuestionAction.data['questionId'];
+        final question = _currentGame!.availableQuestions
+            .firstWhere((q) => q.id == questionId, orElse: () => _currentGame!.availableQuestions.first);
+        
+        // Eliminar personajes basado en la respuesta
+        eliminateCharactersBasedOnAnswer(question, answer);
+      }
+    }
+  }
+
+  void _handleOpponentElimination(BluetoothGameMessage message) {
+    // Opponent eliminated a character on their board
+    // We don't need to do anything with our board
+    final characterId = message.data['characterId'] as int;
+    print('🗑️ Oponente eliminó personaje ID: $characterId');
+  }
+
+  void _handleOpponentGuess(BluetoothGameMessage message) {
+    if (_currentGame == null) return;
+    
+    final characterId = message.data['characterId'] as int;
+    final character = getCharacterById(characterId);
+    
+    if (character != null) {
+      final playerCharacter = _currentGame!.player1Character!;
+      final correct = playerCharacter.id == character.id;
+      
+      print('🎯 Oponente adivinó: ${character.name} - ${correct ? 'CORRECTO' : 'INCORRECTO'}');
+      
+      if (correct) {
+        // Opponent wins
+        _currentGame!.addScore(PlayerTurn.player2);
+        _currentGame!.state = GameState.gameOver;
+        _saveGameStatistics(playerWon: false);
+      } else {
+        // Opponent guessed wrong, we win
+        _currentGame!.addScore(PlayerTurn.player1);
+        _currentGame!.state = GameState.gameOver;
+        _saveGameStatistics(playerWon: true);
+      }
+      
+      notifyListeners();
+    }
+  }
+
+  void _handleGameStartFromHost(BluetoothGameMessage message) async {
+    final difficulty = DifficultyLevel.values.firstWhere(
+      (e) => e.name == message.data['difficulty'],
+    );
+    final characterIds = List<int>.from(message.data['characterIds']);
+    
+    await startNewGame(GameMode.twoPlayer, difficulty: difficulty);
+  }
+
+  void _handleTurnChange(BluetoothGameMessage message) {
+    if (_currentGame != null) {
+      _currentGame!.switchTurn();
+      notifyListeners();
+    }
+  }
+
+  // Método para responder a la pregunta del oponente
+  void answerOpponentQuestion(bool answer) {
+    if (_pendingOpponentQuestion == null) return;
+    
+    // Enviar respuesta al oponente
+    _bluetoothService.sendAnswer(answer);
+    
+    // Cerrar el diálogo
+    _showOpponentQuestionDialog = false;
+    _pendingOpponentQuestion = null;
+    
+    // Cambiar turno
+    if (_currentGame != null) {
+      _currentGame!.switchTurn();
+    }
+    
+    notifyListeners();
+  }
+
+  // Método para cerrar el diálogo de pregunta (por si acaso)
+  void closeOpponentQuestionDialog() {
+    _showOpponentQuestionDialog = false;
+    _pendingOpponentQuestion = null;
+    notifyListeners();
+  }
 
   void _setLoading(bool loading) {
     _isLoading = loading;
@@ -54,19 +249,16 @@ class GameProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // Start a new game
   Future<void> startNewGame(GameMode mode, {DifficultyLevel difficulty = DifficultyLevel.hard, bool keepScore = false}) async {
     _setLoading(true);
     _setError(null);
 
-    // Save current scores if we're keeping them
     final previousPlayer1Score = keepScore ? (_currentGame?.player1Score ?? 0) : 0;
     final previousPlayer2Score = keepScore ? (_currentGame?.player2Score ?? 0) : 0;
 
     try {
       print('🎮 Iniciando nuevo juego - Modo: $mode, Dificultad: $difficulty');
       
-      // Load game board based on difficulty
       final characters = await CharacterService.instance.getGameBoardForDifficulty(difficulty);
       
       print('✅ Personajes cargados: ${characters.length}');
@@ -75,7 +267,6 @@ class GameProvider with ChangeNotifier {
         throw Exception('No se cargaron personajes');
       }
       
-      // Create new game session
       _currentGame = GameSession(
         id: DateTime.now().millisecondsSinceEpoch.toString(),
         mode: mode,
@@ -87,11 +278,20 @@ class GameProvider with ChangeNotifier {
         player2Score: previousPlayer2Score,
       );
 
+      _gameStartTime = DateTime.now();
+      _questionsAskedThisGame = 0;
+      _charactersEliminatedThisGame = 0;
+
+      // Resetear estado de preguntas del oponente
+      _pendingOpponentQuestion = null;
+      _showOpponentQuestionDialog = false;
+
+      // If host in multiplayer mode, send game start to opponent
+      if (mode == GameMode.twoPlayer && _bluetoothService.isHost) {
+        await _bluetoothService.sendGameStart(_currentGame!);
+      }
+
       print('✅ Juego creado exitosamente');
-      print('   - hasGame: $hasGame');
-      print('   - Estado: ${_currentGame?.state}');
-      print('   - Characters: ${_currentGame?.gameBoard.length}');
-      print('   - Scores: $previousPlayer1Score - $previousPlayer2Score');
       
     } catch (e) {
       print('❌ Error al crear juego: $e');
@@ -103,7 +303,6 @@ class GameProvider with ChangeNotifier {
     }
   }
 
-  // Switch between grids in expert mode
   void switchGrid() {
     if (_currentGame?.hasMultipleGrids == true) {
       _currentGame!.switchGrid();
@@ -111,19 +310,22 @@ class GameProvider with ChangeNotifier {
     }
   }
 
-  // Select character for current player
   void selectCharacter(Character character) {
     if (_currentGame == null) return;
 
     final currentPlayer = _currentGame!.currentTurn;
     _currentGame!.selectCharacter(character, currentPlayer);
 
+    // Send character selection via Bluetooth if in multiplayer
+    if (_currentGame!.mode == GameMode.twoPlayer) {
+      _bluetoothService.sendCharacterSelection(character);
+    }
+
     // If single player mode, AI selects its character
     if (_currentGame!.mode == GameMode.singlePlayer && 
         _currentGame!.player1Character != null && 
         _currentGame!.player2Character == null) {
       
-      // AI selects from remaining characters
       final availableForAI = _currentGame!.gameBoard
           .where((c) => c.id != character.id)
           .toList();
@@ -132,7 +334,6 @@ class GameProvider with ChangeNotifier {
       _currentGame!.selectCharacter(aiCharacter, PlayerTurn.player2);
     }
 
-    // Check if both players have selected characters
     if (_currentGame!.player1Character != null && _currentGame!.player2Character != null) {
       _currentGame!.state = GameState.playing;
     }
@@ -140,18 +341,16 @@ class GameProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // Ask a question
   Future<void> askQuestion(Question question) async {
     if (_currentGame == null || _currentGame!.state != GameState.playing) return;
 
     final currentPlayer = _currentGame!.currentTurn;
+    _questionsAskedThisGame++;
     
     if (_currentGame!.mode == GameMode.singlePlayer && currentPlayer == PlayerTurn.player1) {
-      // Player asks AI
       final aiCharacter = _currentGame!.player2Character!;
       final answer = AIService.instance.answerQuestion(question, aiCharacter);
       
-      // Record the action
       final action = GameAction.question(
         player: currentPlayer,
         question: question,
@@ -159,23 +358,27 @@ class GameProvider with ChangeNotifier {
       );
       _currentGame!.addGameAction(action);
 
-      // Show answer to player (they need to eliminate characters based on this)
-      // The elimination will be handled by the UI
+      // Eliminar personajes basado en la respuesta de la IA
+      eliminateCharactersBasedOnAnswer(question, answer);
       
-      notifyListeners();
     } else if (_currentGame!.mode == GameMode.twoPlayer) {
-      // TODO: Send question via Bluetooth when implemented
-      // For now, just add to game history
+      // Send question via Bluetooth
+      await _bluetoothService.sendQuestion(question);
+      
       final action = GameAction.question(
         player: currentPlayer,
         question: question,
-        answer: false, // Placeholder
+        answer: false, // La respuesta vendrá después
       );
       _currentGame!.addGameAction(action);
+      
+      // En multiplayer, no eliminamos personajes inmediatamente
+      // Esperamos la respuesta del oponente
     }
+    
+    notifyListeners();
   }
 
-  // Answer a question (for receiving player)
   void answerQuestion(Question question, bool answer) {
     if (_currentGame == null) return;
 
@@ -187,17 +390,17 @@ class GameProvider with ChangeNotifier {
     _currentGame!.addGameAction(action);
 
     if (_currentGame!.mode == GameMode.twoPlayer) {
-      // TODO: Send answer via Bluetooth when implemented
+      _bluetoothService.sendAnswer(answer);
     }
 
     notifyListeners();
   }
 
-  // Eliminate character
   void eliminateCharacter(Character character) {
     if (_currentGame == null) return;
 
     _currentGame!.eliminateCharacter(character);
+    _charactersEliminatedThisGame++;
 
     final action = GameAction.elimination(
       player: _currentGame!.currentTurn,
@@ -205,10 +408,12 @@ class GameProvider with ChangeNotifier {
     );
     _currentGame!.addGameAction(action);
 
-    // Switch turns after elimination
+    if (_currentGame!.mode == GameMode.twoPlayer) {
+      _bluetoothService.sendElimination(character);
+    }
+
     _currentGame!.switchTurn();
 
-    // In single player mode, trigger AI turn
     if (_currentGame!.mode == GameMode.singlePlayer && 
         _currentGame!.currentTurn == PlayerTurn.player2) {
       _handleAITurn();
@@ -217,7 +422,6 @@ class GameProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // Make a guess about opponent's character
   void makeGuess(Character character) {
     if (_currentGame == null || _currentGame!.state != GameState.playing) return;
 
@@ -238,21 +442,24 @@ class GameProvider with ChangeNotifier {
     );
     _currentGame!.addGameAction(action);
 
+    if (_currentGame!.mode == GameMode.twoPlayer) {
+      _bluetoothService.sendGuess(character);
+    }
+
     if (correct) {
-      // Current player wins
       _currentGame!.addScore(currentPlayer);
       _currentGame!.state = GameState.gameOver;
+      _saveGameStatistics(playerWon: currentPlayer == PlayerTurn.player1);
     } else {
-      // Wrong guess - current player loses
       final opponent = currentPlayer == PlayerTurn.player1 ? PlayerTurn.player2 : PlayerTurn.player1;
       _currentGame!.addScore(opponent);
       _currentGame!.state = GameState.gameOver;
+      _saveGameStatistics(playerWon: currentPlayer != PlayerTurn.player1);
     }
 
     notifyListeners();
   }
 
-  // Eliminate characters based on question answer
   void eliminateCharactersBasedOnAnswer(Question question, bool answer) {
     if (_currentGame == null) return;
 
@@ -264,12 +471,11 @@ class GameProvider with ChangeNotifier {
       
       final questionResult = question.checkAnswer(character);
       
-      // If the answer doesn't match the question result, eliminate the character
       if (questionResult != answer) {
         _currentGame!.gameBoard[i] = character.copyWith(isEliminated: true);
+        _charactersEliminatedThisGame++;
         anyElimination = true;
         
-        // Record elimination action
         final action = GameAction.elimination(
           player: _currentGame!.currentTurn,
           character: character,
@@ -279,19 +485,18 @@ class GameProvider with ChangeNotifier {
     }
 
     if (anyElimination) {
-      // Check if only one character remains (auto-win condition)
       final remainingCharacters = currentPlayerBoard;
       if (remainingCharacters.length == 1) {
-        // Auto-guess the remaining character
         makeGuess(remainingCharacters.first);
       } else {
-        // Switch turns
         _currentGame!.switchTurn();
         
-        // If it's AI's turn, handle it
         if (_currentGame!.mode == GameMode.singlePlayer && 
             _currentGame!.currentTurn == PlayerTurn.player2) {
           _handleAITurn();
+        } else if (_currentGame!.mode == GameMode.twoPlayer) {
+          // Enviar cambio de turno al oponente
+          _bluetoothService.sendTurnChange();
         }
       }
     }
@@ -299,7 +504,6 @@ class GameProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // Handle AI turn in single player mode
   Future<void> _handleAITurn() async {
     if (_currentGame == null || _currentGame!.mode != GameMode.singlePlayer) return;
 
@@ -308,7 +512,6 @@ class GameProvider with ChangeNotifier {
     final aiAction = AIService.instance.decideAction(_currentGame!);
 
     if (aiAction.type == AIActionType.askQuestion && aiAction.question != null) {
-      // AI asks a question
       final playerCharacter = _currentGame!.player1Character!;
       final answer = aiAction.question!.checkAnswer(playerCharacter);
 
@@ -319,7 +522,6 @@ class GameProvider with ChangeNotifier {
       );
       _currentGame!.addGameAction(action);
 
-      // AI eliminates characters based on the answer
       bool anyElimination = false;
       for (int i = 0; i < _currentGame!.gameBoard.length; i++) {
         final character = _currentGame!.gameBoard[i];
@@ -340,24 +542,22 @@ class GameProvider with ChangeNotifier {
       }
 
       if (anyElimination) {
-        // Check win condition for AI
         final remainingCharacters = _currentGame!.gameBoard
             .where((c) => !c.isEliminated)
             .toList();
             
         if (remainingCharacters.length == 1) {
-          // AI wins by elimination
           _currentGame!.addScore(PlayerTurn.player2);
           _currentGame!.state = GameState.gameOver;
+          _saveGameStatistics(playerWon: false);
         } else {
-          _currentGame!.switchTurn(); // Back to player
+          _currentGame!.switchTurn();
         }
       } else {
-        _currentGame!.switchTurn(); // Back to player even if no elimination
+        _currentGame!.switchTurn();
       }
       
     } else if (aiAction.type == AIActionType.makeGuess && aiAction.character != null) {
-      // AI makes a guess
       final playerCharacter = _currentGame!.player1Character!;
       final correct = playerCharacter.id == aiAction.character!.id;
 
@@ -369,11 +569,10 @@ class GameProvider with ChangeNotifier {
       _currentGame!.addGameAction(action);
 
       if (correct) {
-        // AI wins
         _currentGame!.addScore(PlayerTurn.player2);
         _currentGame!.state = GameState.gameOver;
+        _saveGameStatistics(playerWon: false);
       } else {
-        // Wrong guess, back to player
         _currentGame!.switchTurn();
       }
     }
@@ -381,7 +580,35 @@ class GameProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // Show game result (para usar desde la UI)
+  Future<void> _saveGameStatistics({required bool playerWon}) async {
+    if (_currentGame == null || _gameStartTime == null) return;
+
+    try {
+      final gameDuration = DateTime.now().difference(_gameStartTime!);
+      
+      final stats = GameStatistics(
+        id: 0, // Will be auto-generated by database
+        date: DateTime.now(),
+        mode: _currentGame!.mode,
+        difficulty: _currentGame!.difficulty,
+        playerWon: playerWon,
+        playerScore: _currentGame!.player1Score,
+        opponentScore: _currentGame!.player2Score,
+        questionsAsked: _questionsAskedThisGame,
+        charactersEliminated: _charactersEliminatedThisGame,
+        gameDuration: gameDuration,
+        opponentName: _currentGame!.mode == GameMode.twoPlayer 
+            ? _bluetoothService.connectedDevice?.name 
+            : 'IA',
+      );
+
+      await _databaseService.saveGameStatistics(stats);
+      print('✅ Estadísticas guardadas');
+    } catch (e) {
+      print('❌ Error al guardar estadísticas: $e');
+    }
+  }
+
   void showGameResult(BuildContext context, bool won) {
     final character = _currentGame!.opposingPlayerCharacter;
     showDialog(
@@ -415,14 +642,17 @@ class GameProvider with ChangeNotifier {
     );
   }
 
-  // Reset current game
   void resetGame() {
     _currentGame = null;
     _error = null;
+    _gameStartTime = null;
+    _questionsAskedThisGame = 0;
+    _charactersEliminatedThisGame = 0;
+    _pendingOpponentQuestion = null;
+    _showOpponentQuestionDialog = false;
     notifyListeners();
   }
 
-  // End current game
   void endGame() {
     if (_currentGame != null) {
       _currentGame!.state = GameState.gameOver;
@@ -430,7 +660,6 @@ class GameProvider with ChangeNotifier {
     }
   }
 
-  // Get character by ID
   Character? getCharacterById(int id) {
     if (_currentGame == null) return null;
     

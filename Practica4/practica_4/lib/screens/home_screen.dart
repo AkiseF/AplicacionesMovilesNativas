@@ -7,6 +7,8 @@ import '../widgets/theme_selector.dart';
 import '../widgets/custom_logo.dart';
 import '../widgets/themed_card.dart';
 import 'difficulty_selection_screen.dart';
+import 'bluetooth_setup_screen.dart';
+import '../utils/platform_utils.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -31,7 +33,7 @@ class HomeScreen extends StatelessWidget {
                   children: [
                     // Custom logo widget
                     const CustomLogo(),
-                    const SizedBox(height: 40), // Reducido de 64
+                    const SizedBox(height: 40),
 
                     // Game mode buttons - Scrollable si es necesario
                     Expanded(
@@ -45,15 +47,29 @@ class HomeScreen extends StatelessWidget {
                               icon: Icons.person,
                               onTap: () => _startSinglePlayerGame(context),
                             ),
-                            const SizedBox(height: 20), // Reducido de 24
+                            const SizedBox(height: 20),
                             
-                            ThemedGameModeCard(
-                              title: 'Dos Jugadores',
-                              subtitle: 'Conexión por Bluetooth',
-                              icon: Icons.bluetooth,
-                              onTap: () => _navigateToBluetoothSetup(context),
-                            ),
-                            const SizedBox(height: 40), // Reducido de 64
+                            // ✅ DETECCIÓN DE PLATAFORMA PARA BLUETOOTH
+                            if (PlatformUtils.isBluetoothAvailable) 
+                              ThemedGameModeCard(
+                                title: 'Dos Jugadores',
+                                subtitle: 'Conexión por Bluetooth',
+                                icon: Icons.bluetooth,
+                                onTap: () => _navigateToBluetoothSetup(context),
+                              )
+                            else
+                              // ✅ OPCIÓN 1: Mostrar card deshabilitado con función vacía
+                              ThemedGameModeCard(
+                                title: 'Dos Jugadores',
+                                subtitle: 'No disponible en ${PlatformUtils.platformName}',
+                                icon: Icons.bluetooth_disabled,
+                                onTap: () {
+                                  // Mostrar mensaje explicativo
+                                  _showBluetoothNotAvailableDialog(context);
+                                },
+                              ),
+                            
+                            const SizedBox(height: 40),
 
                             // Score display - Solo mostrar si hay juego activo
                             Consumer<GameProvider>(
@@ -73,7 +89,6 @@ class HomeScreen extends StatelessWidget {
                     ),
 
                     // Bottom row with instructions and theme selector
-                    // Espacio mínimo fijo en la parte inferior
                     Container(
                       padding: const EdgeInsets.only(top: 16),
                       child: Row(
@@ -97,8 +112,8 @@ class HomeScreen extends StatelessWidget {
                                 color: themeProvider.isDarkMode ? Colors.white : Colors.black,
                               ),
                               padding: const EdgeInsets.symmetric(
-                                horizontal: 20, // Reducido
-                                vertical: 10,   // Reducido
+                                horizontal: 20,
+                                vertical: 10,
                               ),
                             ),
                           ),
@@ -167,9 +182,27 @@ class HomeScreen extends StatelessWidget {
   void _navigateToBluetoothSetup(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => const DifficultySelectionScreen(
-          gameMode: GameMode.twoPlayer,
+        builder: (context) => const BluetoothSetupScreen(),
+      ),
+    );
+  }
+
+  void _showBluetoothNotAvailableDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Bluetooth No Disponible'),
+        content: Text(
+          'El modo multijugador con Bluetooth solo está disponible en dispositivos Android.\n\n'
+          'Plataforma actual: ${PlatformUtils.platformName}\n\n'
+          'Por favor, usa un dispositivo Android para jugar en modo multijugador.',
         ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Entendido'),
+          ),
+        ],
       ),
     );
   }
