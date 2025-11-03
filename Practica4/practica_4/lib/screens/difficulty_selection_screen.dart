@@ -153,7 +153,7 @@ class DifficultySelectionScreen extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(10), // Reducido de 12
                 decoration: BoxDecoration(
-                  color: color.withOpacity(0.1),
+                  color: color.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(
@@ -185,7 +185,7 @@ class DifficultySelectionScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              Icon(
+              const Icon(
                 Icons.arrow_forward_ios,
                 size: 16, // Reducido
                 color: Colors.grey,
@@ -197,9 +197,9 @@ class DifficultySelectionScreen extends StatelessWidget {
             width: double.infinity,
             padding: const EdgeInsets.all(10), // Reducido de 12
             decoration: BoxDecoration(
-              color: color.withOpacity(0.05),
+              color: color.withValues(alpha: 0.05),
               borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: color.withOpacity(0.2)),
+              border: Border.all(color: color.withValues(alpha: 0.2)),
             ),
             child: Row(
               children: [

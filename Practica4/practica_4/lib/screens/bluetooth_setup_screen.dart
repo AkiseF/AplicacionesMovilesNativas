@@ -1,9 +1,13 @@
+import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:provider/provider.dart';
-import '../services/bluethooth_service.dart';
+import '../services/bluetooth_service.dart';
 import '../providers/game_provider.dart';
 import '../models/game_session.dart';
+import '../utils/bluetooth_test.dart';
+import '../utils/platform_utils.dart';
 import 'difficulty_selection_screen.dart';
 import 'game_screen.dart';
 
@@ -22,59 +26,223 @@ class _BluetoothSetupScreenState extends State<BluetoothSetupScreen> {
   bool _isHost = false;
   bool _isWaitingForConnection = false;
   List<BluetoothDevice> _bondedDevices = [];
-  List<BluetoothDiscoveryResult> _discoveredDevices = [];
+  final List<BluetoothDiscoveryResult> _discoveredDevices = [];
   BluetoothConnectionState _connectionState = BluetoothConnectionState.disconnected;
+
+  // Stream subscriptions for proper disposal
+  StreamSubscription? _stateSubscription;
+  StreamSubscription? _connectionSubscription;
+  StreamSubscription? _messageSubscription;
+  StreamSubscription? _discoverySubscription;
 
   @override
   void initState() {
     super.initState();
+    _runBluetoothDiagnostic();
     _initializeBluetooth();
     _setupListeners();
   }
 
-  Future<void> _initializeBluetooth() async {
-    await _bluetoothService.initialize();
-    final isEnabled = await _bluetoothService.isBluetoothEnabled();
-    
-    setState(() {
-      _isBluetoothEnabled = isEnabled;
-    });
+  Future<void> _runBluetoothDiagnostic() async {
+    if (kDebugMode) {
+      debugPrint('🔍 === DIAGNÓSTICO BLUETOOTH ===');
+      debugPrint('📱 Plataforma: ${PlatformUtils.platformName}');
+      debugPrint('📡 Bluetooth disponible: ${PlatformUtils.isBluetoothAvailable}');
+      debugPrint('🤖 Android: ${PlatformUtils.isAndroid}');
+      debugPrint('🍎 iOS: ${PlatformUtils.isIOS}');
+      debugPrint('🌐 Web: ${PlatformUtils.isWeb}');
+      debugPrint('=================================');
+    }
+  }
 
-    if (isEnabled) {
-      _loadBondedDevices();
+  Future<void> _runDetailedDiagnostic() async {
+    final results = <String>[];
+    
+    try {
+      results.add('=== DIAGNÓSTICO DETALLADO BLUETOOTH ===');
+      results.add('Plataforma: ${PlatformUtils.platformName}');
+      results.add('Bluetooth disponible: ${PlatformUtils.isBluetoothAvailable}');
+      results.add('Android: ${PlatformUtils.isAndroid}');
+      
+      // Test 1: Servicio inicializado
+      results.add('\n🔧 TEST 1: Servicio inicializado');
+      final service = BluetoothService.instance;
+      results.add('✅ Servicio obtenido');
+      
+      // Test 2: Estado Bluetooth
+      results.add('\n📡 TEST 2: Estado Bluetooth');
+      try {
+        final isEnabled = await service.isBluetoothEnabled();
+        results.add('Estado habilitado: $isEnabled');
+      } catch (e) {
+        results.add('❌ Error verificando estado: $e');
+      }
+      
+      // Test 3: Dispositivos emparejados
+      results.add('\n📱 TEST 3: Dispositivos emparejados');
+      try {
+        final devices = await service.getBondedDevices();
+        results.add('Dispositivos encontrados: ${devices.length}');
+        for (var device in devices) {
+          results.add('  - ${device.name ?? "Sin nombre"} (${device.address})');
+        }
+      } catch (e) {
+        results.add('❌ Error obteniendo dispositivos: $e');
+      }
+      
+      // Test 4: Hacer dispositivo visible
+      results.add('\n👁️ TEST 4: Hacer dispositivo visible');
+      try {
+        final result = await service.makeDiscoverable();
+        results.add('Resultado: $result');
+      } catch (e) {
+        results.add('❌ Error: $e');
+      }
+      
+      results.add('\n=== FIN DIAGNÓSTICO ===');
+      
+    } catch (e) {
+      results.add('💥 Error general en diagnóstico: $e');
+    }
+    
+    // Mostrar resultados en consola
+    for (String result in results) {
+      if (kDebugMode) {
+        debugPrint(result);
+      }
+    }
+    
+    // Mostrar resumen en UI
+    if (mounted) {
+      _showSnackBar('Diagnóstico completado. Ver logs para detalles.', isError: false);
+    }
+  }
+
+  Future<void> _initializeBluetooth() async {
+    try {
+      if (kDebugMode) {
+        debugPrint('🔧 Inicializando servicio Bluetooth...');
+      }
+      
+      await _bluetoothService.initialize();
+      
+      if (kDebugMode) {
+        debugPrint('✅ Servicio Bluetooth inicializado');
+      }
+      
+      final isEnabled = await _bluetoothService.isBluetoothEnabled();
+      
+      if (kDebugMode) {
+        debugPrint('📡 Estado Bluetooth: ${isEnabled ? "Habilitado" : "Deshabilitado"}');
+      }
+      
+      if (mounted) {
+        setState(() {
+          _isBluetoothEnabled = isEnabled;
+        });
+
+        if (isEnabled) {
+          _loadBondedDevices();
+        }
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        debugPrint('❌ Error al inicializar Bluetooth: $e');
+      }
+      if (mounted) {
+        _showSnackBar('Error al inicializar Bluetooth: $e', isError: true);
+      }
     }
   }
 
   void _setupListeners() {
-    // Listen to Bluetooth state changes
-    _bluetoothService.stateStream.listen((state) {
-      setState(() {
-        _isBluetoothEnabled = state == BluetoothState.STATE_ON;
-      });
-    });
+    try {
+      // Listen to Bluetooth state changes
+      _stateSubscription = _bluetoothService.stateStream.listen(
+        (state) {
+          if (mounted) {
+            setState(() {
+              _isBluetoothEnabled = state == BluetoothState.STATE_ON;
+            });
+          }
+        },
+        onError: (error) {
+          if (mounted) {
+            _showSnackBar('Error en estado Bluetooth: $error', isError: true);
+          }
+        },
+      );
 
-    // Listen to connection state changes
-    _bluetoothService.connectionStateStream.listen((state) {
-      setState(() {
-        _connectionState = state;
-      });
+      // Listen to connection state changes
+      _connectionSubscription = _bluetoothService.connectionStateStream.listen(
+        (state) {
+          if (mounted) {
+            setState(() {
+              _connectionState = state;
+            });
 
-      if (state == BluetoothConnectionState.connected) {
-        _onConnectionEstablished();
-      }
-    });
+            if (state == BluetoothConnectionState.connected) {
+              _onConnectionEstablished();
+            } else if (state == BluetoothConnectionState.disconnected) {
+              setState(() {
+                _isWaitingForConnection = false;
+              });
+            }
+          }
+        },
+        onError: (error) {
+          if (mounted) {
+            _showSnackBar('Error en conexión: $error', isError: true);
+          }
+        },
+      );
 
-    // Listen to incoming messages
-    _bluetoothService.messageStream.listen((message) {
-      _handleIncomingMessage(message);
-    });
+      // Listen to incoming messages
+      _messageSubscription = _bluetoothService.messageStream.listen(
+        (message) {
+          if (mounted) {
+            _handleIncomingMessage(message);
+          }
+        },
+        onError: (error) {
+          if (mounted) {
+            _showSnackBar('Error en mensajes: $error', isError: true);
+          }
+        },
+      );
+    } catch (e) {
+      _showSnackBar('Error configurando listeners: $e', isError: true);
+    }
   }
 
   Future<void> _loadBondedDevices() async {
-    final devices = await _bluetoothService.getBondedDevices();
-    setState(() {
-      _bondedDevices = devices;
-    });
+    try {
+      if (kDebugMode) {
+        debugPrint('🔍 Cargando dispositivos emparejados...');
+      }
+      
+      final devices = await _bluetoothService.getBondedDevices();
+      
+      if (kDebugMode) {
+        debugPrint('📱 Dispositivos emparejados encontrados: ${devices.length}');
+        for (var device in devices) {
+          debugPrint('  - ${device.name ?? "Sin nombre"} (${device.address})');
+        }
+      }
+      
+      if (mounted) {
+        setState(() {
+          _bondedDevices = devices;
+        });
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        debugPrint('❌ Error al cargar dispositivos emparejados: $e');
+      }
+      if (mounted) {
+        _showSnackBar('Error al cargar dispositivos: $e', isError: true);
+      }
+    }
   }
 
   Future<void> _requestEnableBluetooth() async {
@@ -95,80 +263,166 @@ class _BluetoothSetupScreenState extends State<BluetoothSetupScreen> {
       _discoveredDevices.clear();
     });
 
-    _bluetoothService.startDiscovery().listen((result) {
-      setState(() {
-        final existingIndex = _discoveredDevices.indexWhere(
-          (r) => r.device.address == result.device.address,
-        );
-        
-        if (existingIndex >= 0) {
-          _discoveredDevices[existingIndex] = result;
-        } else {
-          _discoveredDevices.add(result);
+    _discoverySubscription = _bluetoothService.startDiscovery().listen(
+      (result) {
+        if (mounted) {
+          setState(() {
+            final existingIndex = _discoveredDevices.indexWhere(
+              (r) => r.device.address == result.device.address,
+            );
+            
+            if (existingIndex >= 0) {
+              _discoveredDevices[existingIndex] = result;
+            } else {
+              _discoveredDevices.add(result);
+            }
+          });
         }
-      });
-    }).onDone(() {
-      setState(() {
-        _isScanning = false;
-      });
-    });
+      },
+      onDone: () {
+        if (mounted) {
+          setState(() {
+            _isScanning = false;
+          });
+        }
+      },
+    );
   }
 
   void _stopDeviceDiscovery() {
+    _discoverySubscription?.cancel();
     _bluetoothService.cancelDiscovery();
-    setState(() {
-      _isScanning = false;
-    });
+    if (mounted) {
+      setState(() {
+        _isScanning = false;
+      });
+    }
   }
 
   Future<void> _startAsHost() async {
-    setState(() {
-      _isHost = true;
-      _isWaitingForConnection = true;
-    });
+    try {
+      if (kDebugMode) {
+        debugPrint('🏠 Iniciando como anfitrión...');
+      }
+      
+      setState(() {
+        _isHost = true;
+        _isWaitingForConnection = true;
+      });
 
-    final success = await _bluetoothService.startServer();
-    
-    if (!success) {
+      if (kDebugMode) {
+        debugPrint('📡 Llamando a startServer()...');
+      }
+      
+      final success = await _bluetoothService.startServer();
+      
+      if (kDebugMode) {
+        debugPrint('🎯 Resultado startServer: $success');
+      }
+      
+      if (!success) {
+        if (kDebugMode) {
+          debugPrint('❌ Falló al iniciar servidor');
+        }
+        setState(() {
+          _isWaitingForConnection = false;
+          _isHost = false;
+        });
+        _showSnackBar('Error al iniciar el servidor', isError: true);
+      } else {
+        if (kDebugMode) {
+          debugPrint('✅ Servidor iniciado exitosamente');
+        }
+        _showSnackBar('Esperando conexión de otro jugador...');
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        debugPrint('💥 Excepción en _startAsHost: $e');
+      }
       setState(() {
         _isWaitingForConnection = false;
+        _isHost = false;
       });
-      _showSnackBar('Error al iniciar el servidor', isError: true);
-    } else {
-      _showSnackBar('Esperando conexión de otro jugador...');
+      _showSnackBar('Error inesperado al iniciar servidor: $e', isError: true);
     }
   }
 
   Future<void> _connectToDevice(BluetoothDevice device) async {
-    setState(() {
-      _connectionState = BluetoothConnectionState.connecting;
-    });
+    try {
+      if (kDebugMode) {
+        debugPrint('🔌 Intentando conectar a: ${device.name ?? "Sin nombre"} (${device.address})');
+      }
+      
+      setState(() {
+        _connectionState = BluetoothConnectionState.connecting;
+      });
 
-    final success = await _bluetoothService.connectToDevice(device);
-    
-    if (!success) {
+      if (kDebugMode) {
+        debugPrint('📡 Llamando connectToDevice()...');
+      }
+      
+      final success = await _bluetoothService.connectToDevice(device);
+      
+      if (kDebugMode) {
+        debugPrint('🎯 Resultado connectToDevice: $success');
+      }
+      
+      if (!success) {
+        if (kDebugMode) {
+          debugPrint('❌ Falló la conexión');
+        }
+        setState(() {
+          _connectionState = BluetoothConnectionState.disconnected;
+        });
+        _showSnackBar('No se pudo conectar a ${device.name ?? "dispositivo"}', isError: true);
+      } else {
+        if (kDebugMode) {
+          debugPrint('✅ Conexión iniciada exitosamente');
+        }
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        debugPrint('💥 Excepción en _connectToDevice: $e');
+      }
       setState(() {
         _connectionState = BluetoothConnectionState.disconnected;
       });
-      _showSnackBar('No se pudo conectar a ${device.name ?? "dispositivo"}', isError: true);
+      _showSnackBar('Error inesperado al conectar: $e', isError: true);
     }
   }
 
   void _onConnectionEstablished() {
-    _showSnackBar('Conexión establecida', isError: false);
-    
-    if (_isHost) {
-      // Host selects difficulty and starts game
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => const DifficultySelectionScreen(
-            gameMode: GameMode.twoPlayer,
+    try {
+      if (kDebugMode) {
+        debugPrint('🎉 Conexión establecida! IsHost: $_isHost');
+      }
+      
+      _showSnackBar('Conexión establecida', isError: false);
+      
+      if (_isHost) {
+        if (kDebugMode) {
+          debugPrint('🏠 Navegando a selección de dificultad (anfitrión)...');
+        }
+        // Host selects difficulty and starts game
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => const DifficultySelectionScreen(
+              gameMode: GameMode.twoPlayer,
+            ),
           ),
-        ),
-      );
-    } else {
-      // Client waits for game start from host
-      _showSnackBar('Esperando que el anfitrión inicie el juego...');
+        );
+      } else {
+        if (kDebugMode) {
+          debugPrint('👥 Cliente esperando inicio de juego...');
+        }
+        // Client waits for game start from host
+        _showSnackBar('Esperando que el anfitrión inicie el juego...');
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        debugPrint('💥 Error en _onConnectionEstablished: $e');
+      }
+      _showSnackBar('Error al establecer conexión: $e', isError: true);
     }
   }
 
@@ -201,53 +455,85 @@ class _BluetoothSetupScreenState extends State<BluetoothSetupScreen> {
   }
 
   void _handleGameStart(BluetoothGameMessage message) {
-    final gameProvider = Provider.of<GameProvider>(context, listen: false);
-    final difficulty = DifficultyLevel.values.firstWhere(
-      (e) => e.name == message.data['difficulty'],
-    );
-    final characterIds = List<int>.from(message.data['characterIds']);
-    
-    // Navigate to game screen
-    gameProvider.startNewGame(
-      GameMode.twoPlayer,
-      difficulty: difficulty,
-    ).then((_) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => const GameScreen(),
-        ),
+    try {
+      final gameProvider = Provider.of<GameProvider>(context, listen: false);
+      final difficultyName = message.data['difficulty'] as String?;
+      
+      if (difficultyName == null) {
+        _showSnackBar('Error: Dificultad no especificada', isError: true);
+        return;
+      }
+      
+      final difficulty = DifficultyLevel.values.firstWhere(
+        (e) => e.name == difficultyName,
+        orElse: () => DifficultyLevel.medium, // Default fallback
       );
-    });
+      
+      // Note: characterIds from message are not used as the game generates 
+      // its own character board based on difficulty
+      
+      // Navigate to game screen
+      gameProvider.startNewGame(
+        GameMode.twoPlayer,
+        difficulty: difficulty,
+      ).then((_) {
+        if (mounted) {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) => const GameScreen(),
+            ),
+          );
+        }
+      }).catchError((error) {
+        if (mounted) {
+          _showSnackBar('Error al iniciar juego: $error', isError: true);
+        }
+      });
+    } catch (e) {
+      _showSnackBar('Error al procesar inicio de juego: $e', isError: true);
+    }
   }
 
   void _handleCharacterSelection(BluetoothGameMessage message) {
     // Handle when opponent selects character
-    print('Oponente seleccionó personaje: ${message.data['characterName']}');
+    if (kDebugMode) {
+      debugPrint('Oponente seleccionó personaje: ${message.data['characterName']}');
+    }
   }
 
   void _handleQuestion(BluetoothGameMessage message) {
     // Handle incoming question from opponent
-    print('Pregunta recibida: ${message.data['questionText']}');
+    if (kDebugMode) {
+      debugPrint('Pregunta recibida: ${message.data['questionText']}');
+    }
   }
 
   void _handleAnswer(BluetoothGameMessage message) {
     // Handle answer to your question
-    print('Respuesta recibida: ${message.data['answer']}');
+    if (kDebugMode) {
+      debugPrint('Respuesta recibida: ${message.data['answer']}');
+    }
   }
 
   void _handleElimination(BluetoothGameMessage message) {
     // Handle character elimination from opponent
-    print('Oponente eliminó personaje: ${message.data['characterId']}');
+    if (kDebugMode) {
+      debugPrint('Oponente eliminó personaje: ${message.data['characterId']}');
+    }
   }
 
   void _handleGuess(BluetoothGameMessage message) {
     // Handle final guess from opponent
-    print('Oponente adivinó: ${message.data['characterId']}');
+    if (kDebugMode) {
+      debugPrint('Oponente adivinó: ${message.data['characterId']}');
+    }
   }
 
   void _handleTurnChange(BluetoothGameMessage message) {
     // Handle turn change
-    print('Cambio de turno');
+    if (kDebugMode) {
+      debugPrint('Cambio de turno');
+    }
   }
 
   void _showSnackBar(String message, {bool isError = false}) {
@@ -262,8 +548,54 @@ class _BluetoothSetupScreenState extends State<BluetoothSetupScreen> {
     );
   }
 
+  Future<void> _runBluetoothTests() async {
+    _showSnackBar('Ejecutando pruebas de Bluetooth...');
+    
+    try {
+      final results = await BluetoothTest.runAllTests();
+      
+      final totalTests = results.length;
+      final passedTests = results.values.where((result) => result).length;
+      final failedTests = totalTests - passedTests;
+      
+      final message = 'Pruebas completadas: $passedTests/$totalTests exitosas';
+      _showSnackBar(message, isError: failedTests > 0);
+      
+      // Show detailed results dialog
+      if (mounted) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('Resultados de Pruebas'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: results.entries.map((entry) => 
+                Text('${entry.value ? '✅' : '❌'} ${entry.key}')
+              ).toList(),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text('Cerrar'),
+              ),
+            ],
+          ),
+        );
+      }
+    } catch (e) {
+      _showSnackBar('Error ejecutando pruebas: $e', isError: true);
+    }
+  }
+
   @override
   void dispose() {
+    // Cancel all stream subscriptions to prevent memory leaks
+    _stateSubscription?.cancel();
+    _connectionSubscription?.cancel();
+    _messageSubscription?.cancel();
+    _discoverySubscription?.cancel();
+    
     if (_isScanning) {
       _stopDeviceDiscovery();
     }
@@ -277,6 +609,13 @@ class _BluetoothSetupScreenState extends State<BluetoothSetupScreen> {
         title: const Text('Modo Multijugador'),
         centerTitle: true,
         actions: [
+          // Botón de diagnóstico (visible en debug mode)
+          if (kDebugMode)
+            IconButton(
+              icon: const Icon(Icons.bug_report),
+              onPressed: _runDetailedDiagnostic,
+              tooltip: 'Ejecutar diagnóstico',
+            ),
           if (_isBluetoothEnabled && _connectionState == BluetoothConnectionState.disconnected)
             IconButton(
               icon: Icon(_isScanning ? Icons.stop : Icons.refresh),
@@ -350,6 +689,33 @@ class _BluetoothSetupScreenState extends State<BluetoothSetupScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          // Debug Test Button (only in debug mode)
+          if (kDebugMode)
+            Card(
+              color: Colors.orange.shade50,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    const Text(
+                      '🧪 Prueba de Bluetooth (Debug)',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 8),
+                    ElevatedButton.icon(
+                      onPressed: _runBluetoothTests,
+                      icon: const Icon(Icons.bug_report),
+                      label: const Text('Ejecutar Pruebas'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.orange,
+                        foregroundColor: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          if (kDebugMode) const SizedBox(height: 16),
           // Host or Join section
           Card(
             child: Padding(
@@ -370,7 +736,7 @@ class _BluetoothSetupScreenState extends State<BluetoothSetupScreen> {
                     leading: Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: Colors.blue.withOpacity(0.1),
+                        color: Colors.blue.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: const Icon(Icons.add_circle, color: Colors.blue),
@@ -388,7 +754,7 @@ class _BluetoothSetupScreenState extends State<BluetoothSetupScreen> {
                     leading: Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: Colors.green.withOpacity(0.1),
+                        color: Colors.green.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: const Icon(Icons.search, color: Colors.green),

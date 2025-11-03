@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 class Character {
   final int id;
   final String name;
@@ -101,9 +103,11 @@ class Character {
         imageUrl: generateImageUrl(json['name'] as String),
       );
     } catch (e, stackTrace) {
-      print('❌ Error parseando personaje: $e');
-      print('📋 Nombre: ${json['name'] ?? 'Unknown'}');
-      print('🔍 Stack trace: $stackTrace');
+      if (kDebugMode) {
+        debugPrint('❌ Error parseando personaje: $e');
+        debugPrint('📋 Nombre: ${json['name'] ?? 'Unknown'}');
+        debugPrint('🔍 Stack trace: $stackTrace');
+      }
       rethrow;
     }
   }

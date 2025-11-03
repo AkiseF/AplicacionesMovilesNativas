@@ -105,13 +105,13 @@ class GameSession {
   GridDimensions get gridDimensions {
     switch (difficulty) {
       case DifficultyLevel.easy:
-        return GridDimensions(2, 2);
+        return const GridDimensions(2, 2);
       case DifficultyLevel.medium:
-        return GridDimensions(3, 3);
+        return const GridDimensions(3, 3);
       case DifficultyLevel.hard:
-        return GridDimensions(4, 4);
+        return const GridDimensions(4, 4);
       case DifficultyLevel.expert:
-        return GridDimensions(4, 4); // Each grid is 4x4
+        return const GridDimensions(4, 4); // Each grid is 4x4
     }
   }
 

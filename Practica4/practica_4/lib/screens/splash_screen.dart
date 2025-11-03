@@ -117,7 +117,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                     offset: Offset(0, _guessWhoPosition.value),
                     child: Transform.scale(
                       scale: _guessWhoScale.value,
-                      child: Container(
+                      child: SizedBox(
                         width: MediaQuery.of(context).size.width * 0.85,
                         height: 200,
                         child: Image.asset(
@@ -135,7 +135,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                     offset: Offset(0, _attackOnTitanPosition.value),
                     child: Transform.scale(
                       scale: _attackOnTitanScale.value,
-                      child: Container(
+                      child: SizedBox(
                         width: MediaQuery.of(context).size.width * 0.85,
                         height: 80,
                         child: Image.asset(

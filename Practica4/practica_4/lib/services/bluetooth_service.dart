@@ -34,18 +34,34 @@ class BluetoothGameMessage {
   };
 
   factory BluetoothGameMessage.fromJson(Map<String, dynamic> json) {
-    return BluetoothGameMessage(
-      type: BluetoothGameMessageType.values.firstWhere(
-        (e) => e.name == json['type'],
-      ),
-      data: json['data'] as Map<String, dynamic>,
-    );
+    try {
+      return BluetoothGameMessage(
+        type: BluetoothGameMessageType.values.firstWhere(
+          (e) => e.name == json['type'],
+          orElse: () => throw ArgumentError('Invalid message type: ${json['type']}'),
+        ),
+        data: (json['data'] as Map<String, dynamic>?) ?? {},
+      );
+    } catch (e) {
+      throw FormatException('Failed to parse BluetoothGameMessage: $e');
+    }
   }
 
   String serialize() => jsonEncode(toJson());
 
   factory BluetoothGameMessage.deserialize(String data) {
-    return BluetoothGameMessage.fromJson(jsonDecode(data));
+    try {
+      if (data.trim().isEmpty) {
+        throw ArgumentError('Empty message data');
+      }
+      final decoded = jsonDecode(data);
+      if (decoded is! Map<String, dynamic>) {
+        throw ArgumentError('Invalid JSON format');
+      }
+      return BluetoothGameMessage.fromJson(decoded);
+    } catch (e) {
+      throw FormatException('Failed to deserialize message: $e');
+    }
   }
 }
 
@@ -80,13 +96,47 @@ class BluetoothService {
 
   /// Initialize Bluetooth
   Future<void> initialize() async {
-    final state = await _bluetooth.state;
-    _stateController.add(state);
+    try {
+      if (kDebugMode) {
+        debugPrint('🔧 BluetoothService: Iniciando inicialización...');
+      }
+      
+      // Get initial state
+      final state = await _bluetooth.state;
+      if (kDebugMode) {
+        debugPrint('📡 BluetoothService: Estado inicial - $state');
+      }
+      
+      if (!_stateController.isClosed) {
+        _stateController.add(state);
+      }
 
-    // Listen to state changes
-    _bluetooth.onStateChanged().listen((state) {
-      _stateController.add(state);
-    });
+      // Listen to state changes
+      _bluetooth.onStateChanged().listen(
+        (state) {
+          if (kDebugMode) {
+            debugPrint('📡 BluetoothService: Cambio de estado - $state');
+          }
+          if (!_stateController.isClosed) {
+            _stateController.add(state);
+          }
+        },
+        onError: (error) {
+          if (kDebugMode) {
+            debugPrint('❌ BluetoothService: Error en stream de estado - $error');
+          }
+        },
+      );
+      
+      if (kDebugMode) {
+        debugPrint('✅ BluetoothService: Inicialización completada');
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        debugPrint('💥 BluetoothService: Error en inicialización - $e');
+      }
+      rethrow;
+    }
   }
 
   /// Check if Bluetooth is enabled
@@ -102,7 +152,27 @@ class BluetoothService {
 
   /// Get list of bonded devices
   Future<List<BluetoothDevice>> getBondedDevices() async {
-    return await _bluetooth.getBondedDevices();
+    try {
+      if (kDebugMode) {
+        debugPrint('📱 BluetoothService: Obteniendo dispositivos emparejados...');
+      }
+      
+      final devices = await _bluetooth.getBondedDevices();
+      
+      if (kDebugMode) {
+        debugPrint('📱 BluetoothService: Encontrados ${devices.length} dispositivos');
+        for (var device in devices) {
+          debugPrint('  - ${device.name ?? "Sin nombre"} (${device.address}) - Tipo: ${device.type}');
+        }
+      }
+      
+      return devices;
+    } catch (e) {
+      if (kDebugMode) {
+        debugPrint('❌ BluetoothService: Error obteniendo dispositivos emparejados - $e');
+      }
+      rethrow;
+    }
   }
 
   /// Get list of available devices (discovery)
@@ -117,34 +187,66 @@ class BluetoothService {
 
   /// Make device discoverable for others to connect
   Future<bool> makeDiscoverable({int timeout = 300}) async {
-    final result = await _bluetooth.requestDiscoverable(timeout);
-    return result != null && result > 0;
+    try {
+      if (kDebugMode) {
+        debugPrint('👁️ BluetoothService: Haciendo dispositivo visible por ${timeout}s...');
+      }
+      
+      final result = await _bluetooth.requestDiscoverable(timeout);
+      
+      if (kDebugMode) {
+        debugPrint('👁️ BluetoothService: Resultado visibilidad - $result');
+      }
+      
+      final success = result != null && result > 0;
+      
+      if (kDebugMode) {
+        debugPrint('👁️ BluetoothService: Éxito - $success');
+      }
+      
+      return success;
+    } catch (e) {
+      if (kDebugMode) {
+        debugPrint('❌ BluetoothService: Error haciendo dispositivo visible - $e');
+      }
+      return false;
+    }
   }
 
   /// Start server (host) - wait for incoming connections
   Future<bool> startServer() async {
     if (_isListening) return false;
     
-    _isHost = true;
-    _isListening = true;
-
     try {
+      // Ensure Bluetooth is enabled
+      final isEnabled = await isBluetoothEnabled();
+      if (!isEnabled) {
+        final enableResult = await requestEnable();
+        if (!enableResult) {
+          if (kDebugMode) {
+            debugPrint('❌ No se pudo habilitar Bluetooth');
+          }
+          return false;
+        }
+      }
+
       // Make device discoverable
-      await makeDiscoverable();
+      final discoverableResult = await makeDiscoverable();
+      if (!discoverableResult) {
+        if (kDebugMode) {
+          debugPrint('❌ No se pudo hacer el dispositivo visible');
+        }
+        return false;
+      }
       
-      // Esperar conexiones entrantes
-      await _bluetooth.requestEnable();
+      _isHost = true;
+      _isListening = true;
       
       if (kDebugMode) {
         debugPrint('🎮 Servidor Bluetooth iniciado, esperando conexiones...');
         debugPrint('📱 Haz que el otro dispositivo se conecte a este');
       }
       
-      // Nota: flutter_bluetooth_serial no tiene un método directo para crear servidor
-      // El host debe esperar a que el cliente se conecte usando connectToDevice
-      // Este es un approach simplificado - en producción considerarías usar sockets
-      
-      _isListening = true;
       return true;
     } catch (e) {
       if (kDebugMode) {
@@ -182,43 +284,56 @@ class BluetoothService {
 
   /// Handle established connection
   void _handleConnection(BluetoothConnection connection) {
-    _connection = connection;
-    _connectionStateController.add(BluetoothConnectionState.connected);
+    try {
+      _connection = connection;
+      _connectionStateController.add(BluetoothConnectionState.connected);
 
-    // Listen to incoming messages
-    _connection!.input!.listen(
-      (data) {
-        try {
-          final message = utf8.decode(data);
-          final gameMessage = BluetoothGameMessage.deserialize(message);
-          _messageController.add(gameMessage);
-          if (kDebugMode) {
-            debugPrint('📨 Mensaje recibido: ${gameMessage.type}');
-          }
-        } catch (e) {
-          if (kDebugMode) {
-            debugPrint('❌ Error al procesar mensaje: $e');
-          }
-        }
-      },
-      onDone: () {
-        if (kDebugMode) {
-          debugPrint('🔌 Conexión cerrada');
-        }
-        _handleDisconnection();
-      },
-      onError: (error) {
-        if (kDebugMode) {
-          debugPrint('❌ Error en conexión: $error');
-        }
-        _handleDisconnection();
-      },
-    );
+      // Listen to incoming messages
+      final inputStream = _connection?.input;
+      if (inputStream != null) {
+        inputStream.listen(
+          (data) {
+            try {
+              if (data.isNotEmpty) {
+                final message = utf8.decode(data);
+                final gameMessage = BluetoothGameMessage.deserialize(message);
+                _messageController.add(gameMessage);
+                if (kDebugMode) {
+                  debugPrint('📨 Mensaje recibido: ${gameMessage.type}');
+                }
+              }
+            } catch (e) {
+              if (kDebugMode) {
+                debugPrint('❌ Error al procesar mensaje: $e');
+              }
+            }
+          },
+          onDone: () {
+            if (kDebugMode) {
+              debugPrint('🔌 Conexión cerrada');
+            }
+            _handleDisconnection();
+          },
+          onError: (error) {
+            if (kDebugMode) {
+              debugPrint('❌ Error en conexión: $error');
+            }
+            _handleDisconnection();
+          },
+          cancelOnError: true,
+        );
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        debugPrint('❌ Error al configurar conexión: $e');
+      }
+      _handleDisconnection();
+    }
   }
 
   /// Send message through Bluetooth
   Future<bool> sendMessage(BluetoothGameMessage message) async {
-    if (!isConnected) {
+    if (!isConnected || _connection == null) {
       if (kDebugMode) {
         debugPrint('❌ No hay conexión activa');
       }
@@ -227,16 +342,28 @@ class BluetoothService {
 
     try {
       final data = message.serialize();
-      _connection!.output.add(utf8.encode(data));
-      await _connection!.output.allSent;
-      if (kDebugMode) {
-        debugPrint('📤 Mensaje enviado: ${message.type}');
+      final encodedData = utf8.encode(data);
+      
+      // Check if connection is still valid before sending
+      if (_connection!.isConnected) {
+        _connection!.output.add(encodedData);
+        await _connection!.output.allSent;
+        if (kDebugMode) {
+          debugPrint('📤 Mensaje enviado: ${message.type}');
+        }
+        return true;
+      } else {
+        if (kDebugMode) {
+          debugPrint('❌ Conexión perdida al enviar mensaje');
+        }
+        _handleDisconnection();
+        return false;
       }
-      return true;
     } catch (e) {
       if (kDebugMode) {
         debugPrint('❌ Error al enviar mensaje: $e');
       }
+      _handleDisconnection();
       return false;
     }
   }

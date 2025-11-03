@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../models/question.dart';
 
@@ -21,7 +22,22 @@ class _QuestionCarouselState extends State<QuestionCarousel> {
   @override
   void initState() {
     super.initState();
-    print('📝 QuestionCarousel inicializado con ${widget.questions.length} preguntas');
+    if (kDebugMode) {
+      debugPrint('📝 QuestionCarousel inicializado con ${widget.questions.length} preguntas');
+    }
+  }
+
+  @override
+  void didUpdateWidget(QuestionCarousel oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Reset index if questions list changed
+    if (oldWidget.questions != widget.questions) {
+      if (_currentIndex >= widget.questions.length) {
+        setState(() {
+          _currentIndex = widget.questions.isNotEmpty ? widget.questions.length - 1 : 0;
+        });
+      }
+    }
   }
 
   void _nextQuestion() {
@@ -29,7 +45,9 @@ class _QuestionCarouselState extends State<QuestionCarousel> {
       setState(() {
         _currentIndex++;
       });
-      print('➡️ Siguiente pregunta: $_currentIndex');
+      if (kDebugMode) {
+        debugPrint('➡️ Siguiente pregunta: $_currentIndex');
+      }
     }
   }
 
@@ -38,13 +56,20 @@ class _QuestionCarouselState extends State<QuestionCarousel> {
       setState(() {
         _currentIndex--;
       });
-      print('⬅️ Pregunta anterior: $_currentIndex');
+      if (kDebugMode) {
+        debugPrint('⬅️ Pregunta anterior: $_currentIndex');
+      }
     }
   }
 
+  bool get _canGoNext => _currentIndex < widget.questions.length - 1;
+  bool get _canGoPrevious => _currentIndex > 0;
+
   @override
   Widget build(BuildContext context) {
-    print('🎨 Construyendo QuestionCarousel...');
+    if (kDebugMode) {
+      debugPrint('🎨 Construyendo QuestionCarousel...');
+    }
     
     if (widget.questions.isEmpty) {
       return Container(
@@ -59,7 +84,9 @@ class _QuestionCarouselState extends State<QuestionCarousel> {
     }
 
     final currentQuestion = widget.questions[_currentIndex];
-    print('📄 Pregunta actual: ${currentQuestion.text}');
+    if (kDebugMode) {
+      debugPrint('📄 Pregunta actual: ${currentQuestion.text}');
+    }
 
     return Container(
       color: Colors.grey[200],
@@ -152,7 +179,9 @@ class _QuestionCarouselState extends State<QuestionCarousel> {
                   height: 32,
                   child: ElevatedButton(
                     onPressed: () {
-                      print('🔘 BOTÓN PRESIONADO: ${currentQuestion.text}');
+                      if (kDebugMode) {
+                        debugPrint('🔘 BOTÓN PRESIONADO: ${currentQuestion.text}');
+                      }
                       widget.onQuestionAsked(currentQuestion);
                     },
                     style: ElevatedButton.styleFrom(
@@ -195,28 +224,34 @@ class _QuestionCarouselState extends State<QuestionCarousel> {
                 width: 36,
                 height: 36,
                 decoration: BoxDecoration(
-                  color: _currentIndex > 0 ? Colors.red : Colors.grey,
+                  color: _canGoPrevious ? Colors.red : Colors.grey,
                   shape: BoxShape.circle,
                 ),
                 child: IconButton(
                   padding: EdgeInsets.zero,
                   iconSize: 16,
-                  onPressed: _currentIndex > 0 ? _previousQuestion : null,
+                  onPressed: _canGoPrevious ? _previousQuestion : null,
                   icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
                 ),
               ),
 
-              // Indicadores
-              Row(
-                children: List.generate(
-                  widget.questions.length,
-                  (index) => Container(
-                    width: 6,
-                    height: 6,
-                    margin: const EdgeInsets.symmetric(horizontal: 1.5),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: index == _currentIndex ? Colors.red : Colors.grey,
+              // Indicadores (limitados para evitar overflow)
+              Flexible(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: List.generate(
+                      widget.questions.length,
+                      (index) => Container(
+                        width: 6,
+                        height: 6,
+                        margin: const EdgeInsets.symmetric(horizontal: 1.5),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: index == _currentIndex ? Colors.red : Colors.grey,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -227,17 +262,13 @@ class _QuestionCarouselState extends State<QuestionCarousel> {
                 width: 36,
                 height: 36,
                 decoration: BoxDecoration(
-                  color: _currentIndex < widget.questions.length - 1 
-                      ? Colors.red 
-                      : Colors.grey,
+                  color: _canGoNext ? Colors.red : Colors.grey,
                   shape: BoxShape.circle,
                 ),
                 child: IconButton(
                   padding: EdgeInsets.zero,
                   iconSize: 16,
-                  onPressed: _currentIndex < widget.questions.length - 1 
-                      ? _nextQuestion 
-                      : null,
+                  onPressed: _canGoNext ? _nextQuestion : null,
                   icon: const Icon(Icons.arrow_forward_ios, color: Colors.white),
                 ),
               ),

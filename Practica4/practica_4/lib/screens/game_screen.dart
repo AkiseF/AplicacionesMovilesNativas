@@ -244,7 +244,7 @@ class _GameScreenState extends State<GameScreen> {
       children: [
         Container(
           padding: const EdgeInsets.all(16),
-          color: Theme.of(context).primaryColor.withOpacity(0.1),
+          color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
           child: Column(
             children: [
               Text(
@@ -264,7 +264,7 @@ class _GameScreenState extends State<GameScreen> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor.withOpacity(0.1),
+                  color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Text(
@@ -361,7 +361,7 @@ class _GameScreenState extends State<GameScreen> {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                       decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor.withOpacity(0.1),
+                        color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(16),
                       ),
                       child: Row(

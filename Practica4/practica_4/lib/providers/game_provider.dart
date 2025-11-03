@@ -6,7 +6,7 @@ import '../models/game_session.dart';
 import '../models/game_statistics.dart';
 import '../services/character_service.dart';
 import '../services/ai_service.dart';
-import '../services/bluethooth_service.dart';
+import '../services/bluetooth_service.dart';
 import '../services/database_service.dart';
 import 'package:flutter/material.dart';
 
@@ -47,15 +47,21 @@ class GameProvider with ChangeNotifier {
   int get player1Score => _currentGame?.player1Score ?? 0;
   int get player2Score => _currentGame?.player2Score ?? 0;
   List<Question> get availableQuestions => _currentGame?.availableQuestions ?? [];
+  
+  /// Returns true if it's currently the player 1's turn
+  bool get isCurrentPlayerTurn => _currentGame?.currentTurn == PlayerTurn.player1;
 
+  /// Returns the current player's board with non-eliminated characters
   List<Character> get currentPlayerBoard {
-    if (_currentGame == null) return [];
+    final game = _currentGame;
+    if (game == null) return [];
     
-    return _currentGame!.gameBoard
+    return game.gameBoard
         .where((character) => !character.isEliminated)
         .toList();
   }
 
+  /// Returns true if the player can make a guess (more than 1 character remaining)
   bool get canMakeGuess => currentPlayerBoard.length > 1;
 
   GameProvider() {
@@ -121,7 +127,9 @@ class GameProvider with ChangeNotifier {
       (e) => e.name == message.data['category'],
     );
     
-    print('❓ Oponente preguntó: $questionText');
+    if (kDebugMode) {
+      debugPrint('❓ Oponente preguntó: $questionText');
+    }
     
     // Crear una pregunta temporal para mostrar al jugador
     final temporaryQuestion = Question(
@@ -143,21 +151,27 @@ class GameProvider with ChangeNotifier {
 
   void _handleOpponentAnswer(BluetoothGameMessage message) {
     final answer = message.data['answer'] as bool;
-    print('✅ Oponente respondió: $answer');
+    if (kDebugMode) {
+      debugPrint('✅ Oponente respondió: $answer');
+    }
     
     // Usar la respuesta para eliminar personajes en nuestro tablero
     if (_currentGame != null && _currentGame!.state == GameState.playing) {
       // Buscar la última pregunta que hicimos
-      final lastQuestionAction = _currentGame!.gameHistory.reversed
-          .firstWhere((action) => action.type == 'question' && action.player == PlayerTurn.player1);
-      
-      if (lastQuestionAction != null) {
+      try {
+        final lastQuestionAction = _currentGame!.gameHistory.reversed
+            .firstWhere((action) => action.type == 'question' && action.player == PlayerTurn.player1);
+        
         final questionId = lastQuestionAction.data['questionId'];
         final question = _currentGame!.availableQuestions
             .firstWhere((q) => q.id == questionId, orElse: () => _currentGame!.availableQuestions.first);
         
         // Eliminar personajes basado en la respuesta
         eliminateCharactersBasedOnAnswer(question, answer);
+      } catch (e) {
+        if (kDebugMode) {
+          debugPrint('⚠️ No se encontró la última pregunta en el historial: $e');
+        }
       }
     }
   }
@@ -166,7 +180,9 @@ class GameProvider with ChangeNotifier {
     // Opponent eliminated a character on their board
     // We don't need to do anything with our board
     final characterId = message.data['characterId'] as int;
-    print('🗑️ Oponente eliminó personaje ID: $characterId');
+    if (kDebugMode) {
+      debugPrint('🗑️ Oponente eliminó personaje ID: $characterId');
+    }
   }
 
   void _handleOpponentGuess(BluetoothGameMessage message) {
@@ -179,7 +195,9 @@ class GameProvider with ChangeNotifier {
       final playerCharacter = _currentGame!.player1Character!;
       final correct = playerCharacter.id == character.id;
       
-      print('🎯 Oponente adivinó: ${character.name} - ${correct ? 'CORRECTO' : 'INCORRECTO'}');
+      if (kDebugMode) {
+        debugPrint('🎯 Oponente adivinó: ${character.name} - ${correct ? 'CORRECTO' : 'INCORRECTO'}');
+      }
       
       if (correct) {
         // Opponent wins
@@ -198,12 +216,35 @@ class GameProvider with ChangeNotifier {
   }
 
   void _handleGameStartFromHost(BluetoothGameMessage message) async {
-    final difficulty = DifficultyLevel.values.firstWhere(
-      (e) => e.name == message.data['difficulty'],
-    );
-    final characterIds = List<int>.from(message.data['characterIds']);
-    
-    await startNewGame(GameMode.twoPlayer, difficulty: difficulty);
+    try {
+      final difficultyName = message.data['difficulty'] as String?;
+      if (difficultyName == null) {
+        if (kDebugMode) {
+          debugPrint('❌ Difficulty not specified in game start message');
+        }
+        return;
+      }
+      
+      final difficulty = DifficultyLevel.values.firstWhere(
+        (e) => e.name == difficultyName,
+        orElse: () {
+          if (kDebugMode) {
+            debugPrint('❌ Unknown difficulty: $difficultyName');
+          }
+          return DifficultyLevel.medium; // Default fallback
+        },
+      );
+      
+      // Note: characterIds from message are not used as the game generates 
+      // its own character board based on difficulty
+      
+      await startNewGame(GameMode.twoPlayer, difficulty: difficulty);
+    } catch (e) {
+      if (kDebugMode) {
+        debugPrint('❌ Error handling game start from host: $e');
+      }
+      _setError('Failed to start multiplayer game: $e');
+    }
   }
 
   void _handleTurnChange(BluetoothGameMessage message) {
@@ -257,11 +298,15 @@ class GameProvider with ChangeNotifier {
     final previousPlayer2Score = keepScore ? (_currentGame?.player2Score ?? 0) : 0;
 
     try {
-      print('🎮 Iniciando nuevo juego - Modo: $mode, Dificultad: $difficulty');
+      if (kDebugMode) {
+        debugPrint('🎮 Iniciando nuevo juego - Modo: $mode, Dificultad: $difficulty');
+      }
       
       final characters = await CharacterService.instance.getGameBoardForDifficulty(difficulty);
       
-      print('✅ Personajes cargados: ${characters.length}');
+      if (kDebugMode) {
+        debugPrint('✅ Personajes cargados: ${characters.length}');
+      }
       
       if (characters.isEmpty) {
         throw Exception('No se cargaron personajes');
@@ -291,10 +336,14 @@ class GameProvider with ChangeNotifier {
         await _bluetoothService.sendGameStart(_currentGame!);
       }
 
-      print('✅ Juego creado exitosamente');
+      if (kDebugMode) {
+        debugPrint('✅ Juego creado exitosamente');
+      }
       
     } catch (e) {
-      print('❌ Error al crear juego: $e');
+      if (kDebugMode) {
+        debugPrint('❌ Error al crear juego: $e');
+      }
       _setError('Failed to start game: $e');
       _currentGame = null;
       rethrow;
@@ -603,9 +652,13 @@ class GameProvider with ChangeNotifier {
       );
 
       await _databaseService.saveGameStatistics(stats);
-      print('✅ Estadísticas guardadas');
+      if (kDebugMode) {
+        debugPrint('✅ Estadísticas guardadas');
+      }
     } catch (e) {
-      print('❌ Error al guardar estadísticas: $e');
+      if (kDebugMode) {
+        debugPrint('❌ Error al guardar estadísticas: $e');
+      }
     }
   }
 

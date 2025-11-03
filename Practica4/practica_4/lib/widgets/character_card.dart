@@ -59,8 +59,8 @@ class CharacterCard extends StatelessWidget {
                     padding: const EdgeInsets.all(4),
                     decoration: BoxDecoration(
                       color: isSelectionMode 
-                          ? Theme.of(context).primaryColor.withOpacity(0.1)
-                          : Colors.black.withOpacity(0.6), // Fondo oscuro
+                          ? Theme.of(context).primaryColor.withValues(alpha: 0.1)
+                          : Colors.black.withValues(alpha: 0.6), // Fondo oscuro
                       borderRadius: const BorderRadius.vertical(
                         bottom: Radius.circular(12),
                       ),
@@ -96,7 +96,7 @@ class CharacterCard extends StatelessWidget {
             if (character.isEliminated)
               Container(
                 decoration: BoxDecoration(
-                  color: Colors.red.withOpacity(0.8),
+                  color: Colors.red.withValues(alpha: 0.8),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Center(

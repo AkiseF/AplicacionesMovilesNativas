@@ -180,11 +180,20 @@ class HomeScreen extends StatelessWidget {
   }
 
   void _navigateToBluetoothSetup(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const BluetoothSetupScreen(),
-      ),
-    );
+    try {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => const BluetoothSetupScreen(),
+        ),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error al abrir configuración Bluetooth: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 
   void _showBluetoothNotAvailableDialog(BuildContext context) {

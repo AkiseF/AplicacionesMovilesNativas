@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import '../models/game_statistics.dart';
@@ -65,7 +66,9 @@ class DatabaseService {
     await db.execute('CREATE INDEX idx_game_difficulty ON game_statistics(difficulty)');
     await db.execute('CREATE INDEX idx_player_won ON game_statistics(playerWon)');
 
-    print('✅ Base de datos creada exitosamente');
+    if (kDebugMode) {
+      debugPrint('✅ Base de datos creada exitosamente');
+    }
   }
 
   Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
@@ -141,7 +144,9 @@ class DatabaseService {
     );
     await updatePlayerProfile(updatedProfile);
 
-    print('✅ Estadísticas guardadas (ID: $id)');
+    if (kDebugMode) {
+      debugPrint('✅ Estadísticas guardadas (ID: $id)');
+    }
     return id;
   }
 
@@ -290,7 +295,9 @@ class DatabaseService {
     );
     await updatePlayerProfile(resetProfile);
     
-    print('✅ Todas las estadísticas han sido eliminadas');
+    if (kDebugMode) {
+      debugPrint('✅ Todas las estadísticas han sido eliminadas');
+    }
   }
 
   /// Export statistics to JSON

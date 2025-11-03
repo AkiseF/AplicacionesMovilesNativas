@@ -28,10 +28,12 @@ class PlatformUtils {
   
   /// Muestra info de la plataforma en consola
   static void printPlatformInfo() {
-    print('🖥️ Plataforma: $platformName');
-    print('📱 Android: $isAndroid');
-    print('🍎 iOS: $isIOS');
-    print('🌐 Web: $isWeb');
-    print('📡 Bluetooth disponible: $isBluetoothAvailable');
+    if (kDebugMode) {
+      debugPrint('🖥️ Plataforma: $platformName');
+      debugPrint('📱 Android: $isAndroid');
+      debugPrint('🍎 iOS: $isIOS');
+      debugPrint('🌐 Web: $isWeb');
+      debugPrint('📡 Bluetooth disponible: $isBluetoothAvailable');
+    }
   }
 }
